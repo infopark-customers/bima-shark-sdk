@@ -33,7 +33,7 @@ module Shark
         options = connection_options.reverse_merge(params: {}, headers: {})
         options[:headers] = options[:headers].merge(headers)
         options[:params] = options[:params].merge(params)
-        if Shark.configuration.use_bima_http?
+        if options[:headers]['Authorization'].blank? && Shark.configuration.use_bima_http?
           options[:app_name] = Shark.configuration.client_app_name
         end
         options[:connection] = @connection

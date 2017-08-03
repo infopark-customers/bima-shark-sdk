@@ -7,6 +7,10 @@ require 'shark/middleware/status'
 
 require 'shark/base'
 
+require 'shark/form_service/base'
+require 'shark/form_service/configuration'
+require 'shark/form_service/form'
+
 require 'shark/survey_service/base'
 require 'shark/survey_service/configuration'
 require 'shark/survey_service/participant'

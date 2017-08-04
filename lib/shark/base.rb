@@ -1,6 +1,6 @@
 module Shark
   class Base < JsonApiClient::Resource
-    self.json_key_format = :dasherized_key
+    self.json_key_format = :underscored_key
 
     self.connection_class = Shark::Client::Connection
     self.connection_options = {

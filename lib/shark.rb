@@ -10,6 +10,8 @@ require 'shark/base'
 require 'shark/form_service/base'
 require 'shark/form_service/configuration'
 require 'shark/form_service/form'
+require 'shark/form_service/structure'
+require 'shark/form_service/user_input'
 
 require 'shark/survey_service/base'
 require 'shark/survey_service/configuration'

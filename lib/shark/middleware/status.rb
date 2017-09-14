@@ -4,7 +4,6 @@ module Shark
       def call(environment)
         @app.call(environment).on_complete do |env|
           handle_status(env[:status], env)
-          puts env[:status]
 
           if env[:body].is_a?(Hash)
             status = env[:body].fetch('meta', {}).fetch('status', 200).to_i

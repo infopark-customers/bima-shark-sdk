@@ -32,10 +32,10 @@ module Shark
       def request_options(params = {}, headers = {})
         options = connection_options.reverse_merge(params: {}, headers: {})
         options[:headers] = options[:headers].merge(headers)
-        options[:params] = options[:params].merge(params)
-        if options[:headers]['Authorization'].blank? && Shark.configuration.use_bima_http?
-          options[:app_name] = Shark.configuration.client_app_name
+        if Shark.configuration._service_token.present?
+          options[:headers].merge!('Authorization' => "Bearer #{Shark.configuration._service_token}")
         end
+        options[:params] = options[:params].merge(params)
         options[:connection] = @connection
         options
       end

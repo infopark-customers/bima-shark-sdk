@@ -35,4 +35,11 @@ module Shark
   logger.formatter = proc do |_severity, _datetime, _progname, msg|
     "#{msg}\n"
   end
+
+  def self.with_service_token(service_token)
+    self.configuration._service_token = service_token
+    yield
+  ensure
+    self.configuration._service_token = nil
+  end
 end

@@ -35,10 +35,21 @@ module Shark
     "#{msg}\n"
   end
 
+  # @api public
   def self.with_service_token(service_token)
-    self.configuration._service_token = service_token
+    self._service_token = service_token
     yield
   ensure
-    self.configuration._service_token = nil
+    self._service_token = nil
+  end
+
+  # @api private
+  def self._service_token
+    Thread.current["shark-service-token"]
+  end
+
+  # @api private
+  def self._service_token=(value)
+    Thread.current["shark-service-token"] = value
   end
 end

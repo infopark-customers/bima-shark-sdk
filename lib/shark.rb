@@ -16,7 +16,6 @@ require 'shark/form_service/user_input'
 require 'shark/survey_service/base'
 require 'shark/survey_service/configuration'
 require 'shark/survey_service/participant'
-require 'shark/survey_service/participation_key'
 require 'shark/survey_service/survey'
 
 require 'shark/configuration'

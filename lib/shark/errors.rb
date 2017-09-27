@@ -36,8 +36,14 @@ module Shark
   end
 
   class UnprocessableEntity < ServerError
+    attr_reader :errors
+
+    def initialize(body)
+      @errors = body["errors"] || {}
+    end
+
     def message
-      'Resource has errors'
+      errors.to_json
     end
   end
 

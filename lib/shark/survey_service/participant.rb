@@ -20,7 +20,7 @@ module Shark
       end
 
       def participate
-        participant.update(state: "participated")
+        self.update(state: "participated")
       end
     end
   end

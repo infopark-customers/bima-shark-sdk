@@ -35,11 +35,12 @@ Shark.with_service_token(token.jwt) do
 
   # Find a participant
   participant = Shark::SurveyService::Participant.find("d45ff6b0-55d5-0135-451e-784f436a1198")
-  participant.participated?
+  participant.participated?   # => true or false
 
-  # A participant has participated
+  # Set participant#state to "participated" and saves it
   participant.participate
 end
+```
 
 #### FormService
 

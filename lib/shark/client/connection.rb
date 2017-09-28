@@ -15,7 +15,7 @@ module Shark
         end
       end
 
-      def use(_middleware, *_args, &_block); end
+      def use(middleware, *args, &block); end
 
       def run(action, path, params = {}, headers = {})
         raise ArgumentError, 'Configuration :site cannot be nil' if site.blank?
@@ -27,16 +27,17 @@ module Shark
         BimaHttp.request(action, url, options)
       end
 
-      protected
+      private
 
       def request_options(params = {}, headers = {})
         options = connection_options.reverse_merge(params: {}, headers: {})
         options[:headers] = options[:headers].merge(headers)
-        if Shark.configuration._service_token.present?
-          options[:headers].merge!('Authorization' => "Bearer #{Shark.configuration._service_token}")
+        if Shark._service_token.present?
+          options[:headers].merge!('Authorization' => "Bearer #{Shark._service_token}")
         end
         options[:params] = options[:params].merge(params)
         options[:connection] = @connection
+
         options
       end
     end

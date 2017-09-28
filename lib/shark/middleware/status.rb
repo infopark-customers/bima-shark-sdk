@@ -24,7 +24,7 @@ module Shark
         when 403 then raise AccessDenied, environment
         when 404 then raise ResourceNotFound, environment[:url]
         when 409 then raise ResourceConflict, environment
-        when 422 then raise UnprocessableEntity, environment
+        when 422 then raise UnprocessableEntity, environment[:body]
         when 500..599 then raise ServerError, environment
         else raise UnexpectedStatus, status, environment[:url]
         end

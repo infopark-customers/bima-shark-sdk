@@ -1,5 +1,7 @@
 ## Changelog
 
+#### 0.5.1
+- added DateTime accessors to SurveyService
 
 #### 0.5.0
 - added create participant to SurveyService

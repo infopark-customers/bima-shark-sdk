@@ -18,6 +18,10 @@ require 'shark/survey_service/configuration'
 require 'shark/survey_service/participant'
 require 'shark/survey_service/survey'
 
+require 'shark/contact_service/base'
+require 'shark/contact_service/configuration'
+require 'shark/contact_service/group'
+
 require 'shark/configuration'
 require 'shark/errors'
 require 'shark/version'

@@ -18,9 +18,13 @@ require 'shark/survey_service/configuration'
 require 'shark/survey_service/participant'
 require 'shark/survey_service/survey'
 
+require 'shark/contact_service/concerns/normalized_email'
 require 'shark/contact_service/base'
 require 'shark/contact_service/configuration'
 require 'shark/contact_service/group'
+require 'shark/contact_service/account'
+require 'shark/contact_service/contact'
+require 'shark/contact_service/errors'
 
 require 'shark/configuration'
 require 'shark/errors'

@@ -18,7 +18,8 @@ RSpec.configure do |config|
 
     ObjectCache.instance.objects = []
 
-    stub_request(:get, %r|^#{contact_service_api}groups/.*|).to_return do |request|
+    stub_request(:get, %r|^#{contact_service_api}.*/.*|).to_return do |request|
+      type = request.uri.path.split('/')[2]
       id = request.uri.path.split('/')[3]
       object = ObjectCache.instance.objects.detect { |o| o.attributes["id"].to_s == id.to_s && o.attributes["type"] == "groups" }
 

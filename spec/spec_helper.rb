@@ -2,8 +2,7 @@ require "bundler/setup"
 require "shark"
 require "webmock/rspec"
 
-# TODO
-# require "spec/support/object_cache"
+Dir[File.join(File.dirname(__dir__), "spec", "**","*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   config.example_status_persistence_file_path = ".rspec_status"
@@ -14,28 +13,10 @@ RSpec.configure do |config|
   end
 
   config.before do
-    contact_service_api = "#{Shark.configuration.contact_service.site}"
+    FakeContactService.setup
+  end
 
-    ObjectCache.instance.objects = []
-
-    stub_request(:get, %r|^#{contact_service_api}.*/.*|).to_return do |request|
-      type = request.uri.path.split('/')[2]
-      id = request.uri.path.split('/')[3]
-      object = ObjectCache.instance.objects.detect { |o| o.attributes["id"].to_s == id.to_s && o.attributes["type"] == type }
-
-      {
-        headers: { content_type: "application/vnd.api+json" },
-        body: {
-          data: {
-            id: id,
-            type: "groups",
-            attributes: {
-              title: object["title"],
-              members_can_admin: object["members_can_admin"]
-            }
-          }
-        }.to_json
-      }
-    end
+  config.after do
+    FakeContactService.reset
   end
 end

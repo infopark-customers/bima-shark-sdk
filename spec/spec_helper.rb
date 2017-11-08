@@ -12,11 +12,11 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.before do
-    FakeContactService.setup
-  end
-
-  config.after do
-    FakeContactService.reset
-  end
+  # config.before do
+  #   FakeContactService.setup
+  # end
+  #
+  # config.after do
+  #   FakeContactService.reset
+  # end
 end

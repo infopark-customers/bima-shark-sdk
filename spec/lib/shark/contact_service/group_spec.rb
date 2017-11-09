@@ -39,4 +39,17 @@ RSpec.describe Shark::ContactService::Group do
     it { is_expected.to be_a(Array) }
     it { expect(subject.map(&:id)).to contain_exactly(*groups.map(&:id)) }
   end
+
+  describe "#update_attributes" do
+    subject do
+      group = described_class.find(id).first
+      group.update_attributes(attributes)
+    end
+
+    let!(:group) { described_class.create(title: "Existing group", members_can_admin: false) }
+    let(:id) { group.id }
+    let(:attributes) { { title: "Modified title" } }
+
+    it { is_expected.to eq(true) }
+  end
 end

@@ -16,4 +16,18 @@ RSpec.describe Shark::ContactService::Group do
     it { expect(subject.first).to be_a(described_class) }
     it { expect(subject.first.id).to eq(group.id) }
   end
+
+  describe ".all" do
+    subject { described_class.all }
+
+    let!(:groups) do
+      [
+        described_class.create(title: "First group"),
+        described_class.create(title: "Second group")
+      ]
+    end
+
+    it { is_expected.to be_a(Array) }
+    it { expect(subject.map(&:id)).to contain_exactly(*groups.map(&:id)) }
+  end
 end

@@ -48,6 +48,19 @@ module FakeContactService
           body: { data: object }.to_json
         }
       end
+
+      WebMock.stub_request(:get, %r|^#{host}.*s|).to_return do |request|
+        type = request.uri.path.split('/')[2]
+
+        objects = FakeContactService::ObjectCache.instance.objects.select do |object|
+          object["type"] == type
+        end
+
+        {
+          headers: { content_type: "application/vnd.api+json" },
+          body: { data: objects }.to_json
+        }
+      end
     end
 
     def self.host

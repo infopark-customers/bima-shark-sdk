@@ -13,7 +13,9 @@ module FakeContactService
       host = self.class.host
 
       WebMock.stub_request(:post, %r|^#{host}.*|).to_return do |request|
-        Rails.logger.info "[Shark][ContactService] Faking POST request with body: #{request.body.inspect}"
+        # TODO
+        # Rails.logger.info "[Shark][ContactService] Faking POST request with body: #{request.body}"
+        p "[Shark][ContactService] Faking POST request with body: #{request.body}"
 
         id = rand(10 ** 4)
         type = request.uri.path.split("/")[2]
@@ -30,7 +32,9 @@ module FakeContactService
       end
 
       WebMock.stub_request(:get, %r|^#{host}.*/.*|).to_return do |request|
-        Rails.logger.info "[Shark][ContactService] Faking GET request"
+        # TODO
+        # Rails.logger.info "[Shark][ContactService] Faking GET request"
+        p "[Shark][ContactService] Faking GET request"
 
         type = request.uri.path.split('/')[2]
         id = request.uri.path.split('/')[3]

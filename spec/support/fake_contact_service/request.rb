@@ -20,12 +20,6 @@ module FakeContactService
         parsed_data = JSON.parse(request.body)["data"]
         parsed_data["id"] = id
 
-        object = FakeContactService::ObjectCache.instance.objects.detect do |object|
-          object["id"].to_s == id && object["type"] == type
-        end
-
-        FakeContactService::ObjectCache.instance.objects.delete(object)  if object.present?
-
         FakeContactService::ObjectCache.instance.add(parsed_data)
 
         {

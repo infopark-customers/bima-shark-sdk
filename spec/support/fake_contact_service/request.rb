@@ -15,7 +15,6 @@ module FakeContactService
       WebMock.stub_request(:post, %r|^#{host}.*|).to_return do |request|
         # TODO
         # Rails.logger.info "[Shark][ContactService] Faking POST request with body: #{request.body}"
-        p "[Shark][ContactService] Faking POST request with body: #{request.body}"
 
         id = rand(10 ** 4)
         type = request.uri.path.split("/")[2]
@@ -31,10 +30,25 @@ module FakeContactService
         }
       end
 
-      WebMock.stub_request(:get, %r|^#{host}.*/.*|).to_return do |request|
+      WebMock.stub_request(:get, %r|^#{host}.*$|).to_return do |request|
         # TODO
         # Rails.logger.info "[Shark][ContactService] Faking GET request"
-        p "[Shark][ContactService] Faking GET request"
+
+        type = request.uri.path.split('/')[2]
+
+        objects = FakeContactService::ObjectCache.instance.objects.select do |object|
+          object["type"] == type
+        end
+
+        {
+          headers: { content_type: "application/vnd.api+json" },
+          body: { data: objects }.to_json
+        }
+      end
+
+      WebMock.stub_request(:get, %r|^#{host}.*/.+|).to_return do |request|
+        # TODO
+        # Rails.logger.info "[Shark][ContactService] Faking GET request with ID"
 
         type = request.uri.path.split('/')[2]
         id = request.uri.path.split('/')[3]
@@ -46,19 +60,6 @@ module FakeContactService
         {
           headers: { content_type: "application/vnd.api+json" },
           body: { data: object }.to_json
-        }
-      end
-
-      WebMock.stub_request(:get, %r|^#{host}.*s|).to_return do |request|
-        type = request.uri.path.split('/')[2]
-
-        objects = FakeContactService::ObjectCache.instance.objects.select do |object|
-          object["type"] == type
-        end
-
-        {
-          headers: { content_type: "application/vnd.api+json" },
-          body: { data: objects }.to_json
         }
       end
     end

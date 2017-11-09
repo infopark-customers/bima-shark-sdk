@@ -9,12 +9,21 @@ RSpec.describe Shark::ContactService::Group do
 
   describe ".find" do
     subject { described_class.find(id) }
-    let!(:group) { described_class.create(title: "Existing group") }
-    let(:id) { group.id }
 
-    it { is_expected.to be_a(Array) }
-    it { expect(subject.first).to be_a(described_class) }
-    it { expect(subject.first.id).to eq(group.id) }
+    context "when group ID exists" do
+      let!(:group) { described_class.create(title: "Existing group") }
+      let(:id) { group.id }
+
+      it { is_expected.to be_a(Array) }
+      it { expect(subject.first).to be_a(described_class) }
+      it { expect(subject.first.id).to eq(group.id) }
+    end
+
+    context "when group ID is unknown" do
+      let(:id) { "unknown-group-id" }
+      it { is_expected.to be_a(Array) }
+      it { expect(subject.first).to eq(nil) }
+    end
   end
 
   describe ".all" do

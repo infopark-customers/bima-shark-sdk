@@ -13,8 +13,7 @@ module FakeContactService
       host = self.class.host
 
       WebMock.stub_request(:post, %r|^#{host}.*|).to_return do |request|
-        # TODO
-        # Rails.logger.info "[Shark][ContactService] Faking POST request with body: #{request.body}"
+        self.class.log_info "[Shark][ContactService] Faking POST request with body: #{request.body}"
 
         id = rand(10 ** 4)
         type = request.uri.path.split("/")[2]
@@ -37,8 +36,7 @@ module FakeContactService
       end
 
       WebMock.stub_request(:get, %r|^#{host}.*$|).to_return do |request|
-        # TODO
-        # Rails.logger.info "[Shark][ContactService] Faking GET request"
+        self.class.log_info "[Shark][ContactService] Faking GET request"
 
         type = request.uri.path.split("/")[2]
 
@@ -53,8 +51,7 @@ module FakeContactService
       end
 
       WebMock.stub_request(:get, %r|^#{host}.*/.+|).to_return do |request|
-        # TODO
-        # Rails.logger.info "[Shark][ContactService] Faking GET request with ID"
+        self.class.log_info "[Shark][ContactService] Faking GET request with ID"
 
         type = request.uri.path.split("/")[2]
         id = request.uri.path.split("/")[3]
@@ -70,8 +67,7 @@ module FakeContactService
       end
 
       WebMock.stub_request(:patch, %r|^#{host}.*/.+|).to_return do |request|
-        # TODO
-        # Rails.logger.info "[Shark][ContactService] Faking PATCH request with body: #{request.body}"
+        self.class.log_info "[Shark][ContactService] Faking PATCH request with body: #{request.body}"
 
         type = request.uri.path.split("/")[2]
         id = request.uri.path.split("/")[3]
@@ -98,8 +94,7 @@ module FakeContactService
       end
 
       WebMock.stub_request(:delete, %r|^#{host}.*/.+|).to_return do |request|
-        # TODO
-        # Rails.logger.info "[Shark][ContactService] Faking DELETE request"
+        self.class.log_info "[Shark][ContactService] Faking DELETE request"
 
         type = request.uri.path.split("/")[2]
         id = request.uri.path.split("/")[3]
@@ -120,6 +115,11 @@ module FakeContactService
 
     def self.host
       Shark.configuration.contact_service.site
+    end
+
+    def self.log_info(info)
+      return  unless defined?(Rails)
+      Rails.logger.info info
     end
   end
 end

@@ -41,15 +41,17 @@ RSpec.describe Shark::ContactService::Group do
   end
 
   describe "#update_attributes" do
-    subject do
-      group = described_class.find(id).first
-      group.update_attributes(attributes)
-    end
+    subject { group.update_attributes(attributes) }
 
-    let!(:group) { described_class.create(title: "Existing group", members_can_admin: false) }
-    let(:id) { group.id }
+    let!(:group) { described_class.create(title: "Existing group") }
     let(:attributes) { { title: "Modified title" } }
 
+    it { is_expected.to eq(true) }
+  end
+
+  describe "#destroy" do
+    subject { group.destroy }
+    let!(:group) { described_class.create(title: "Existing group") }
     it { is_expected.to eq(true) }
   end
 end

@@ -21,6 +21,7 @@ module FakeContactService
         parsed_data = JSON.parse(request.body)["data"]
         parsed_data["id"] = id
 
+        # TODO replace?
         FakeContactService::ObjectCache.instance.add(parsed_data)
 
         {
@@ -69,6 +70,7 @@ module FakeContactService
 
         type = request.uri.path.split("/")[2]
         id = request.uri.path.split("/")[3]
+        parsed_data = JSON.parse(request.body)["data"]
 
         object = FakeContactService::ObjectCache.instance.objects.detect do |object|
           object["id"].to_s == id && object["type"] == type
@@ -83,6 +85,26 @@ module FakeContactService
         {
           headers: { content_type: "application/vnd.api+json" },
           body: { data: object }.to_json
+        }
+      end
+
+      WebMock.stub_request(:delete, %r|^#{host}.*/.+|).to_return do |request|
+        # TODO
+        # Rails.logger.info "[Shark][ContactService] Faking DELETE request"
+
+        type = request.uri.path.split("/")[2]
+        id = request.uri.path.split("/")[3]
+
+        object = FakeContactService::ObjectCache.instance.objects.detect do |object|
+          object["id"].to_s == id && object["type"] == type
+        end
+
+        FakeContactService::ObjectCache.instance.objects.delete(object)
+
+        {
+          headers: { content_type: "application/vnd.api+json" },
+          status: 204,
+          body: {}.to_json
         }
       end
     end

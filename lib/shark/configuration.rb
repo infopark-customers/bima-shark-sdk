@@ -1,6 +1,6 @@
 module Shark
   class Configuration
-    attr_accessor :client_app_name, :contact_service, :form_service, :survey_service
+    attr_accessor :contact_service, :form_service, :survey_service
 
     def initialize
       @contact_service = Shark::ContactService::Configuration.new

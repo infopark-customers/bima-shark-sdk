@@ -14,7 +14,7 @@ RSpec.configure do |config|
   config.include ContactServiceHelper
 
   Shark.configure do |config|
-    config.contact_service.site = URI.join("https://contact-service.dev", "/api/").to_s
+    config.contact_service.site = URI.join("https://contact-service.example.com", "/api/").to_s
   end
 
   config.before do

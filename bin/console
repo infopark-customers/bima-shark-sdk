@@ -10,12 +10,10 @@ require 'shark'
 # require "pry"
 # Pry.start
 
+# TODO
 Shark.configure do |config|
-  config.client_app_name = 'meinebima'
-
+  config.contact_service.site = 'http://contact-service-development.bundesimmo.de/api/'
   config.survey_service.site = 'https://milacrm-development.bundesimmo.de/api/v1/'
-  config.survey_service.site = 'http://localhost:3000/api/v1/'
-
   config.form_service.site = 'https://formservice-development.bundesimmo.de/api/v1/'
 end
 

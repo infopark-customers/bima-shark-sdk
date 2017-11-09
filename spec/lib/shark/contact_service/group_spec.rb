@@ -54,4 +54,23 @@ RSpec.describe Shark::ContactService::Group do
     let!(:group) { described_class.create(title: "Existing group") }
     it { is_expected.to eq(true) }
   end
+
+  describe "modifying group members" do
+    subject do
+      group.relationships["contacts"] = contacts
+      group.save
+    end
+
+    let!(:group) { described_class.create(title: "Existing group") }
+    let!(:contacts) { [Shark::ContactService::Contact.create] }
+
+    it { is_expected.to eq(true) }
+
+    it "changes contacts" do
+      subject
+      fetched_group = described_class.find(group.id).first
+      contact_ids = fetched_group.relationships["contacts"]["data"].map { |d| d["id"] }
+      expect(contact_ids).to contain_exactly(*contacts.map(&:id))
+    end
+  end
 end

@@ -21,7 +21,12 @@ module FakeContactService
         parsed_data = JSON.parse(request.body)["data"]
         parsed_data["id"] = id
 
-        # TODO replace?
+        object = FakeContactService::ObjectCache.instance.objects.detect do |object|
+          object["id"].to_s == id && object["type"] == type
+        end
+
+        FakeContactService::ObjectCache.instance.objects.delete(object)  if object.present?
+
         FakeContactService::ObjectCache.instance.add(parsed_data)
 
         {
@@ -77,10 +82,14 @@ module FakeContactService
         end
 
         (parsed_data["attributes"] || {}).each do |key, value|
+          object["attributes"] = {}  if object["attributes"].blank?
           object["attributes"][key] = value
         end
 
-        # TODO relationships...
+        (parsed_data["relationships"] || {}).each do |key, value|
+          object["relationships"] = {}  if object["relationships"].blank?
+          object["relationships"][key] = value
+        end
 
         {
           headers: { content_type: "application/vnd.api+json" },

@@ -5,6 +5,8 @@ module Shark
 
       custom_endpoint :avatar, on: :collection, request_method: :get
 
+      property :account_id
+
       has_many :memberships
       has_many :groups
 

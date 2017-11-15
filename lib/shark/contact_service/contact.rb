@@ -8,10 +8,6 @@ module Shark
       has_many :memberships
       has_many :groups
 
-      def self.default_language
-        "de"
-      end
-
       def self.find_by_email(email)
         normalized_email = normalize_email(email)
         options = { filter: { equals: { email: normalized_email }}}
@@ -20,14 +16,13 @@ module Shark
 
       def account
         return nil if account_id.blank?
-        
+
         begin
           Shark::ContactService::Account.find(account_id)
         rescue
           nil
         end
       end
-
     end
   end
 end

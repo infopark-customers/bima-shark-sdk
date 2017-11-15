@@ -12,7 +12,7 @@ require 'shark'
 
 # TODO
 Shark.configure do |config|
-  config.contact_service.site = 'http://contact-service-development.bundesimmo.de/api/'
+  config.contact_service.site = 'https://contactservice-development.bundesimmo.de/api/'
   config.survey_service.site = 'https://milacrm-development.bundesimmo.de/api/v1/'
   config.form_service.site = 'https://formservice-development.bundesimmo.de/api/v1/'
 end

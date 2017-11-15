@@ -21,8 +21,7 @@ RSpec.describe Shark::ContactService::Group do
 
     context "when group ID is unknown" do
       let(:id) { "unknown-group-id" }
-      it { is_expected.to be_a(Array) }
-      it { expect(subject.first).to eq(nil) }
+      it { expect{ subject }.to raise_error(Shark::ResourceNotFound) }
     end
   end
 

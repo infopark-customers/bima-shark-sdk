@@ -10,15 +10,15 @@ module Shark
 
       def self.find_by_email(email)
         normalized_email = normalize_email(email)
-        options = { filter: { equals: { email: normalized_email }}}
-        where(options).first
+        options = { filter: { equals: { email: normalized_email } } }
+        where(options)
       end
 
       def account
-        return nil if account_id.blank?
+        return nil  if account_id.blank?
 
         begin
-          Shark::ContactService::Account.find(account_id)
+          Shark::ContactService::Account.find(account_id).first
         rescue
           nil
         end

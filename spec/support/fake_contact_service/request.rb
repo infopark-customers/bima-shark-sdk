@@ -40,7 +40,8 @@ module FakeContactService
 
         {
           headers: { content_type: "application/vnd.api+json" },
-          body: { data: objects }.to_json
+          body: { data: objects }.to_json,
+          status: 200
         }
       end
 
@@ -54,10 +55,19 @@ module FakeContactService
           object["id"].to_s == id && object["type"] == type
         end
 
-        {
-          headers: { content_type: "application/vnd.api+json" },
-          body: { data: object }.to_json
-        }
+        if object.present?
+          {
+            headers: { content_type: "application/vnd.api+json" },
+            body: { data: object }.to_json,
+            status: 200
+          }
+        else
+          {
+            headers: { content_type: "application/vnd.api+json" },
+            body: { errors: [] }.to_json,
+            status: 404
+          }
+        end
       end
 
       WebMock.stub_request(:patch, %r|^#{host}.*/.+|).to_return do |request|

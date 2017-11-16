@@ -25,7 +25,19 @@ RSpec.describe Shark::ContactService::Contact do
     subject { described_class.find_by_email(email) }
 
     context "with correct email address" do
-      # TODO stub filtered requests
+      let(:email) { "foo.bar@example.org" }
+
+      let!(:contacts) do
+        [
+          Shark::ContactService::Contact.create(contact_attributes),
+          Shark::ContactService::Contact.create(first_name: "Foo", last_name: "Bar", email: email)
+        ]
+      end
+
+      it { expect(subject).to be_a(JsonApiClient::Query::Builder) }
+      it { expect(subject.all.length).to eq(1) }
+      it { expect(subject.first).to be_a(Shark::ContactService::Contact) }
+      it { expect(subject.first.id).to eq(contacts.second.id) }
     end
 
     context "with incorrect email address" do

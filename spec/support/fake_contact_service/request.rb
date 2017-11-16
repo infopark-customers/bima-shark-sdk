@@ -35,7 +35,7 @@ module FakeContactService
         objects = []
 
         if ["contacts", "accounts"].include?(type) && params["filter"].present?
-          objects = FakeContactService::ObjectCache.instance.filter_objects(type, params)
+          objects = FakeContactService::ObjectCache.instance.search_objects(type, params)
         else
           objects = FakeContactService::ObjectCache.instance.objects.select do |object|
             object["type"] == type

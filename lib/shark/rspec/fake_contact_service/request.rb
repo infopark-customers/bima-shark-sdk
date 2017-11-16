@@ -87,20 +87,29 @@ module Shark
               object["id"].to_s == id && object["type"] == type
             end
 
-            (parsed_data["attributes"] || {}).each do |key, value|
-              object["attributes"] = {}  if object["attributes"].blank?
-              object["attributes"][key] = value
-            end
+            if object.present?
+              (parsed_data["attributes"] || {}).each do |key, value|
+                object["attributes"] = {}  if object["attributes"].blank?
+                object["attributes"][key] = value
+              end
 
-            (parsed_data["relationships"] || {}).each do |key, value|
-              object["relationships"] = {}  if object["relationships"].blank?
-              object["relationships"][key] = value
-            end
+              (parsed_data["relationships"] || {}).each do |key, value|
+                object["relationships"] = {}  if object["relationships"].blank?
+                object["relationships"][key] = value
+              end
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              body: { data: object }.to_json
-            }
+              {
+                headers: { content_type: "application/vnd.api+json" },
+                status: 200,
+                body: { data: object }.to_json
+              }
+            else
+              {
+                headers: { content_type: "application/vnd.api+json" },
+                status: 404,
+                body: { errors: [] }.to_json
+              }
+            end
           end
 
           WebMock.stub_request(:delete, %r|^#{host}.*/.+|).to_return do |request|
@@ -113,13 +122,21 @@ module Shark
               object["id"].to_s == id && object["type"] == type
             end
 
-            FakeContactService::ObjectCache.instance.objects.delete(object)
+            if object.present?
+              FakeContactService::ObjectCache.instance.objects.delete(object)
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 204,
-              body: {}.to_json
-            }
+              {
+                headers: { content_type: "application/vnd.api+json" },
+                status: 204,
+                body: {}.to_json
+              }
+            else
+              {
+                headers: { content_type: "application/vnd.api+json" },
+                status: 404,
+                body: { errors: [] }.to_json
+              }
+            end
           end
         end
 

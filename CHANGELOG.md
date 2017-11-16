@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.6.1
+- fixes including of RSpec helper files
+
 #### 0.6.0
 - supports Contact Service: accounts, contacts and groups
 

@@ -7,13 +7,12 @@ require 'shark/version'
 Gem::Specification.new do |spec|
   spec.name          = 'bima-shark-sdk'
   spec.version       = Shark::VERSION
-  spec.authors       = ['Huy Dinh']
-  spec.email         = ['huy.dinh@infopark.de']
+  spec.authors       = ["Huy Dinh", "Johannes Schmeißer"]
+  spec.email         = ["huy.dinh@infopark.de", "johannes.schmeisser@infopark.de"]
 
   spec.summary       = ''
   spec.description   = ''
   spec.homepage      = ''
-  spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})

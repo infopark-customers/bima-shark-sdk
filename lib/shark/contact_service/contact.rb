@@ -13,7 +13,7 @@ module Shark
       def self.find_by_email(email)
         normalized_email = normalize_email(email)
         options = { filter: { equals: { email: normalized_email } } }
-        where(options)
+        where(options).first
       end
 
       def account

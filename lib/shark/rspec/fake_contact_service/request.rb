@@ -36,7 +36,7 @@ module Shark
             params = query_params_to_object(request.uri)
             objects = []
 
-            if ["contacts", "accounts"].include?(type) && params["filter"].present?
+            if %w(contacts accounts activities).include?(type) && params["filter"].present?
               objects = FakeContactService::ObjectCache.instance.search_objects(type, params)
             else
               objects = FakeContactService::ObjectCache.instance.objects.select do |object|

@@ -39,9 +39,9 @@ RSpec.describe Shark::ContactService::Activity do
       end
 
       it { expect(subject).to be_a(Array) }
-      it { expect(subject.length).to eq(1) }
+      it { expect(subject.length).to eq(2) }
       it { expect(subject.first).to be_a(Shark::ContactService::Activity) }
-      it { expect(subject.first.id).to eq(contacts.second.id) }
+      it { expect(subject.first.id).to eq(activities.second.id) }
     end
 
     context "with incorrect email address" do

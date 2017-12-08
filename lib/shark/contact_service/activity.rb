@@ -3,8 +3,7 @@ module Shark
     class Activity < Base
 
       def self.find_all_by_contact_id(contact_id)
-        options = { contact_id: contact_id }
-        where(options).all
+        where({ contact_id: contact_id }).all
       end
 
     end

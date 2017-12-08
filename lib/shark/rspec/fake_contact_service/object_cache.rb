@@ -17,6 +17,20 @@ module Shark
           objects.push(object)
         end
 
+        def search_objects_by(type, params)
+          filtered_objects = []
+          filter = params["filter"]
+
+          if filter.keys.first == "contact_id"
+            filtered_objects = objects.select do |object|
+              return false  unless object["type"] == type
+
+              (object["attributes"]["contact_ids"] || []).map(&:to_s).include?(filter.values.first)
+            end
+          end
+          filtered_objects
+        end
+
         def search_objects(type, params)
           filtered_objects = []
           filters = params["filter"] && params["filter"]["filter"]

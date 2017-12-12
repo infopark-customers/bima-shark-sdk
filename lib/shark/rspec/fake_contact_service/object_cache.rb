@@ -17,7 +17,7 @@ module Shark
           objects.push(object)
         end
 
-        def search_objects_by(type, params)
+        def objects_contain(type, params)
           filtered_objects = []
           filter = params["filter"]
 

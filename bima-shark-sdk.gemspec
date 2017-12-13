@@ -22,7 +22,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport', '>= 4.1.0'
-  spec.add_dependency 'bima-http'
+  spec.add_dependency 'rack'
+  spec.add_dependency 'faraday'
+  spec.add_dependency 'net-http-persistent'
   spec.add_dependency 'json_api_client', '~> 1.5'
 
   spec.add_development_dependency 'bundler', '~> 1.15'

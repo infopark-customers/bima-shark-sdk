@@ -1,14 +1,14 @@
-require "logger"
-require "forwardable"
 require "active_support/all"
-require "bima-http"
+require "rack"
+require "faraday"
 require "json_api_client"
 
 require "shark/version"
 require "shark/configuration"
 require "shark/error"
-require "shark/client/connection"
+require "shark/middleware/compose_request"
 require "shark/middleware/status"
+require "shark/client/connection"
 require "shark/base"
 
 require "shark/form_service/base"

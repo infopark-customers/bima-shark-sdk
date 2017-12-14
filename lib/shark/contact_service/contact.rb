@@ -1,7 +1,7 @@
 module Shark
   module ContactService
     class Contact < Base
-      extend Shark::ContactService::Concerns::NormalizedEmail
+      include Shark::NormalizedEmail
 
       custom_endpoint :avatar, on: :collection, request_method: :get
 

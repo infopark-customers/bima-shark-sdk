@@ -28,16 +28,12 @@ module Shark
         headers = request_headers(headers)
         params = request_params(params)
 
-        if request_with_body?(action)
-          @connection.send(action) do |request|
-            request.url(url)
-            request.headers.merge!(headers)
+        @connection.send(action) do |request|
+          request.url(url)
+          request.headers.merge!(headers)
+          if request_with_body?(action)
             request.body = params
-          end
-        else
-          @connection.send(action) do |request|
-            request.url(url)
-            request.headers.merge!(headers)
+          else
             request.params.merge!(params)
           end
         end
@@ -50,7 +46,7 @@ module Shark
         headers = connection_options[:headers] || {}
         headers = headers.merge(req_headers)
         if Shark.service_token.present?
-          headers["Authorization"] = "Bearer #{Shark._service_token}"
+          headers["Authorization"] = "Bearer #{Shark.service_token}"
         end
 
         headers

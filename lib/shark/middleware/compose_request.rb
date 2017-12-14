@@ -23,11 +23,11 @@ module Shark
         type = request_type(env)
         params = env[:body] || {}
 
-        if JSON_MIME_TYPE_REGEX =~ type
-          params = ::JSON.dump(params)
-        else
-          params = params.to_param
-        end
+        params = if JSON_MIME_TYPE_REGEX =~ type
+                   ::JSON.dump(params)
+                 else
+                   params.to_param
+                 end
 
         env[:body] = params
       end

@@ -5,8 +5,8 @@ module Shark
     self.connection_class = Shark::Client::Connection
     self.connection_options = {
       headers: {
-        'Content-Type' => 'application/vnd.api+json',
-        'Accept' => 'application/vnd.api+json'
+        "Content-Type" => "application/vnd.api+json",
+        "Accept" => "application/vnd.api+json"
       }
     }
 

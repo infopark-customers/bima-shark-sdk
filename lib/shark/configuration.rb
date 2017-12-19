@@ -39,8 +39,7 @@ module Shark
     # @param service_token [String] The service token for the authorization header
     # @param block [Block] The block where service token authorization will be set for
     # @api public
-    # @api public
-    def self.with_service_token(service_token)
+    def with_service_token(service_token)
       self.service_token = service_token
       yield
     ensure

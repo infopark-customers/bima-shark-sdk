@@ -21,7 +21,7 @@ module Shark
           filtered_objects = []
           filter = params["filter"]
 
-          if filter.keys.first == "contact_id"
+          if filter["contact_id"]
             filtered_objects = objects.select do |object|
               return false  unless object["type"] == type
 

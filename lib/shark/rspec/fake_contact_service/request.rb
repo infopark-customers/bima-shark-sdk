@@ -146,9 +146,8 @@ module Shark
           Shark.configuration.contact_service.site
         end
 
-        def log_info(info)
-          return  unless defined?(Rails)
-          Rails.logger.info info
+        def log_info(message)
+          Shark.logger.info message
         end
 
         def query_params_to_object(request_uri)

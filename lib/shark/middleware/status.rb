@@ -6,13 +6,14 @@ module Shark
           handle_status(env[:status], env)
 
           if env[:body].is_a?(Hash)
-            status = env[:body].fetch('meta', {}).fetch('status', 200).to_i
+            status = env[:body].fetch("meta", {}).fetch("status", 200).to_i
             handle_status(status, env)
           end
         end
       rescue Faraday::ConnectionFailed, Faraday::TimeoutError
         raise ConnectionError, environment
       end
+
 
       private
 

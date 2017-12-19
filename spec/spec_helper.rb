@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "pry"
 require "shark"
 require "bima-shark-sdk/rspec"
 require "pry"

@@ -1,6 +1,6 @@
 module Shark
   module FormService
-    class Structure < Base
+    class Structure < FormService::Base
       belongs_to :form
     end
   end

@@ -14,11 +14,11 @@ module Shark
       end
 
       def site
-        service_base.site
+        @site
       end
 
       def site=(url)
-        service_base.site = url
+        @site = url
       end
     end
 

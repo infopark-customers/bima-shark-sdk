@@ -2,6 +2,7 @@ require "bundler/setup"
 require "pry"
 require "shark"
 require "bima-shark-sdk/rspec"
+require "pry"
 
 RSpec.configure do |config|
   config.example_status_persistence_file_path = ".rspec_status"

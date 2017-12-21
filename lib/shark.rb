@@ -24,10 +24,12 @@ require "shark/contact_service/concerns/normalized_email"
 require "shark/contact_service/base"
 require "shark/contact_service/group"
 require "shark/contact_service/account"
+require "shark/contact_service/activity"
 require "shark/contact_service/contact"
 
 module Shark
   extend SingleForwardable
+
 
   def_single_delegators :configuration, :cache, :logger, :with_service_token, :service_token
 

@@ -1,6 +1,8 @@
 require "bundler/setup"
+require "pry"
 require "shark"
 require "bima-shark-sdk/rspec"
+require "pry"
 
 RSpec.configure do |config|
   config.example_status_persistence_file_path = ".rspec_status"
@@ -10,7 +12,9 @@ RSpec.configure do |config|
   end
 
   Shark.configure do |config|
-    config.contact_service.site = URI.join("https://contact-service.example.com", "/api/").to_s
+    config.contact_service.site = "https://contact-service.example.com"
+    config.form_service.site = "https://form-service.example.com"
+    config.survey_service.site = "https://milacrm.example.com"
   end
 
   config.before do

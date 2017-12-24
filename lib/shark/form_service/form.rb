@@ -1,6 +1,6 @@
 module Shark
   module FormService
-    class Form < Base
+    class Form < FormService::Base
     end
   end
 end

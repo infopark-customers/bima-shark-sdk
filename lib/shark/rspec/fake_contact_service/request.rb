@@ -12,7 +12,7 @@ module Shark
         end
 
         def stub_requests
-          WebMock.stub_request(:post, %r|^#{host}.*|).to_return do |request|
+          WebMock.stub_request(:post, %r|^#{host}/api/.*|).to_return do |request|
             log_info "[Shark][ContactService] Faking POST request with body: #{request.body}"
 
             id = rand(10 ** 4)
@@ -29,20 +29,22 @@ module Shark
             }
           end
 
-          WebMock.stub_request(:get, %r|^#{host}.*$|).to_return do |request|
+          WebMock.stub_request(:get, %r|^#{host}/api/.*$|).to_return do |request|
             log_info "[Shark][ContactService] Faking GET request"
 
             type = request.uri.path.split("/")[2]
             params = query_params_to_object(request.uri)
             objects = []
 
-            if ["contacts", "accounts"].include?(type) && params["filter"].present?
-              objects = FakeContactService::ObjectCache.instance.search_objects(type, params)
-            else
-              objects = FakeContactService::ObjectCache.instance.objects.select do |object|
-                object["type"] == type
-              end
-            end
+            objects = if %w(contacts accounts).include?(type) && params["filter"].present?
+                        FakeContactService::ObjectCache.instance.search_objects(type, params)
+                      elsif %w(activities).include?(type) && params["filter"].present?
+                        FakeContactService::ObjectCache.instance.objects_contain(type, params)
+                      else
+                        FakeContactService::ObjectCache.instance.objects.select do |object|
+                          object["type"] == type
+                        end
+                      end
 
             {
               headers: { content_type: "application/vnd.api+json" },
@@ -51,7 +53,7 @@ module Shark
             }
           end
 
-          WebMock.stub_request(:get, %r|^#{host}.*/.+|).to_return do |request|
+          WebMock.stub_request(:get, %r|^#{host}/api/.*/.+|).to_return do |request|
             log_info "[Shark][ContactService] Faking GET request with ID"
 
             type = request.uri.path.split("/")[2]
@@ -76,7 +78,7 @@ module Shark
             end
           end
 
-          WebMock.stub_request(:patch, %r|^#{host}.*/.+|).to_return do |request|
+          WebMock.stub_request(:patch, %r|^#{host}/api/.*/.+|).to_return do |request|
             log_info "[Shark][ContactService] Faking PATCH request with body: #{request.body}"
 
             type = request.uri.path.split("/")[2]
@@ -112,7 +114,7 @@ module Shark
             end
           end
 
-          WebMock.stub_request(:delete, %r|^#{host}.*/.+|).to_return do |request|
+          WebMock.stub_request(:delete, %r|^#{host}/api/.*/.+|).to_return do |request|
             log_info "[Shark][ContactService] Faking DELETE request"
 
             type = request.uri.path.split("/")[2]
@@ -144,9 +146,8 @@ module Shark
           Shark.configuration.contact_service.site
         end
 
-        def log_info(info)
-          return  unless defined?(Rails)
-          Rails.logger.info info
+        def log_info(message)
+          Shark.logger.info message
         end
 
         def query_params_to_object(request_uri)

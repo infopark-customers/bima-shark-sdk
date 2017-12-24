@@ -14,13 +14,13 @@ module Shark
 
   class ServerError < ApiError
     def message
-      'Internal server error'
+      "Internal server error"
     end
   end
 
   class ResourceConflict < ServerError
     def message
-      'Resource already exists'
+      "Resource already exists"
     end
   end
 

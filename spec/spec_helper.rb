@@ -12,7 +12,9 @@ RSpec.configure do |config|
   end
 
   Shark.configure do |config|
-    config.contact_service.site = URI.join("https://contact-service.example.com", "/api/").to_s
+    config.contact_service.site = "https://contact-service.example.com"
+    config.form_service.site = "https://form-service.example.com"
+    config.survey_service.site = "https://milacrm.example.com"
   end
 
   config.before do

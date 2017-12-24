@@ -1,6 +1,6 @@
 module Shark
   module FormService
-    class UserInput < Base
+    class UserInput < FormService::Base
       belongs_to :form
       belongs_to :structure
     end

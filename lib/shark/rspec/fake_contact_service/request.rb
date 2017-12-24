@@ -12,7 +12,7 @@ module Shark
         end
 
         def stub_requests
-          WebMock.stub_request(:post, %r|^#{host}.*|).to_return do |request|
+          WebMock.stub_request(:post, %r|^#{host}/api/.*|).to_return do |request|
             log_info "[Shark][ContactService] Faking POST request with body: #{request.body}"
 
             id = rand(10 ** 4)
@@ -29,7 +29,7 @@ module Shark
             }
           end
 
-          WebMock.stub_request(:get, %r|^#{host}.*$|).to_return do |request|
+          WebMock.stub_request(:get, %r|^#{host}/api/.*$|).to_return do |request|
             log_info "[Shark][ContactService] Faking GET request"
 
             type = request.uri.path.split("/")[2]
@@ -53,7 +53,7 @@ module Shark
             }
           end
 
-          WebMock.stub_request(:get, %r|^#{host}.*/.+|).to_return do |request|
+          WebMock.stub_request(:get, %r|^#{host}/api/.*/.+|).to_return do |request|
             log_info "[Shark][ContactService] Faking GET request with ID"
 
             type = request.uri.path.split("/")[2]
@@ -78,7 +78,7 @@ module Shark
             end
           end
 
-          WebMock.stub_request(:patch, %r|^#{host}.*/.+|).to_return do |request|
+          WebMock.stub_request(:patch, %r|^#{host}/api/.*/.+|).to_return do |request|
             log_info "[Shark][ContactService] Faking PATCH request with body: #{request.body}"
 
             type = request.uri.path.split("/")[2]
@@ -114,7 +114,7 @@ module Shark
             end
           end
 
-          WebMock.stub_request(:delete, %r|^#{host}.*/.+|).to_return do |request|
+          WebMock.stub_request(:delete, %r|^#{host}/api/.*/.+|).to_return do |request|
             log_info "[Shark][ContactService] Faking DELETE request"
 
             type = request.uri.path.split("/")[2]

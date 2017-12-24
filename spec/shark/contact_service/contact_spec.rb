@@ -34,15 +34,13 @@ RSpec.describe Shark::ContactService::Contact do
         ]
       end
 
-      it { expect(subject).to be_a(JsonApiClient::Query::Builder) }
-      it { expect(subject.all.length).to eq(1) }
-      it { expect(subject.first).to be_a(Shark::ContactService::Contact) }
-      it { expect(subject.first.id).to eq(contacts.second.id) }
+      it { expect(subject).to be_a(Shark::ContactService::Contact) }
+      it { expect(subject.id).to eq(contacts.second.id) }
     end
 
     context "with incorrect email address" do
       let(:email) { "not-existing-email@example.org" }
-      it { expect(subject.first).to eq(nil) }
+      it { expect(subject).to eq(nil) }
     end
   end
 

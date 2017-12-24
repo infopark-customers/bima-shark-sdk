@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.6.2
+- supports Contact Service: activity
+
 #### 0.6.1
 - fixes including of RSpec helper files
 

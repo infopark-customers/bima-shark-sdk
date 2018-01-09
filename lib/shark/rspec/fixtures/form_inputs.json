@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "id": "24",
+      "type": "form_input",
+      "attributes": {
+        "additional_data": {},
+        "data": {
+          "c1e74363": [
+            "neutral"
+          ],
+          "21ef058f": [
+            "-1"
+          ],
+          "86083327": [
+            "-1"
+          ],
+          "53bc9530": "Hier etwas Freitext"
+        },
+        "user_id": "6a36d558e8f44882c7f9662063190113",
+        "created_at": "2017-07-20T10:59:15.000+02:00",
+        "updated_at": "2017-07-20T15:45:35.000+02:00"
+      }
+    }
+  ]
+}

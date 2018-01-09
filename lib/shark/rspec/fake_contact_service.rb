@@ -1,3 +1,6 @@
+require_relative "fake_contact_service/object_cache"
+require_relative "fake_contact_service/request"
+
 module Shark
   module RSpec
     module FakeContactService

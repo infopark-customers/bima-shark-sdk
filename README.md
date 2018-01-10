@@ -13,18 +13,20 @@ Include **bima-shark-sdk** in your Gemfile and put the gem in the vendor/cache d
 
 ```ruby
   Shark.configure do |config|
-    config.contact_service.site = URI.join(__CONTACTSERVICE_URL__, "/api/").to_s
+    config.contact_service.site = __CONTACTSERVICE_URL__
     config.contact_service.headers = {}
 
-    config.survey_service.site = URI.join(__MILACRM_URL__, "/api/v1/projects/").to_s
+    config.survey_service.site = __MILACRM_URL__
     config.survey_service.headers = {}
 
-    config.form_service.site = URI.join(__FORMSERVICE_URL__, "/api/v1/").to_s
+    config.form_service.site = __FORMSERVICE_URL__
     config.form_service.headers = {}
   end
 ```
 
-## Usage
+## Documentation
+
+Please find the documentation in the [wiki](https://github.com/infopark-customers/bima-shark-sdk/wiki/Home)
 
 ### Survey Service
 
@@ -45,10 +47,3 @@ Shark.with_service_token(token.jwt) do
 end
 ```
 
-### Form Service
-
-TODO
-
-### Contact Service
-
-https://github.com/infopark-customers/bima-shark-sdk/wiki/Contact-Service

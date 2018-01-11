@@ -1,0 +1,175 @@
+{
+  "id": "12a3b05a",
+  "type": "form",
+  "elements": [
+    {
+      "id": "a00a5058",
+      "type": "form_container",
+      "elements": [
+        {
+          "id": "50f759ed",
+          "type": "form_container",
+          "elements": [
+            {
+              "id": "f1f0a9fa",
+              "type": "form_multiple_choice",
+              "mandatory": true,
+              "multiple_choices": false,
+              "valid_values": [
+                "Bundesamt für ABC",
+                "oerifjeroif",
+                "eorigfjeaoörgij",
+                "eorigjaöoeirgj",
+                "223423",
+                "fjewriofj",
+                "anderes"
+              ],
+              "attribute_definitions": [
+                {
+                  "name": "more_on_choice",
+                  "type": "string",
+                  "value": ""
+                }
+              ]
+            }
+          ],
+          "attribute_definitions": [
+            {
+              "name": "legend",
+              "type": "string",
+              "value": "a)"
+            },
+            {
+              "name": "text",
+              "type": "html",
+              "value": "Fworgnweiog jweif jweif jweiof weoifj weoif jweoif?"
+            }
+          ]
+        }
+      ],
+      "attribute_definitions": [
+        {
+          "name": "legend",
+          "type": "string",
+          "value": "Frage 1"
+        },
+        {
+          "name": "text",
+          "type": "html",
+          "value": "Eeroigj eroigj eriogj eorig jeorgj eroig jeorigj eaöoirgj eaörg jeaiöorgj eaoöirgj eaorg jeaoirg jearoig jeaorigj eaoöirgj eaoörgj aeöorgj aeoörigj eiaoörgj eroij eoirj eoir jearoig jaeorigj aeorigj eaorigj eaorij eaorigj eraiojg eioajg eoarijg aeöiogjr oaieög."
+        }
+      ]
+    },
+    {
+      "id": "95cb27d0",
+      "type": "form_container",
+      "elements": [
+        {
+          "id": "bb86c4cf",
+          "type": "form_textarea",
+          "mandatory": true,
+          "attribute_definitions": [
+            {
+              "name": "legend",
+              "type": "string",
+              "value": "a)"
+            }
+          ]
+        }
+      ],
+      "attribute_definitions": [
+        {
+          "name": "legend",
+          "type": "string",
+          "value": "Frage 2"
+        },
+        {
+          "name": "text",
+          "type": "html",
+          "value": "weiofj woiefj woeifj woeifj woiejf oweifj woiefj woiefj?"
+        }
+      ]
+    },
+    {
+      "id": "51ab3a5c",
+      "type": "form_container",
+      "attribute_definitions": [
+        {
+          "name": "legend",
+          "type": "string",
+          "value": "Frage 3"
+        },
+        {
+          "name": "text",
+          "type": "html",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "2ed1579d",
+      "type": "form_container",
+      "attribute_definitions": [
+        {
+          "name": "legend",
+          "type": "string",
+          "value": "Frage 4"
+        },
+        {
+          "name": "text",
+          "type": "html",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "de64f672",
+      "type": "form_container",
+      "elements": [
+        {
+          "id": "c9529f9a",
+          "type": "form_rating_scale",
+          "mandatory": true,
+          "allow_no_information": true,
+          "no_information_label": "keine Angabe",
+          "scale_start": "1",
+          "scale_start_legend": "schlecht",
+          "scale_end": "5",
+          "scale_end_legend": "gut",
+          "default_value": "-1",
+          "attribute_definitions": [
+            {
+              "name": "legend",
+              "type": "string",
+              "value": "a)"
+            }
+          ]
+        }
+      ],
+      "attribute_definitions": [
+        {
+          "name": "legend",
+          "type": "string",
+          "value": "Frage 5"
+        },
+        {
+          "name": "text",
+          "type": "html",
+          "value": "Wwignweifj woiefjg woiefj weoijf oiwejf woiejf w49ofj lwigj alergveaorigj eaoirjg eoairjg aeorig jearoig jaeoirg j?"
+        }
+      ]
+    }
+  ],
+  "attribute_definitions": [
+    {
+      "name": "final_words",
+      "type": "html",
+      "value": "Danke"
+    },
+    {
+      "name": "submit",
+      "type": "string",
+      "value": "Absenden"
+    }
+  ]
+}

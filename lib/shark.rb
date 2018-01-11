@@ -9,30 +9,15 @@ require "shark/error"
 require "shark/middleware/compose_request"
 require "shark/middleware/status"
 require "shark/client/connection"
-require "shark/base"
 require "shark/concerns/normalized_email"
 
-require "shark/form_service/base"
-require "shark/form_service/form"
-require "shark/form_service/structure"
-require "shark/form_service/user_input"
-require "shark/form_service/v2/base"
-require "shark/form_service/v2/form"
-require "shark/form_service/v2/form_input"
-
-require "shark/survey_service/base"
-require "shark/survey_service/participant"
-require "shark/survey_service/survey"
-
-require "shark/contact_service/base"
-require "shark/contact_service/group"
-require "shark/contact_service/account"
-require "shark/contact_service/activity"
-require "shark/contact_service/contact"
+require "shark/base"
+require "shark/contact_service"
+require "shark/form_service"
+require "shark/survey_service"
 
 module Shark
   extend SingleForwardable
-
 
   def_single_delegators :configuration, :cache, :logger, :with_service_token, :service_token
 

@@ -26,7 +26,7 @@ Include **bima-shark-sdk** in your Gemfile and put the gem in the vendor/cache d
 
 ## Documentation
 
-Please find the documentation in the [wiki](https://github.com/infopark-customers/bima-shark-sdk/wiki/Home)
+Please find the documentation in the [wiki](https://github.com/infopark-customers/bima-shark-sdk/wiki/Home).
 
 ### Survey Service
 

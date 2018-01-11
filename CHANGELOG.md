@@ -1,11 +1,18 @@
 ## Changelog
 
+#### 0.6.3
+- restructured FormService::RSpec (e.g. `SharkSpec.stub_contact_service`)
+- form service:
+  - removed API v1 resources
+  - added FormVersion::form_structure to get a tree model of the pages form
+
+
 #### 0.6.2
 - [break] remove `URI.join()` from `settings.rb` in apps
 - contact service:
     - supports activity
 - form service:
-    - supports API version 2
+    - supports API v2
 
 #### 0.6.1
 - fixes including of RSpec helper files

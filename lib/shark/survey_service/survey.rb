@@ -6,6 +6,19 @@ module Shark
       def add_participant(attributes)
         Participant.create(attributes.merge(survey_id: self.id))
       end
+
+      def scheduled?
+        flags.present? && flags.include?("scheduled")
+      end
+
+      def running?
+        flags.present? && flags.include?("running")
+
+      end
+
+      def closed?
+        flags.present? && flags.include?("closed")
+      end
     end
   end
 end

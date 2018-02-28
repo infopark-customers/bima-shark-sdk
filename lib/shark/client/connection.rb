@@ -20,6 +20,12 @@ module Shark
 
       def use(middleware, *args, &block); end
 
+      # @param action [Symbol] One of :get, :post, :put, :patch, :delete.
+      # @param path [String] The url path
+      # @param params [Hash] The parameters for query or body.
+      # @param headers [Hash] The request headers
+      # @return [Faraday::Response]
+      # @api public
       def run(action, path, params = {}, headers = {})
         raise ArgumentError, "Configuration :site cannot be nil"  if site.blank?
         raise ArgumentError, "Parameter :path cannot be nil"      if path.blank?

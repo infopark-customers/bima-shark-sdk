@@ -1,45 +1,51 @@
 module Shark
-  class ApiError < StandardError
-    attr_reader :env
+  class Error < StandardError; end
+
+  class ApiError < Error
+    attr_reader :code, :env
+
+    def initialize(code, env)
+      @code = code
+      @env = env
+    end
+
+    def body
+      env[:body]
+    end
+
+    def url
+      env[:url]
+    end
+  end
+
+  class ConnectionError < ApiError
     def initialize(env)
       @env = env
     end
   end
 
+  #
+  # Client errors
+  #
   class ClientError < ApiError; end
   class AccessDenied < ClientError; end
   class NotAuthorized < ClientError; end
 
-  class ConnectionError < ApiError; end
-
-  class ServerError < ApiError
-    def message
-      "Internal server error"
-    end
-  end
-
-  class ResourceConflict < ServerError
+  class ResourceConflict < ClientError
     def message
       "Resource already exists"
     end
   end
 
-  class ResourceNotFound < ServerError
-    attr_reader :uri
-    def initialize(uri)
-      @uri = uri
-    end
-
+  class ResourceNotFound < ClientError
     def message
-      "Couldn't find resource at: #{uri}"
+      "Couldn't find resource at: #{url}"
     end
   end
 
-  class UnprocessableEntity < ServerError
-    attr_reader :errors
-
-    def initialize(body)
-      @errors = body["errors"] || {}
+  class UnprocessableEntity < ClientError
+    def errors
+      body["errors"] || {}
     end
 
     def message
@@ -47,16 +53,19 @@ module Shark
     end
   end
 
-  class UnexpectedStatus < ServerError
-    attr_reader :code, :uri
-
-    def initialize(code, uri)
-      @code = code
-      @uri = uri
-    end
-
+  #
+  # Server errors
+  #
+  class ServerError < ApiError
     def message
-      "Unexpected response status: #{code} from: #{uri}"
+      "Internal server error"
+    end
+  end
+
+  class UnexpectedStatus < ServerError
+    def message
+      "Unexpected response status: #{code} from: #{url}"
     end
   end
 end
+

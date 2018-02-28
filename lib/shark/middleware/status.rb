@@ -21,13 +21,13 @@ module Shark
         return if (200..399).cover?(status)
 
         case status
-        when 401 then raise NotAuthorized, environment
-        when 403 then raise AccessDenied, environment
-        when 404 then raise ResourceNotFound, environment[:url]
-        when 409 then raise ResourceConflict, environment
-        when 422 then raise UnprocessableEntity, environment[:body]
-        when 500..599 then raise ServerError, environment
-        else raise UnexpectedStatus, status, environment[:url]
+        when 401 then raise NotAuthorized.new(status, environment)
+        when 403 then raise AccessDenied.new(status, environment)
+        when 404 then raise ResourceNotFound.new(status, environment)
+        when 409 then raise ResourceConflict.new(status, environment)
+        when 422 then raise UnprocessableEntity.new(status, environment)
+        when 500..599 then raise ServerError.new(status, environment)
+        else raise UnexpectedStatus.new(status, environment)
         end
       end
     end

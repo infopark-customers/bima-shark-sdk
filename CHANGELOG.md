@@ -1,5 +1,9 @@
 ## Changelog
 
+#### 0.6.4
+- added some annotations
+- [break] cleanup client and server errors
+
 #### 0.6.3
 - restructured FormService::RSpec (e.g. `SharkSpec.stub_contact_service`)
 - form service:

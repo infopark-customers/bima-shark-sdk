@@ -6,7 +6,6 @@ module Shark
       JSON_MIME_TYPE       = "application/json".freeze
       JSON_MIME_TYPE_REGEX = /^application\/(vnd\..+\+)?json$/
 
-
       def call(env)
         if request_with_body?(env)
           compose_request_body(env)

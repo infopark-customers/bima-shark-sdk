@@ -60,6 +60,8 @@ module Shark
               MultipleChoice.new(e, self)
             when "form_rating_scale"
               RatingScale.new(e, self)
+            when "form_rating_star"
+              RatingStar.new(e, self)
             when "form_textarea"
               TextArea.new(e, self)
             else

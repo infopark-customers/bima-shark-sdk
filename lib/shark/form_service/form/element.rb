@@ -62,6 +62,8 @@ module Shark
               RatingScale.new(e, self)
             when "form_rating_star"
               RatingStar.new(e, self)
+            when "form_text_field"
+              TextField.new(e, self)
             when "form_textarea"
               TextArea.new(e, self)
             else

@@ -15,8 +15,11 @@ module Shark
         end
 
         def label
-          return ""  unless attribute_defined?("legend")
-          attribute_definition("legend")["value"]
+          ["label", "legend"].each do |attr|
+            next unless attribute_defined?(attr)
+            return attribute_definition(attr)["value"]
+          end
+          ""
         end
 
         def type

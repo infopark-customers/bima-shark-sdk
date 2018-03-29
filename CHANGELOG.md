@@ -1,5 +1,9 @@
 ## Changelog
 
+#### 0.7.0
+- survey rating star support
+- survey text field support
+
 #### 0.6.4
 - added some annotations
 - [break] cleanup client and server errors

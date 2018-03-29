@@ -5,6 +5,7 @@ require "shark/form_service/form/multiple_choice"
 require "shark/form_service/form/rating_scale"
 require "shark/form_service/form/rating_star"
 require "shark/form_service/form/text_area"
+require "shark/form_service/form/text_field"
 require "shark/form_service/form/structure"
 
 require "shark/form_service/v2/base"

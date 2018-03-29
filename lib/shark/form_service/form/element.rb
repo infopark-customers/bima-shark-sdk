@@ -15,8 +15,11 @@ module Shark
         end
 
         def label
-          return ""  unless attribute_defined?("legend")
-          attribute_definition("legend")["value"]
+          ["label", "legend"].each do |attr|
+            next unless attribute_defined?(attr)
+            return attribute_definition(attr)["value"]
+          end
+          ""
         end
 
         def type
@@ -62,6 +65,8 @@ module Shark
               RatingScale.new(e, self)
             when "form_rating_star"
               RatingStar.new(e, self)
+            when "form_text_field"
+              TextField.new(e, self)
             when "form_textarea"
               TextArea.new(e, self)
             else

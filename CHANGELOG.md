@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.7.1
+- fix: undefined method `responds_to?` in Configuration
+
 #### 0.7.0
 - survey rating star support
 - survey text field support

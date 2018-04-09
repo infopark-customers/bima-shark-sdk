@@ -42,7 +42,7 @@ module Shark
     def with_service_token(token)
       if token.is_a?(String)
         self.service_token = token
-      elsif token.responds_to?(:jwt)
+      elsif token.respond_to?(:jwt)
         self.service_token = token.jwt
       else
         raise ArgumentError, "Parameter :token must be kind of String."

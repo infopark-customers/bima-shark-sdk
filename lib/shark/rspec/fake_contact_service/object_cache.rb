@@ -14,7 +14,13 @@ module Shark
         end
 
         def add(object)
+          unless object["attributes"].keys.include?("avatar_url")
+            object["attributes"]["avatar_url"] = "https://contactservice/path/to/avatar/#{object["id"]}.png"
+          end
+
           objects.push(object)
+
+          object
         end
 
         def objects_contain(type, params)
@@ -47,7 +53,14 @@ module Shark
               when "contains_word_prefixes"
                 attribute.to_s.start_with?(value)
               when "contains_words"
-                words = value.split(",").map(&:strip)
+                words = case value
+                        when Array
+                          value
+                        when Hash
+                          value.keys
+                        # else
+                        #   value.split(",").map(&:strip)
+                        end
                 words.include?(attribute.to_s)
               when "equals"
                 attribute.to_s == value

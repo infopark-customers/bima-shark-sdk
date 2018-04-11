@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.7.2
+- fix: milacrm spec issue
+
 #### 0.7.1
 - fix: undefined method `responds_to?` in Configuration
 

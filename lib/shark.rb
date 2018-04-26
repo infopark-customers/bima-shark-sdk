@@ -15,6 +15,7 @@ require "shark/base"
 require "shark/contact_service"
 require "shark/form_service"
 require "shark/survey_service"
+require "shark/notification_service"
 
 module Shark
   extend SingleForwardable

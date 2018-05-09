@@ -39,3 +39,5 @@ module Shark
     end
   end
 end
+
+require "shark/rails"

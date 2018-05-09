@@ -1,5 +1,9 @@
 ## Changelog
 
+#### 0.7.3
+- fix: doorkeeper spec issue
+- use Rails logger when used in Rails apps
+
 #### 0.7.2
 - fix: milacrm spec issue
 

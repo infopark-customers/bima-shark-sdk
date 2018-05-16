@@ -58,15 +58,31 @@ module Shark
 
             type = request.uri.path.split("/")[2]
             id = request.uri.path.split("/")[3]
+            query = request.uri.query_values
 
             object = FakeContactService::ObjectCache.instance.objects.detect do |object|
               object["id"].to_s == id && object["type"] == type
             end
 
             if object.present?
+              body = { data: object }
+
+              if query && query["include"]
+                relation_name = query["include"]
+
+                included_objects = FakeContactService::ObjectCache.instance.objects.select do |related_obj|
+                  related_obj["type"] == relation_name &&
+                  object["relationships"] &&
+                  object["relationships"][relation_name]["data"].map{|c| c["id"].to_s}.include?(related_obj["id"].to_s)
+                end
+
+                object["relationships"] ||= { "#{relation_name}": { data: [] } }  if included_objects.empty?
+                body = { data: object, included: included_objects } #  if included_objects.present?
+              end
+
               {
                 headers: { content_type: "application/vnd.api+json" },
-                body: { data: object }.to_json,
+                body: body.to_json,
                 status: 200
               }
             else

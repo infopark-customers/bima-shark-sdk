@@ -7,6 +7,49 @@ RSpec.describe Shark::ContactService::Group do
     it { is_expected.to be_a(described_class) }
   end
 
+  describe ".includes('contacts').find" do
+    subject { described_class.includes('contacts').find(id) }
+
+    context "when group ID exists" do
+      context "and has no contacts" do
+        let!(:group) { group = described_class.create(title: "Existing group") }
+        let(:id) { group.id }
+
+        it { is_expected.to be_a(Array) }
+        it { expect(subject.first).to be_a(described_class) }
+        it { expect(subject.first.id).to eq(group.id) }
+        it { expect(subject.first.relationships).to be_present }
+        it { expect(subject.first.relationships.contacts["data"].count).to eq(0) }
+        it { expect(subject.first.contacts).to be_an(Array) }
+        it { expect(subject.first.contacts.count).to eq(0) }
+      end
+
+      context "and has a contact" do
+        let!(:contacts) { [Shark::ContactService::Contact.create] }
+        let!(:group) do
+          group = described_class.create(title: "Existing group with contact")
+          group.relationships["contacts"] = contacts
+          group.save
+          group
+        end
+        let(:id) { group.id }
+
+        it { is_expected.to be_a(Array) }
+        it { expect(subject.first).to be_a(described_class) }
+        it { expect(subject.first.id).to eq(group.id) }
+        it { expect(subject.first.relationships).to be_present }
+        it { expect(subject.first.relationships.contacts["data"].count).to eq(1) }
+        it { expect(subject.first.contacts).to be_an(Array) }
+        it { expect(subject.first.contacts.count).to eq(1) }
+      end
+    end
+
+    context "when group ID is unknown" do
+      let(:id) { "unknown-group-id" }
+      it { expect{ subject }.to raise_error(Shark::ResourceNotFound) }
+    end
+  end
+
   describe ".find" do
     subject { described_class.find(id) }
 

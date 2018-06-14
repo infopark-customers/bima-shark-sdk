@@ -73,6 +73,7 @@ module Shark
                 included_objects = FakeContactService::ObjectCache.instance.objects.select do |related_obj|
                   related_obj["type"] == relation_name &&
                   object["relationships"] &&
+                  object["relationships"][relation_name] &&
                   object["relationships"][relation_name]["data"].map{|c| c["id"].to_s}.include?(related_obj["id"].to_s)
                 end
 

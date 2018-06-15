@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.7.4
+- fix: `Shark::ContactService::Group#has_contact?`
+
 #### 0.7.3
 - fix: doorkeeper spec issue
 - use Rails logger when used in Rails apps

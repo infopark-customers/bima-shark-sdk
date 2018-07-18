@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.7.5
+- extend with NotificationService
+
 #### 0.7.4
 - fix: `Shark::ContactService::Group#has_contact?`
 

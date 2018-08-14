@@ -13,7 +13,7 @@ module Shark
 
         def stub_requests
           # WebMock.stub_request(:post, %r|^#{host}/notifications/bulk_creation|).to_return do |request|
-          #   log_info "[Shark][NotificationService] Faking POST bulk creation request with body: #{request.body}"
+          #   log_info "[Shark][ConsentService] Faking POST bulk creation request with body: #{request.body}"
           #
           #   {
           #     headers: { content_type: "application/vnd.api+json" },
@@ -28,14 +28,14 @@ module Shark
           # end
 
           WebMock.stub_request(:post, %r|^#{host}/consents|).to_return do |request|
-            log_info "[Shark][NotificationService] Faking POST request with body: #{request.body}"
+            log_info "[Shark][ConsentService] Faking POST request with body: #{request.body}"
 
             id = SecureRandom.hex
             payload_data = JSON.parse(request.body)["data"]
 
             {
               headers: { content_type: "application/vnd.api+json" },
-              status: 201,
+              status: 200,
               body: {
                 data: {
                   type: "consents",

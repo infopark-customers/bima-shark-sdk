@@ -15,6 +15,7 @@ RSpec.configure do |config|
     config.form_service.site = "https://form-service.example.com"
     config.survey_service.site = "https://milacrm.example.com"
     config.notification_service.site = "https://notification-service.example.com"
+    config.consent_service.site = "https://consent-service.example.com"
   end
 
   config.before do

@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.8.0
+- extend with ConsentService
+
 #### 0.7.5
 - extend with NotificationService
 

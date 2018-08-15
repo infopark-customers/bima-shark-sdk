@@ -20,5 +20,6 @@ RSpec.configure do |config|
 
   config.before do
     SharkSpec.stub_contact_service
+    SharkSpec.stub_consent_service
   end
 end

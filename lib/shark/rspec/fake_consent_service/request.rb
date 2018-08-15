@@ -20,15 +20,13 @@ module Shark
 
             object_data = ObjectCache.instance.add(payload_data)
 
-            resp = {
+            {
               headers: { content_type: "application/vnd.api+json" },
               status: 200,
               body: {
                 data: object_data
               }.to_json
             }
-
-            resp
           end
 
           WebMock.stub_request(:get, %r|^#{host}/consents/.+|).to_return do |request|

@@ -67,5 +67,9 @@ module Shark
       "Unexpected response status: #{code} from: #{url}"
     end
   end
-end
 
+  #
+  # Other errors
+  #
+  class ActionNotSupportedError < Error; end
+end

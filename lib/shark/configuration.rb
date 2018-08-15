@@ -27,12 +27,14 @@ module Shark
     #
     attr_accessor :logger, :cache
     attr_accessor :contact_service, :form_service, :survey_service, :notification_service
+    attr_accessor :consent_service
 
     def initialize
       @contact_service = ServiceConfiguration.new(ContactService::Base)
       @form_service = ServiceConfiguration.new(FormService::Base)
       @survey_service = ServiceConfiguration.new(SurveyService::Base)
       @notification_service = ServiceConfiguration.new(NotificationService::Base)
+      @consent_service = ServiceConfiguration.new(ConsentService::Base)
     end
 
     # Within the given block, add the service token authorization header to all api requests.

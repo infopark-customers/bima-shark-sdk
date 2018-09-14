@@ -16,10 +16,12 @@ RSpec.configure do |config|
     config.survey_service.site = "https://milacrm.example.com"
     config.notification_service.site = "https://notification-service.example.com"
     config.consent_service.site = "https://consent-service.example.com"
+    config.subscription_service.site = "https://subscription-service.example.com"
   end
 
   config.before do
     SharkSpec.stub_contact_service
     SharkSpec.stub_consent_service
+    SharkSpec.stub_subscription_service
   end
 end

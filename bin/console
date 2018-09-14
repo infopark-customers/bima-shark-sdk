@@ -16,6 +16,7 @@ Shark.configure do |config|
   config.survey_service.site = "https://milacrm-development.bundesimmo.de/api/v1/"
   config.form_service.site = "https://formservice-development.bundesimmo.de/api/v1/"
   config.notification_service.site = "https://api-development.bundesimmo.de/notification-service/"
+  config.subscription_service.site = "https://api-development.bundesimmo.de/subscription-service/"
 end
 
 require "irb"

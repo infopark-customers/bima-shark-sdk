@@ -16,15 +16,20 @@ module Shark
         def add(payload_data)
           id = payload_data.delete('id')
 
-          unless objects.find {|subscription| subscription['id'] == id }
+          if id && !objects.find {|subscription| subscription['id'] == id }
             object = {
               id: id,
               attributes: payload_data
             }
 
             objects.push(object)
-            payload_data
+          else
+            objects.push({
+              id: SecureRandom.uuid,
+              attributes: payload_data
+            })
           end
+          objects.last
         end
 
         def add_multiple(payload_data)
@@ -34,7 +39,7 @@ module Shark
         end
 
         def remove(id)
-          objects.delete_if{|subscription| subscription['id'] == id }
+          objects.delete_if{|subscription| subscription[:id] == id }
         end
 
         def remove_multiple(payload_data)

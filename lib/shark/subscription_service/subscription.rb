@@ -5,20 +5,34 @@ module Shark
       custom_endpoint :bulk_deletion, on: :collection, request_method: :post
 
       def self.create_multiple(attributes)
-        self.bulk_creation(subscriptions_attributes(attributes))
+        self.bulk_creation(self.subscriptions_attributes(attributes))
       end
 
       def self.destroy_multiple(attributes)
-        self.bulk_deletion(subscriptions_attributes(attributes))
+        self.bulk_deletion(self.subscriptions_attributes(attributes))
+      end
+
+      def save
+        if self["id"].present?
+          raise Shark::ActionNotSupportedError, "Shark::ConsentService::Consent#save is not supported for persisted consents"
+        else
+          super
+        end
+      end
+
+      def update_attributes(attributes = {})
+        raise Shark::ActionNotSupportedError, "Shark::SubscriptionService::Subscription#update_attributes is not supported"
       end
 
       private
 
-      def subscriptions_attributes(attributes)
+      def self.subscriptions_attributes(attributes)
         {
           data: {
             type: 'bulk-subscriptions',
-            attributes: attributes
+            attributes: {
+              subscriptions: attributes
+            }
           }
         }
       end

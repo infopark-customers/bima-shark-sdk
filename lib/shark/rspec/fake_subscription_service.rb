@@ -1,4 +1,4 @@
-require_relative "fake_consent_service/object_cache"
+require_relative "fake_subscription_service/object_cache"
 require_relative "fake_subscription_service/request"
 
 module Shark

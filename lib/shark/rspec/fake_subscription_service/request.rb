@@ -55,14 +55,14 @@ module Shark
               status: 200
             }
           end
+        end
 
-          def host
-            Shark.configuration.subscription_service.site
-          end
+        def host
+          Shark.configuration.subscription_service.site
+        end
 
-          def log_info(message)
-            Shark.logger.info message
-          end
+        def log_info(message)
+          Shark.logger.info message
         end
       end
     end

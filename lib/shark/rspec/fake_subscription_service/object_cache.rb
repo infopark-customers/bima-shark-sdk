@@ -22,12 +22,12 @@ module Shark
               attributes: payload_data
             }
 
-            objects.push(object)
+            objects << object
           else
-            objects.push({
+            objects << {
               id: SecureRandom.uuid,
               attributes: payload_data
-            })
+            }
           end
           objects.last
         end

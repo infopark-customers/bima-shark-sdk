@@ -14,7 +14,9 @@ module Shark
           faraday.use Shark::Middleware::ComposeRequest
           faraday.use Shark::Middleware::Status
           faraday.use JsonApiClient::Middleware::ParseJson
-          faraday.adapter :net_http_persistent
+          faraday.adapter :net_http_persistent do |http| # yields Net::HTTP::Persistent
+            http.idle_timeout = 100
+          end
         end
       end
 

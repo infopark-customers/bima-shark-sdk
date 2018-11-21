@@ -1,6 +1,9 @@
 module Shark
   module DoubleOptInService
     class Request < Base
+      custom_endpoint :close, on: :member, request_method: :post
+      custom_endpoint :verify, on: :member, request_method: :post
+
       def self.all
         raise Shark::ActionNotSupportedError, "Shark::DoubleOptInService::Request.all is not supported"
       end

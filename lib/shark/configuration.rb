@@ -27,9 +27,10 @@ module Shark
     #
     attr_accessor :logger, :cache
     attr_accessor :contact_service, :form_service, :survey_service, :notification_service
-    attr_accessor :consent_service, :subscription_service
+    attr_accessor :consent_service, :subscription_service, :asset_service
 
     def initialize
+      @asset_service = ServiceConfiguration.new(AssetService::Base)
       @contact_service = ServiceConfiguration.new(ContactService::Base)
       @form_service = ServiceConfiguration.new(FormService::Base)
       @survey_service = ServiceConfiguration.new(SurveyService::Base)

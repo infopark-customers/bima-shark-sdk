@@ -1,3 +1,4 @@
 module Shark
-  VERSION = "0.9.2.dev".freeze
+  # TODO check next version!
+  VERSION = "0.9.3.dev".freeze
 end

@@ -3,7 +3,7 @@ module Shark
     class Execution
       include Connected
 
-      attr_accessor :payload, :request_type, :closure_expires_at
+      attr_accessor :payload, :request_type
 
       def self.site
         ::Shark.configuration.double_opt_in_service.site
@@ -28,7 +28,7 @@ module Shark
       end
 
       def initialize(data)
-        %w(payload request_type closure_expires_at).each do |key|
+        %w(payload request_type).each do |key|
           public_send("#{key}=", data["attributes"][key])
         end
       end

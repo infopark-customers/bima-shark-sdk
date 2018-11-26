@@ -9,7 +9,9 @@ require "shark/error"
 require "shark/middleware/compose_request"
 require "shark/middleware/status"
 require "shark/client/connection"
+
 require "shark/concerns/normalized_email"
+require "shark/concerns/connected"
 
 require "shark/base"
 require "shark/contact_service"

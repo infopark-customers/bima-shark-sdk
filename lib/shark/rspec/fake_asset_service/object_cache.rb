@@ -3,43 +3,48 @@ module Shark
     module FakeAssetService
       class ObjectCache
         include Singleton
-        attr_accessor :objects
 
         def initialize
-          @objects = []
+          @objects = {}
         end
 
         def self.clear
-          instance.objects = []
+          instance.clear
         end
 
         def add(payload_data)
-          id = payload_data.delete("id")
+          id = payload_data.delete('id') || SecureRandom.uuid
 
-          if id && !find(id)
-            object = {
-              "id" => id,
-              "attributes" => payload_data
-            }
+          @objects[id] = {
+            'id' => id,
+            'attributes' => payload_data
+          }
 
-            objects << object
-          else
-            objects << {
-              "id" => SecureRandom.uuid,
-              "attributes" => payload_data
-            }
-          end
-          objects.last
+          @objects[id]
+        end
+
+        def clear
+          @objects = {}
         end
 
         def find(id)
-          objects.find {|asset| asset["id"] == id }
+          @objects[id]
         end
 
         def remove(id)
-          objects.delete_if{|asset| asset["id"] == id }
+          @objects.delete(id)
         end
 
+        def objects
+          @objects.values
+        end
+
+        def objects=(new_objects)
+          @objects = new_objects.map do |new_object|
+            object_id = new_object['id']
+            [object_id, new_object]
+          end.to_h
+        end
       end
     end
   end

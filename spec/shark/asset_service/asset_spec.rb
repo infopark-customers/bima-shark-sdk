@@ -44,6 +44,12 @@ RSpec.describe Shark::AssetService::Asset do
       let!(:asset) { described_class.create(asset_attributes) }
       it { is_expected.to eq(true) }
     end
+
+    describe "#recreate_variations" do
+      subject { asset.recreate_variations }
+      let!(:asset) { described_class.create(asset_attributes) }
+      it { is_expected.to eq([]) }
+    end
   end
 
   describe "forbidden actions" do

@@ -24,32 +24,15 @@ module Shark
             object_data = ObjectCache.instance.find(id)
 
             if object_data.present?
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                body: {
-                  data: object_data
-                }.to_json,
-                status: 200
-              }
+              SharkSpec.fake_response(200, data: object_data)
             else
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                body: { errors: [] }.to_json,
-                status: 404
-              }
+              SharkSpec.fake_response(404, errors: [])
             end
           end
 
           WebMock.stub_request(:get, %r|^#{host}/assets|).to_return do |request|
             log_info "[Shark][AssetService] Faking GET request"
-
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 200,
-              body: {
-                data: ObjectCache.instance.objects
-              }.to_json
-            }
+            SharkSpec.fake_response(200, data: ObjectCache.instance.objects)
           end
 
           WebMock.stub_request(:delete, %r|^#{host}/assets/.+|).to_return do |request|
@@ -59,12 +42,7 @@ module Shark
 
             ObjectCache.instance.remove(id)
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              body: nil,
-              status: 204
-            }
-
+            SharkSpec.fake_response(204, nil)
           end
 
           WebMock.stub_request(:post, %r|^#{host}/assets|).to_return do |request|
@@ -73,13 +51,19 @@ module Shark
             payload = get_payload(request.body)
             object_data = ObjectCache.instance.add(payload)
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 200,
-              body: {
-                data: object_data
-              }.to_json
-            }
+            SharkSpec.fake_response(200, data: object_data)
+          end
+
+          WebMock.stub_request(:post, %r|^#{host}/assets/.+/recreate_variations|).to_return do |request|
+            log_info "[Shark][AssetService] Faking POST request"
+
+            id = request.uri.path.split("/")[2]
+
+            if ObjectCache.instance.find(id)
+              SharkSpec.fake_response(204, nil)
+            else
+              SharkSpec.fake_response(404, errors: [])
+            end
           end
         end
 

@@ -8,6 +8,10 @@ module Shark
           @objects = {}
         end
 
+        def host
+          Shark.configuration.asset_service.site
+        end
+
         def self.clear
           instance.clear
         end
@@ -17,7 +21,11 @@ module Shark
 
           @objects[id] = {
             'id' => id,
-            'attributes' => payload_data
+            'attributes' => payload_data,
+            'links' => {
+              'upload' => "#{host}/#{id}/upload",
+              'self' => "#{host}/#{id}"
+            }
           }
 
           @objects[id]

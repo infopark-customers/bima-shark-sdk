@@ -1,6 +1,6 @@
 module Shark
   module DoubleOptInService
-    class Request < Base
+    class Request < Base       
       ATTRIBUTES = %w(
         payload
         request_type
@@ -19,7 +19,14 @@ module Shark
       attr_accessor *ATTRIBUTES
 
       def self.create(attributes)
-        response = connection.run(:post, "/requests/", attributes)
+        body = {
+          data: {
+            type: "requests",
+            attributes: attributes
+          }
+        }
+
+        response = connection.run(:post, "/requests/", body)
         new(response.body["data"])
       end
 

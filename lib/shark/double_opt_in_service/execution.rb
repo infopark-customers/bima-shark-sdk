@@ -1,11 +1,7 @@
 module Shark
   module DoubleOptInService
-    class Execution
+    class Execution < Base
       attr_accessor :payload, :request_type
-
-      def self.site
-        ::Shark.configuration.double_opt_in_service.site
-      end
 
       def self.find(verification_token)
         response = connection.run(:get, "/executions/#{verification_token}")

@@ -1,29 +1,31 @@
 module Shark
   module DoubleOptInService
     class Request < Base
-      def self.find(id)
-        raise Shark::ActionNotSupportedError, "Shark::DoubleOptInService::Request.all is not supported"
+      ATTRIBUTES = %w(
+        payload
+        request_type
+        recipient
+        subject
+        header
+        sub_header
+        message
+        timeout
+        verification_url
+        verification_link_text
+        leeway_to_close_timeout
+        max_verifications
+      )
+
+      attr_accessor *ATTRIBUTES
+
+      def self.create(attributes)
+        response = connection.run(:post, "/requests/", attributes)
+        new(response.body["data"])
       end
 
-      def self.all
-        raise Shark::ActionNotSupportedError, "Shark::DoubleOptInService::Request.all is not supported"
-      end
-
-      # TODO add .where?
-
-      def update_attributes(attributes = {})
-        raise Shark::ActionNotSupportedError, "Shark::DoubleOptInService::Request#update_attributes is not supported"
-      end
-
-      def destroy
-        raise Shark::ActionNotSupportedError, "Shark::DoubleOptInService::Request#destroy is not supported"
-      end
-
-      def save
-        if self["id"].present?
-          raise Shark::ActionNotSupportedError, "Shark::DoubleOptInService::Request#save is not supported for persisted requests"
-        else
-          super
+      def initialize(data)
+        ATTRIBUTES.each do |key|
+          public_send("#{key}=", data["attributes"][key])
         end
       end
     end

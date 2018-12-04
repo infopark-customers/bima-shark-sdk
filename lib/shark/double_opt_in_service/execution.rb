@@ -1,29 +1,24 @@
 module Shark
   module DoubleOptInService
     class Execution
-      include Connected
-
       attr_accessor :payload, :request_type
 
       def self.site
         ::Shark.configuration.double_opt_in_service.site
       end
 
-      def self.verify(verification_token)
-        response = connection.run(
-          :post,
-          "/executions/#{verification_token}/verify"
-        )
+      def self.find(verification_token)
+        response = connection.run(:get, "/executions/#{verification_token}")
+        new(response.body["data"])
+      end
 
+      def self.verify(verification_token)
+        response = connection.run(:post, "/executions/#{verification_token}/verify")
         new(response.body["data"])
       end
 
       def self.close(verification_token)
-        response = connection.run(
-          :delete,
-          "/executions/#{verification_token}"
-        )
-
+        response = connection.run(:delete, "/executions/#{verification_token}")
         new(response.body["data"])
       end
 

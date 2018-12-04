@@ -1,6 +1,8 @@
 module Shark
   module DoubleOptInService
-    class Base < ::Shark::Base
+    class Base
+      include Connected
+      
       def self.site
         ::Shark.configuration.double_opt_in_service.site
       end

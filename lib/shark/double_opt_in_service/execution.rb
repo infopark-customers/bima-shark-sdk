@@ -13,7 +13,7 @@ module Shark
         new(response.body["data"])
       end
 
-      def self.close(verification_token)
+      def self.terminate(verification_token)
         response = connection.run(:delete, "/executions/#{verification_token}")
         new(response.body["data"])
       end

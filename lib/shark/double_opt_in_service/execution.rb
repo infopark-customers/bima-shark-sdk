@@ -39,7 +39,7 @@ module Shark
 
       private
 
-      def caused_by_error_code?(errors, error_code)
+      def self.caused_by_error_code?(errors, error_code)
         errors.detect { |error| error['code'] === error_code }
       end
     end

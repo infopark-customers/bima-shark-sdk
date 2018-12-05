@@ -17,12 +17,6 @@ module Shark
     end
 
     module ClassMethods
-      # @return [String] The doorkeeper url
-      # @api public
-      # def site
-      #   File.join(::Doorkeeper.config.site, "api")
-      # end
-
       # Return/build a connection object
       #
       # @return [Connection] The connection to the api server

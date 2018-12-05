@@ -1,6 +1,6 @@
 module Shark
   module DoubleOptInService
-    class Request < Base       
+    class Request < Base
       ATTRIBUTES = %w(
         payload
         request_type
@@ -9,10 +9,10 @@ module Shark
         header
         sub_header
         message
-        timeout
         verification_url
         verification_link_text
-        leeway_to_close_timeout
+        timeout
+        leeway_to_terminate
         max_verifications
       )
 

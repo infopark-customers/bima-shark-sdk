@@ -9,6 +9,8 @@ module Shark
       rescue UnprocessableEntity => e
         if caused_by_error_code?(e.errors, 'exceeded_number_of_verification_requests')
           raise ExceededNumberOfVerificationRequestsError
+        elsif caused_by_error_code?(e.errors, 'verification_expired')
+          raise VerificationExpiredError
         else
           raise e
         end

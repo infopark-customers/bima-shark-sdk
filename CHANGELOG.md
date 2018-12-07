@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.9.0
+- exted with AssetService and SubscriptionService
+
 #### 0.8.0
 - extend with ConsentService
 

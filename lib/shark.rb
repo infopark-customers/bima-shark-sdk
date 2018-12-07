@@ -12,11 +12,13 @@ require "shark/client/connection"
 require "shark/concerns/normalized_email"
 
 require "shark/base"
+require "shark/asset_service"
 require "shark/contact_service"
 require "shark/form_service"
 require "shark/survey_service"
 require "shark/notification_service"
 require "shark/consent_service"
+require "shark/subscription_service"
 
 module Shark
   extend SingleForwardable

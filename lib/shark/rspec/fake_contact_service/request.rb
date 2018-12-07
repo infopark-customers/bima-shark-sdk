@@ -21,12 +21,7 @@ module Shark
             parsed_data["id"] = id
 
             FakeContactService::ObjectCache.instance.add(parsed_data)
-
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 201,
-              body: { data: parsed_data }.to_json
-            }
+            SharkSpec.fake_response(201, data: parsed_data)
           end
 
           WebMock.stub_request(:get, %r|^#{host}/api/.*$|).to_return do |request|
@@ -46,11 +41,7 @@ module Shark
                         end
                       end
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              body: { data: objects }.to_json,
-              status: 200
-            }
+            SharkSpec.fake_response(200, data: objects)
           end
 
           WebMock.stub_request(:get, %r|^#{host}/api/.*/.+|).to_return do |request|
@@ -81,17 +72,9 @@ module Shark
                 body = { data: object, included: included_objects } #  if included_objects.present?
               end
 
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                body: body.to_json,
-                status: 200
-              }
+              SharkSpec.fake_response(200, body)
             else
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                body: { errors: [] }.to_json,
-                status: 404
-              }
+              SharkSpec.fake_response(404, errors: [])
             end
           end
 
@@ -117,17 +100,9 @@ module Shark
                 object["relationships"][key] = value
               end
 
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                status: 200,
-                body: { data: object }.to_json
-              }
+              SharkSpec.fake_response(200, data: object)
             else
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                status: 404,
-                body: { errors: [] }.to_json
-              }
+              SharkSpec.fake_response(404, errors: [])
             end
           end
 
@@ -144,17 +119,9 @@ module Shark
             if object.present?
               FakeContactService::ObjectCache.instance.objects.delete(object)
 
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                status: 204,
-                body: {}.to_json
-              }
+              SharkSpec.fake_response(204, nil)
             else
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                status: 404,
-                body: { errors: [] }.to_json
-              }
+              SharkSpec.fake_response(404, errors: [])
             end
           end
         end

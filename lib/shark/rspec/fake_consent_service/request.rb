@@ -19,14 +19,7 @@ module Shark
             id = payload_data["attributes"]["legal_subject_id"]
 
             object_data = ObjectCache.instance.add(payload_data)
-
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 200,
-              body: {
-                data: object_data
-              }.to_json
-            }
+            SharkSpec.fake_response(200, data: object_data)
           end
 
           WebMock.stub_request(:get, %r|^#{host}/consents/.+|).to_return do |request|
@@ -39,17 +32,9 @@ module Shark
             end
 
             if object_data.present?
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                body: { data: object_data }.to_json,
-                status: 200
-              }
+              SharkSpec.fake_response(200, data: object_data)
             else
-              {
-                headers: { content_type: "application/vnd.api+json" },
-                body: { errors: [] }.to_json,
-                status: 404
-              }
+              SharkSpec.fake_response(404, errors: [])
             end
           end
         end

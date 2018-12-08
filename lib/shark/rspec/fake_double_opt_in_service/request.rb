@@ -104,6 +104,29 @@ module Shark
               end
             end
           end
+
+          WebMock.stub_request(:delete, %r|^#{host}/executions/.+|).to_return do |request|
+            log_info "[Shark][DoubleOptInService] Faking DELETE request"
+
+            headers = { content_type: "application/vnd.api+json" }
+
+            verification_token = request.uri.path.split("/")[2]
+            object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
+
+            if verification_token_invalid?(object)
+              {
+                headers: headers,
+                status: 404,
+                body: { errors: [] }.to_json
+              }
+            else
+              {
+                headers: headers,
+                status: 200,
+                body: { data: object }.to_json
+              }
+            end
+          end
         end
 
         def verification_token_invalid?(object)

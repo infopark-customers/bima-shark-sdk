@@ -105,4 +105,10 @@ RSpec.describe Shark::DoubleOptInService::Execution do
       it { expect{ subject }.to raise_error(Shark::DoubleOptInService::RequestedUnverifiedExecutionError) }
     end
   end
+
+  describe ".terminate" do
+    subject { described_class.terminate(verification_token) }
+    include_examples "verification_token validation"
+    it { expect(subject).to be_a(described_class) }
+  end
 end

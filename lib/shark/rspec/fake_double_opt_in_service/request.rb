@@ -36,7 +36,7 @@ module Shark
             verification_token = request.uri.path.split("/")[2]
             object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
 
-            if object.blank?
+            if verification_token_invalid?(object)
               {
                 headers: headers,
                 status: 404,
@@ -44,20 +44,13 @@ module Shark
               }
             else
               attributes = object["attributes"]
-              is_execution_time_expired = Time.now.to_i > attributes["execution_expires_at"]
               is_verification_time_expired = Time.now.to_i > attributes["verification_expires_at"]
 
               is_number_of_verification_requests_exceeded =
                 attributes["max_verifications"] > 0 &&
                 attributes["max_verifications"] <= attributes["verifications_count"]
 
-              if is_execution_time_expired
-                {
-                  headers: headers,
-                  status: 404,
-                  body: { errors: [] }.to_json
-                }
-              elsif is_verification_time_expired
+              if is_verification_time_expired
                 {
                   headers: headers,
                   status: 422,
@@ -78,6 +71,53 @@ module Shark
               end
             end
           end
+
+          WebMock.stub_request(:get, %r|^#{host}/executions/.+|).to_return do |request|
+            log_info "[Shark][DoubleOptInService] Faking GET request"
+
+            headers = { content_type: "application/vnd.api+json" }
+
+            verification_token = request.uri.path.split("/")[2]
+            object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
+
+            if verification_token_invalid?(object)
+              {
+                headers: headers,
+                status: 404,
+                body: { errors: [] }.to_json
+              }
+            else
+              attributes = object["attributes"]
+
+              if attributes["verifications_count"] === 0
+                {
+                  headers: headers,
+                  status: 422,
+                  body: { errors: [{ "code": "requested_unverified_execution" }] }.to_json
+                }
+              else
+                {
+                  headers: headers,
+                  status: 200,
+                  body: { data: object }.to_json
+                }
+              end
+            end
+          end
+        end
+
+        def verification_token_invalid?(object)
+          return true  if object.blank?
+
+          attributes = object["attributes"]
+          is_execution_time_expired = Time.now.to_i > attributes["execution_expires_at"]
+          is_verification_time_expired = Time.now.to_i > attributes["verification_expires_at"]
+          has_verification_been_verified = attributes["verifications_count"] > 0
+
+          return true  if is_execution_time_expired
+          return true  if is_verification_time_expired && !has_verification_been_verified
+
+          false
         end
 
         def host

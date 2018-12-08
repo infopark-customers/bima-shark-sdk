@@ -14,6 +14,7 @@ require "shark/concerns/normalized_email"
 require "shark/concerns/connected"
 
 require "shark/base"
+require "shark/asset_service"
 require "shark/contact_service"
 require "shark/form_service"
 require "shark/survey_service"

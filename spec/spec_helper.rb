@@ -11,6 +11,7 @@ RSpec.configure do |config|
   end
 
   Shark.configure do |config|
+    config.asset_service.site = "https://asset-service.example.com"
     config.contact_service.site = "https://contact-service.example.com"
     config.form_service.site = "https://form-service.example.com"
     config.survey_service.site = "https://milacrm.example.com"
@@ -21,6 +22,7 @@ RSpec.configure do |config|
   end
 
   config.before do
+    SharkSpec.stub_asset_service
     SharkSpec.stub_contact_service
     SharkSpec.stub_consent_service
     SharkSpec.stub_subscription_service

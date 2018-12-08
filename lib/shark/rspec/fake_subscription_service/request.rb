@@ -21,13 +21,7 @@ module Shark
 
             object_data = ObjectCache.instance.add(payload_data)
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 201,
-              body: {
-                data: object_data
-              }.to_json
-            }
+            SharkSpec.fake_response(201, data: object_data)
           end
 
           WebMock.stub_request(:post, %r|^#{host}/subscriptions/bulk_creation|).to_return do |request|
@@ -37,13 +31,7 @@ module Shark
 
             objects_data = ObjectCache.instance.add_multiple(payload_data)
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 201,
-              body: {
-                data: objects_data
-              }.to_json
-            }
+            SharkSpec.fake_response(201, data: objects_data)
           end
 
           WebMock.stub_request(:post, %r|^#{host}/subscriptions/bulk_deletion|).to_return do |request|
@@ -53,11 +41,7 @@ module Shark
 
             objects_data = ObjectCache.instance.remove_multiple(payload_data)
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 204,
-              body: {}.to_json
-            }
+            SharkSpec.fake_response(204, nil)
           end
 
           WebMock.stub_request(:delete, %r|^#{host}/subscriptions/.+|).to_return do |request|
@@ -67,11 +51,7 @@ module Shark
 
             ObjectCache.instance.remove(id)
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 204,
-              body: {}.to_json
-            }
+            SharkSpec.fake_response(204, nil)
           end
 
           WebMock.stub_request(:get, %r|^#{host}/subscriptions|).to_return do |request|
@@ -95,11 +75,7 @@ module Shark
               ObjectCache.instance.objects
             end
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              body: { data: objects_data }.to_json,
-              status: 200
-            }
+            SharkSpec.fake_response(200, data: objects_data)
           end
         end
 

@@ -16,10 +16,13 @@ module Shark
         def add_execution(attributes)
           verification_token = SecureRandom.hex
 
-          object = attributes.dup
-          object[:verification_token] = verification_token
+          object = {
+            "id" => verification_token,
+            "attributes" => attributes,
+            "type" => "executions"
+          }
 
-          objects.push
+          objects.push(object)
           object
         end
 

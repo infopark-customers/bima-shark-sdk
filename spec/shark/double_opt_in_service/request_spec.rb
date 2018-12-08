@@ -18,9 +18,5 @@ RSpec.describe Shark::DoubleOptInService::Request do
   describe ".create" do
     subject { described_class.create(request_attributes) }
     it { expect(subject).to be_a(described_class) }
-
-    it do
-      p Shark::RSpec::FakeDoubleOptInService::ObjectCache.instance.add_execution({ foo: "bar" })
-    end
   end
 end

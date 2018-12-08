@@ -16,7 +16,6 @@ module Shark
             log_info "[Shark][DoubleOptInService] Faking POST request with body: #{request.body}"
 
             payload_data = JSON.parse(request.body)["data"]
-            id = payload_data["attributes"]["legal_subject_id"]
 
             object_data = ObjectCache.instance.add(payload_data)
 
@@ -29,29 +28,56 @@ module Shark
             }
           end
 
-          # WebMock.stub_request(:get, %r|^#{host}/consents/.+|).to_return do |request|
-          #   log_info "[Shark][ConsentService] Faking GET request"
-          #
-          #   id = request.uri.path.split("/")[2]
-          #
-          #   object_data = ObjectCache.instance.objects.detect do |object|
-          #     object["id"] == id
-          #   end
-          #
-          #   if object_data.present?
-          #     {
-          #       headers: { content_type: "application/vnd.api+json" },
-          #       body: { data: object_data }.to_json,
-          #       status: 200
-          #     }
-          #   else
-          #     {
-          #       headers: { content_type: "application/vnd.api+json" },
-          #       body: { errors: [] }.to_json,
-          #       status: 404
-          #     }
-          #   end
-          # end
+          WebMock.stub_request(:post, %r|^#{host}/executions/.+/verify|).to_return do |request|
+            log_info "[Shark][DoubleOptInService] Faking POST request"
+
+            headers = { content_type: "application/vnd.api+json" }
+
+            verification_token = request.uri.path.split("/")[2]
+            object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
+
+            if object.blank?
+              {
+                headers: headers,
+                status: 404,
+                body: { errors: [] }.to_json
+              }
+            else
+              attributes = object["attributes"]
+              is_execution_time_expired = Time.now.to_i > attributes["execution_expires_at"]
+              is_verification_time_expired = Time.now.to_i > attributes["verification_expires_at"]
+
+              is_number_of_verification_requests_exceeded =
+                attributes["max_verifications"] > 0 &&
+                attributes["max_verifications"] <= attributes["verifications_count"]
+
+              if is_execution_time_expired
+                {
+                  headers: headers,
+                  status: 404,
+                  body: { errors: [] }.to_json
+                }
+              elsif is_verification_time_expired
+                {
+                  headers: headers,
+                  status: 422,
+                  body: { errors: [{ "code": "verification_expired" }] }.to_json
+                }
+              elsif is_number_of_verification_requests_exceeded
+                {
+                  headers: headers,
+                  status: 422,
+                  body: { errors: [{ "code": "exceeded_number_of_verification_requests" }] }.to_json
+                }
+              else
+                {
+                  headers: headers,
+                  status: 200,
+                  body: { data: object }.to_json
+                }
+              end
+            end
+          end
         end
 
         def host

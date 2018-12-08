@@ -15,15 +15,20 @@ module Shark
           WebMock.stub_request(:post, %r|^#{host}/requests|).to_return do |request|
             log_info "[Shark][DoubleOptInService] Faking POST request with body: #{request.body}"
 
-            payload_data = JSON.parse(request.body)["data"]
+            data = JSON.parse(request.body)["data"]
+            attributes = data["attributes"] || {}
 
-            object_data = ObjectCache.instance.add(payload_data)
+            ObjectCache.instance.create_request(attributes)
 
             {
               headers: { content_type: "application/vnd.api+json" },
               status: 200,
               body: {
-                data: object_data
+                data: {
+                  id: SecureRandom.hex,
+                  attributes: attributes,
+                  type: "requests"
+                }
               }.to_json
             }
           end
@@ -33,7 +38,7 @@ module Shark
 
             headers = { content_type: "application/vnd.api+json" }
 
-            verification_token = request.uri.path.split("/")[2]
+            verification_token = request.uri.path.split("/").reverse[1]
             object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
 
             if verification_token_invalid?(object)
@@ -77,7 +82,7 @@ module Shark
 
             headers = { content_type: "application/vnd.api+json" }
 
-            verification_token = request.uri.path.split("/")[2]
+            verification_token = request.uri.path.split("/").reverse[0]
             object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
 
             if verification_token_invalid?(object)
@@ -110,7 +115,7 @@ module Shark
 
             headers = { content_type: "application/vnd.api+json" }
 
-            verification_token = request.uri.path.split("/")[2]
+            verification_token = request.uri.path.split("/").reverse[0]
             object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
 
             if verification_token_invalid?(object)
@@ -120,6 +125,8 @@ module Shark
                 body: { errors: [] }.to_json
               }
             else
+              ObjectCache.instance.objects.delete(object)
+
               {
                 headers: headers,
                 status: 200,

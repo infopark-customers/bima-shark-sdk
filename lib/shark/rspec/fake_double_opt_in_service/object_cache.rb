@@ -26,26 +26,23 @@ module Shark
           object
         end
 
-        def add(payload_data)
-          # id = payload_data["attributes"]["legal_subject_id"]
-          # existing_object = objects.detect { |o| o["id"] == id }
-          #
-          # items = (existing_object.present? && existing_object["attributes"]["items"]) || {}
-          #
-          # (payload_data["attributes"]["items"] || {}).each do |name, attrs|
-          #   items[name] = attrs.merge({ "updated_at" => Time.now })
-          # end
-          #
-          # objects.delete_if { |o| o["id"] == id }
+        def create_request(attributes)
+          timeout = attributes["timeout"] || 3600
+          leeway_to_terminate = attributes["leeway_to_terminate"] || 3600
 
-          object = {
-            "id" => SecureRandom.hex,
-            "attributes" => payload_data["attributes"],
-            "type" => "requests"
-          }
+          verification_expires_at = Time.now.to_i + timeout.to_i
+          execution_expires_at = verification_expires_at + leeway_to_terminate.to_i
 
-          objects.push(object)
-          object
+          add_execution({
+            "payload" => attributes["payload"],
+            "request_type" => attributes["request_type"],
+            "max_verifications" => attributes["max_verifications"] || 0,
+            "verifications_count" => 0,
+            "verification_expires_at" => verification_expires_at,
+            "execution_expires_at" => execution_expires_at
+          })
+
+          attributes
         end
       end
     end

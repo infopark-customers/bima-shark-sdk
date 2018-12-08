@@ -1,33 +1,5 @@
 require "spec_helper"
 
-RSpec.shared_examples "verification_token validation" do
-  context "when token does not exist" do
-    let(:verification_token) { "token-not-found" }
-    it { expect{ subject }.to raise_error(Shark::ResourceNotFound) }
-  end
-
-  context "when token exists" do
-    context "when execution time is expired" do
-      let(:verification_expires_at) { Time.now.to_i - 2 * 3600 }
-      let(:execution_expires_at) { Time.now.to_i - 3600 }
-      it { expect{ subject }.to raise_error(Shark::ResourceNotFound) }
-    end
-
-    context "when execution time is not expired" do
-      let(:execution_expires_at) { Time.now.to_i + 3600 }
-
-      context "when verification time is expired" do
-        let(:verification_expires_at) { Time.now.to_i - 3600 }
-
-        context "when token has never been verified" do
-          let(:verifications_count) { 0 }
-          it { expect{ subject }.to raise_error(Shark::ResourceNotFound) }
-        end
-      end
-    end
-  end
-end
-
 RSpec.describe Shark::DoubleOptInService::Execution do
   let(:payload) { "Foo Bar Baz" }
   let(:request_type) { "registration" }
@@ -51,6 +23,34 @@ RSpec.describe Shark::DoubleOptInService::Execution do
     })
 
     execution["id"]
+  end
+
+  shared_examples "verification_token validation" do
+    context "when token does not exist" do
+      let(:verification_token) { "token-not-found" }
+      it { expect{ subject }.to raise_error(Shark::ResourceNotFound) }
+    end
+
+    context "when token exists" do
+      context "when execution time is expired" do
+        let(:verification_expires_at) { Time.now.to_i - 2 * 3600 }
+        let(:execution_expires_at) { Time.now.to_i - 3600 }
+        it { expect{ subject }.to raise_error(Shark::ResourceNotFound) }
+      end
+
+      context "when execution time is not expired" do
+        let(:execution_expires_at) { Time.now.to_i + 3600 }
+
+        context "when verification time is expired" do
+          let(:verification_expires_at) { Time.now.to_i - 3600 }
+
+          context "when token has never been verified" do
+            let(:verifications_count) { 0 }
+            it { expect{ subject }.to raise_error(Shark::ResourceNotFound) }
+          end
+        end
+      end
+    end
   end
 
   describe ".verify" do

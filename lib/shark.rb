@@ -9,7 +9,9 @@ require "shark/error"
 require "shark/middleware/compose_request"
 require "shark/middleware/status"
 require "shark/client/connection"
+
 require "shark/concerns/normalized_email"
+require "shark/concerns/connected"
 
 require "shark/base"
 require "shark/asset_service"
@@ -19,6 +21,7 @@ require "shark/survey_service"
 require "shark/notification_service"
 require "shark/consent_service"
 require "shark/subscription_service"
+require "shark/double_opt_in_service"
 
 module Shark
   extend SingleForwardable

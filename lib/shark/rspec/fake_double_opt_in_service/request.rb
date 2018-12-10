@@ -20,17 +20,13 @@ module Shark
 
             ObjectCache.instance.create_request(attributes)
 
-            {
-              headers: { content_type: "application/vnd.api+json" },
-              status: 200,
-              body: {
-                data: {
-                  id: SecureRandom.hex,
-                  attributes: attributes,
-                  type: "requests"
-                }
-              }.to_json
-            }
+            fake_response(200, {
+              data: {
+                id: SecureRandom.uuid,
+                attributes: attributes,
+                type: "requests"
+              }
+            })
           end
 
           WebMock.stub_request(:post, %r|^#{host}/executions/.+/verify|).to_return do |request|
@@ -39,40 +35,21 @@ module Shark
             headers = { content_type: "application/vnd.api+json" }
 
             verification_token = request.uri.path.split("/").reverse[1]
-            object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
+            object = ObjectCache.instance.find_execution(verification_token)
 
             if verification_token_invalid?(object)
-              {
-                headers: headers,
-                status: 404,
-                body: { errors: [] }.to_json
-              }
+              fake_response(404, { errors: [] })
             else
               attributes = object["attributes"]
               is_verification_time_expired = Time.now.to_i > attributes["verification_expires_at"]
-
-              is_number_of_verification_requests_exceeded =
-                attributes["max_verifications"] > 0 &&
-                attributes["max_verifications"] <= attributes["verifications_count"]
+              is_number_of_verification_requests_exceeded = attributes["max_verifications"] <= attributes["verifications_count"]
 
               if is_verification_time_expired
-                {
-                  headers: headers,
-                  status: 422,
-                  body: { errors: [{ "code": "verification_expired" }] }.to_json
-                }
+                fake_response(422, { errors: [{ "code": "verification_expired" }] })
               elsif is_number_of_verification_requests_exceeded
-                {
-                  headers: headers,
-                  status: 422,
-                  body: { errors: [{ "code": "exceeded_number_of_verification_requests" }] }.to_json
-                }
+                fake_response(422, { errors: [{ "code": "exceeded_number_of_verification_requests" }] })
               else
-                {
-                  headers: headers,
-                  status: 200,
-                  body: { data: object }.to_json
-                }
+                fake_response(200, { data: object })
               end
             end
           end
@@ -83,29 +60,17 @@ module Shark
             headers = { content_type: "application/vnd.api+json" }
 
             verification_token = request.uri.path.split("/").reverse[0]
-            object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
+            object = ObjectCache.instance.find_execution(verification_token)
 
             if verification_token_invalid?(object)
-              {
-                headers: headers,
-                status: 404,
-                body: { errors: [] }.to_json
-              }
+              fake_response(404, { errors: [] })
             else
               attributes = object["attributes"]
 
               if attributes["verifications_count"] === 0
-                {
-                  headers: headers,
-                  status: 422,
-                  body: { errors: [{ "code": "requested_unverified_execution" }] }.to_json
-                }
+                fake_response(422, { errors: [{ "code": "requested_unverified_execution" }] })
               else
-                {
-                  headers: headers,
-                  status: 200,
-                  body: { data: object }.to_json
-                }
+                fake_response(200, { data: object })
               end
             end
           end
@@ -116,22 +81,13 @@ module Shark
             headers = { content_type: "application/vnd.api+json" }
 
             verification_token = request.uri.path.split("/").reverse[0]
-            object = ObjectCache.instance.objects.detect { |o| o["id"] === verification_token }
+            object = ObjectCache.instance.find_execution(verification_token)
 
             if verification_token_invalid?(object)
-              {
-                headers: headers,
-                status: 404,
-                body: { errors: [] }.to_json
-              }
+              fake_response(404, { errors: [] })
             else
-              ObjectCache.instance.objects.delete(object)
-
-              {
-                headers: headers,
-                status: 200,
-                body: { data: object }.to_json
-              }
+              ObjectCache.instance.remove_execution(verification_token)
+              fake_response(200, { data: object })
             end
           end
         end
@@ -148,6 +104,16 @@ module Shark
           return true  if is_verification_time_expired && !has_verification_been_verified
 
           false
+        end
+
+        def fake_response(status, body)
+          {
+            headers: {
+              content_type: "application/vnd.api+json"
+            },
+            status: status,
+            body: body.is_a?(String) ? body : body.to_json
+          }
         end
 
         def host

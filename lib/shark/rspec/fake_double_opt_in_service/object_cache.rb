@@ -6,24 +6,31 @@ module Shark
         attr_accessor :objects
 
         def initialize
-          @objects = []
+          @objects = {}
         end
 
         def self.clear
-          instance.objects = []
+          instance.objects = {}
         end
 
         def add_execution(attributes)
-          verification_token = SecureRandom.hex
+          verification_token = SecureRandom.uuid
 
-          object = {
+          objects[verification_token] = {
             "id" => verification_token,
             "attributes" => attributes,
             "type" => "executions"
           }
 
-          objects.push(object)
-          object
+          objects[verification_token]
+        end
+
+        def find_execution(verification_token)
+          objects[verification_token]
+        end
+
+        def remove_execution(verification_token)
+          objects.delete(verification_token)
         end
 
         def create_request(attributes)
@@ -36,7 +43,7 @@ module Shark
           add_execution({
             "payload" => attributes["payload"],
             "request_type" => attributes["request_type"],
-            "max_verifications" => attributes["max_verifications"] || 0,
+            "max_verifications" => attributes["max_verifications"] || 10,
             "verifications_count" => 0,
             "verification_expires_at" => verification_expires_at,
             "execution_expires_at" => execution_expires_at

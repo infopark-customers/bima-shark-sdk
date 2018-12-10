@@ -59,24 +59,16 @@ RSpec.describe Shark::DoubleOptInService::Execution do
     include_examples "verification_token validation"
 
     context "with unexpired verification time" do
-      context "when number of maximum verification requests is set to unlimited" do
-        let(:max_verifications) { 0 }
-        let(:verifications_count) { 3 }
+      let(:max_verifications) { 1 }
+
+      context "when number of limited verification requests is not exceeded" do
+        let(:verifications_count) { 0 }
         it { expect(subject).to be_a(described_class) }
       end
 
-      context "when number of maximum verification requests is set" do
-        let(:max_verifications) { 1 }
-
-        context "when number of limited verification requests is not exceeded" do
-          let(:verifications_count) { 0 }
-          it { expect(subject).to be_a(described_class) }
-        end
-
-        context "when number of verification requests is exceeded" do
-          let(:verifications_count) { 1 }
-          it { expect{ subject }.to raise_error(Shark::DoubleOptInService::ExceededNumberOfVerificationRequestsError) }
-        end
+      context "when number of verification requests is exceeded" do
+        let(:verifications_count) { 1 }
+        it { expect{ subject }.to raise_error(Shark::DoubleOptInService::ExceededNumberOfVerificationRequestsError) }
       end
     end
 

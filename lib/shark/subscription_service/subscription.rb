@@ -14,7 +14,7 @@ module Shark
 
       def save
         if self["id"].present?
-          raise Shark::ActionNotSupportedError, "Shark::ConsentService::Consent#save is not supported for persisted consents"
+          raise Shark::ActionNotSupportedError, "Shark::SubscriptionService::Consent#save is not supported for persisted subscriptions"
         else
           super
         end

@@ -18,6 +18,7 @@ RSpec.configure do |config|
     config.notification_service.site = "https://notification-service.example.com"
     config.consent_service.site = "https://consent-service.example.com"
     config.subscription_service.site = "https://subscription-service.example.com"
+    config.double_opt_in_service.site = "https://double-opt-in-service.example.com"
   end
 
   config.before do
@@ -25,5 +26,6 @@ RSpec.configure do |config|
     SharkSpec.stub_contact_service
     SharkSpec.stub_consent_service
     SharkSpec.stub_subscription_service
+    SharkSpec.stub_double_opt_in_service
   end
 end

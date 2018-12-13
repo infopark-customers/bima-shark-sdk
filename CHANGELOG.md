@@ -1,7 +1,10 @@
 ## Changelog
 
+#### 0.10.0
+- extend with Double Opt In Service
+
 #### 0.9.0
-- exted with AssetService and SubscriptionService
+- extend with AssetService and SubscriptionService
 
 #### 0.8.0
 - extend with ConsentService

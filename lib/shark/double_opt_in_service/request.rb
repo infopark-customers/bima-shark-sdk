@@ -11,6 +11,7 @@ module Shark
         message
         verification_url
         verification_link_text
+        message_footer_html
         timeout
         leeway_to_terminate
         max_verifications

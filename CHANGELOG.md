@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.10.1
+- Double Opt In Service: added `message_footer_html` attribute to Request
+
 #### 0.10.0
 - extend with Double Opt In Service
 

@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.10.2
+- fix: `ContactService::Group#has_contact?` raised exception without `includes(:contact)`
+
 #### 0.10.1
 - Double Opt In Service: added `message_footer_html` attribute to Request
 

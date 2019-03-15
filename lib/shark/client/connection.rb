@@ -26,7 +26,7 @@ module Shark
       # @param headers [Hash] The request headers
       # @return [Faraday::Response]
       # @api public
-      def run(action, path, params = {}, headers = {})
+      def run(action, path, params: {}, headers: {}, body: nil)
         raise ArgumentError, "Configuration :site cannot be nil"  if site.blank?
         raise ArgumentError, "Parameter :path cannot be nil"      if path.blank?
 
@@ -37,11 +37,8 @@ module Shark
         @connection.send(action) do |request|
           request.url(url)
           request.headers.merge!(headers)
-          if request_with_body?(action)
-            request.body = params
-          else
-            request.params.merge!(params)
-          end
+          request.body = body
+          request.params.merge!(params)
         end
       end
 
@@ -58,13 +55,8 @@ module Shark
         headers
       end
 
-      def request_params(req_params = {})
-        params = connection_options[:params] || {}
-        params.merge(req_params)
-      end
-
-      def request_with_body?(action)
-        HTTP_METHODS_WITH_BODY.include?(action.to_sym)
+      def request_params(params = {})
+        (connection_options[:params] || {}).merge(params || {})
       end
     end
   end

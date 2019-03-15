@@ -15,7 +15,7 @@ module Shark
 
         def stub_requests
           WebMock.stub_request(:post, %r|^#{host}/subscriptions|).to_return do |request|
-            log_info "[Shark][SubscriptionService] Faking POST request with body: #{request.body}"
+            log_info "Faking POST request with body: #{request.body}"
 
             payload_data = JSON.parse(request.body)["data"]["attributes"]
 
@@ -25,7 +25,7 @@ module Shark
           end
 
           WebMock.stub_request(:post, %r|^#{host}/subscriptions/bulk_creation|).to_return do |request|
-            log_info "[Shark][SubscriptionService] Faking POST request with body: #{request.body}"
+            log_info "Faking POST request with body: #{request.body}"
 
             payload_data = JSON.parse(request.body)["data"]["attributes"]["subscriptions"]
 
@@ -35,7 +35,7 @@ module Shark
           end
 
           WebMock.stub_request(:post, %r|^#{host}/subscriptions/bulk_deletion|).to_return do |request|
-            log_info "[Shark][SubscriptionService] Faking POST request with body: #{request.body}"
+            log_info "Faking POST request with body: #{request.body}"
 
             payload_data = JSON.parse(request.body)["data"]["attributes"]["subscriptions"]
 
@@ -55,7 +55,7 @@ module Shark
           end
 
           WebMock.stub_request(:get, %r|^#{host}/subscriptions|).to_return do |request|
-            log_info "[Shark][SubscriptionService] Faking GET request"
+            log_info "Faking GET request"
 
             query_parameters = request.uri.query_values
 
@@ -84,7 +84,7 @@ module Shark
         end
 
         def log_info(message)
-          Shark.logger.info message
+          Shark.logger.info "[Shark::SubscriptionService] #{message}"
         end
       end
     end

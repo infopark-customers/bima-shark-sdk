@@ -27,7 +27,7 @@ module Shark
           }
         }
 
-        response = connection.run(:post, "/requests/", body: body)
+        response = connection.request(:post, "/requests/", body: body)
         new(response.body["data"])
       end
 

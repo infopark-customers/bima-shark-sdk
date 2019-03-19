@@ -28,7 +28,7 @@ module Shark
       #   - body [Hash]
       # @return [Faraday::Response]
       # @api private
-      def __run(request_action, path, params: {}, headers: {}, body: nil)
+      def request(request_action, path, params: {}, headers: {}, body: nil)
         raise ArgumentError, "Configuration :site cannot be nil" if site.blank?
         raise ArgumentError, "Parameter :path cannot be nil" if path.blank?
 
@@ -60,18 +60,14 @@ module Shark
         # @api public
         def run(request_action, path, params = {}, headers = {})
           if %i[post patch put].include?(request_action.to_sym)
-            body = params
+            request(request_action, path, headers: headers, body: params)
           else
-            request_params = params
+            request(request_action, path, headers: headers, params: params)
           end
-          __run(request_action, path,
-                params: request_params,
-                headers: headers,
-                body: body)
         end
       else
-        # @see __run
-        alias_method :run, :__run
+        # @see request
+        alias_method :run, :request
       end
 
 

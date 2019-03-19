@@ -68,7 +68,7 @@ module Shark
                   object["relationships"][relation_name]["data"].map{|c| c["id"].to_s}.include?(related_obj["id"].to_s)
                 end
 
-                object["relationships"] ||= { "#{relation_name}": { data: [] } }  if included_objects.empty?
+                object["relationships"] ||= { relation_name => { data: [] } }  if included_objects.empty?
                 body = { data: object, included: included_objects } #  if included_objects.present?
               end
 

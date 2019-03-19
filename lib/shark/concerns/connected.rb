@@ -11,7 +11,7 @@ module Shark
         headers: {
           "Content-Type" => "application/vnd.api+json",
           "Accept" => "application/vnd.api+json",
-          "X-Forwarded-Proto": "https"
+          "X-Forwarded-Proto" => "https"
         }
       }
     end

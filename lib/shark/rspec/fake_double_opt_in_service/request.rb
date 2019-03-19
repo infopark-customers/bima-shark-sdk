@@ -13,7 +13,7 @@ module Shark
 
         def stub_requests
           WebMock.stub_request(:post, %r|^#{host}/requests|).to_return do |request|
-            log_info "[Shark][DoubleOptInService] Faking POST request with body: #{request.body}"
+            log_info "Faking POST request with body: #{request.body}"
 
             data = JSON.parse(request.body)["data"]
             attributes = data["attributes"] || {}
@@ -30,7 +30,7 @@ module Shark
           end
 
           WebMock.stub_request(:post, %r|^#{host}/executions/.+/verify|).to_return do |request|
-            log_info "[Shark][DoubleOptInService] Faking POST request"
+            log_info "Faking POST request"
 
             headers = { content_type: "application/vnd.api+json" }
 
@@ -45,9 +45,9 @@ module Shark
               is_number_of_verification_requests_exceeded = attributes["max_verifications"] <= attributes["verifications_count"]
 
               if is_verification_time_expired
-                fake_response(422, { errors: [{ "code": "verification_expired" }] })
+                fake_response(422, { errors: [{ code: "verification_expired" }] })
               elsif is_number_of_verification_requests_exceeded
-                fake_response(422, { errors: [{ "code": "exceeded_number_of_verification_requests" }] })
+                fake_response(422, { errors: [{ code: "exceeded_number_of_verification_requests" }] })
               else
                 fake_response(200, { data: object })
               end
@@ -55,7 +55,7 @@ module Shark
           end
 
           WebMock.stub_request(:get, %r|^#{host}/executions/.+|).to_return do |request|
-            log_info "[Shark][DoubleOptInService] Faking GET request"
+            log_info "Faking GET request"
 
             headers = { content_type: "application/vnd.api+json" }
 
@@ -68,7 +68,7 @@ module Shark
               attributes = object["attributes"]
 
               if attributes["verifications_count"] === 0
-                fake_response(422, { errors: [{ "code": "requested_unverified_execution" }] })
+                fake_response(422, { errors: [{ code: "requested_unverified_execution" }] })
               else
                 fake_response(200, { data: object })
               end
@@ -76,7 +76,7 @@ module Shark
           end
 
           WebMock.stub_request(:delete, %r|^#{host}/executions/.+|).to_return do |request|
-            log_info "[Shark][DoubleOptInService] Faking DELETE request"
+            log_info "Faking DELETE request"
 
             headers = { content_type: "application/vnd.api+json" }
 
@@ -121,7 +121,7 @@ module Shark
         end
 
         def log_info(message)
-          Shark.logger.info message
+          Shark.logger.info "[Shark][DoubleOptInService] #{message}"
         end
       end
     end

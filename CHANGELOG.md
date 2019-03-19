@@ -1,7 +1,11 @@
 ## Changelog
 
+#### 0.10.3
+- [fix] add backwards compatibility to Ruby 2.1
+- added Travis CI
+
 #### 0.10.2
-- fix: `ContactService::Group#has_contact?` raised exception without `includes(:contact)`
+- [fix] `ContactService::Group#has_contact?` raised exception without `includes(:contact)`
 
 #### 0.10.1
 - Double Opt In Service: added `message_footer_html` attribute to Request
@@ -19,17 +23,17 @@
 - extend with NotificationService
 
 #### 0.7.4
-- fix: `Shark::ContactService::Group#has_contact?`
+- [fix] `Shark::ContactService::Group#has_contact?`
 
 #### 0.7.3
-- fix: doorkeeper spec issue
+- [fix] doorkeeper spec issue
 - use Rails logger when used in Rails apps
 
 #### 0.7.2
-- fix: milacrm spec issue
+- [fix] milacrm spec issue
 
 #### 0.7.1
-- fix: undefined method `responds_to?` in Configuration
+- [fix] undefined method `responds_to?` in Configuration
 
 #### 0.7.0
 - survey rating star support

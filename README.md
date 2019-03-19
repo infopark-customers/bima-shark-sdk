@@ -1,5 +1,6 @@
-# `bima-shark-sdk`
+# bima-shark-sdk
 
+[![Build Status](https://travis-ci.com/infopark-customers/bima-shark-sdk.svg?token=E8GNUMCMv7q5uwHSaqs7&branch=develop)](https://travis-ci.com/infopark-customers/bima-shark-sdk)
 
 ## Installation
 

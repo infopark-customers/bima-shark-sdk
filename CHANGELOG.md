@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.11.0
+- extend with MailingService
+
 #### 0.10.3
 - [fix] add backwards compatibility to Ruby 2.1
 - added Travis CI

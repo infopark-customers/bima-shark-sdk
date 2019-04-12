@@ -22,6 +22,7 @@ require "shark/notification_service"
 require "shark/consent_service"
 require "shark/subscription_service"
 require "shark/double_opt_in_service"
+require "shark/mailing_service"
 
 module Shark
   extend SingleForwardable

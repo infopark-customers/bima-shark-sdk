@@ -3,7 +3,7 @@
 module Shark
   module MailingService
     class Configuration
-      attr_accessor :default_layout, :default_template_root
+      attr_accessor :context_helpers, :default_layout, :default_template_root
     end
   end
 end

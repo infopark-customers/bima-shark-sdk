@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.12.0
+- add `MailingService.use_shark_mailer`
+
 ### 0.11.0
 - extend with MailingService
 

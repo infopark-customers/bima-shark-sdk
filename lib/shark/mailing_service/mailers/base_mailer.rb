@@ -76,7 +76,9 @@ module Shark
             header: attribute_with_default(attributes, :header),
             sub_header: attribute_with_default(attributes, :sub_header),
             html_body: body(:html, locals),
-            text_body: body(:text, locals)
+            text_body: body(:text, locals),
+            unsubscribe_url: attributes[:unsubscribe_url],
+            attachments: attributes[:attachments] || []
           )
         end
 

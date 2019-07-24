@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.13.0
+- make all `Mail` attributes known to `BaseMailer`
+
 ### 0.12.0
 - add `MailingService.use_shark_mailer`
 

@@ -1,6 +1,6 @@
 ## Changelog
 
-### Unreleased
+### 0.13.0
 - make all `Mail` attributes known to `BaseMailer`
 
 ### 0.12.0

@@ -78,7 +78,7 @@ module Shark
             html_body: body(:html, locals),
             text_body: body(:text, locals),
             unsubscribe_url: attributes[:unsubscribe_url],
-            attachments: attributes[:attachments] || []
+            attachments: attributes[:attachments] || {}
           )
         end
 

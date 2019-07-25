@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.13.1
+- [fix] `attachments` attribute for `Mail` objects needs to be a hash 
+
 ### 0.13.0
 - make all `Mail` attributes known to `BaseMailer`
 

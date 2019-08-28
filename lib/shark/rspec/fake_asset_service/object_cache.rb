@@ -23,7 +23,9 @@ module Shark
             'id' => id,
             'attributes' => payload_data,
             'links' => {
+              'download' => "#{host}/#{id}/download",
               'upload' => "#{host}/#{id}/upload",
+              'show' => "#{host}/#{id}",
               'self' => "#{host}/#{id}"
             }
           }

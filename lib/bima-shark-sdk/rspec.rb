@@ -1,8 +1,8 @@
-require File.expand_path('../../shark/rspec/helpers', __FILE__)
+# frozen_string_literal: true
 
-RSpec.configure do |config|
+require 'active_support/all'
 
-end
+require File.expand_path('../shark/rspec/helpers', __dir__)
 
 class SharkSpec
   extend Shark::RSpec::Helpers
@@ -19,14 +19,10 @@ class SharkSpec
     end
 
     protected
-    def fake_service(method)
-      service = method.to_s.gsub(/(un)?stub_/, '')
-      service = camelize(service)
-      Module.const_get("Shark::RSpec::Fake#{service}")
-    end
 
-    def camelize(string, delimiter = '_')
-      string.split(delimiter).map(&:capitalize).join
+    def fake_service(method)
+      service = method.to_s.gsub(/(un)?stub_/, '').camelize
+      Module.const_get("Shark::RSpec::Fake#{service}")
     end
   end
 end

@@ -15,11 +15,11 @@ module Shark
           WebMock.stub_request(:post, %r|^#{host}/mails|).to_return do |request|
             log_info "[Shark][MailingService] Faking POST request with body: #{request.body}"
 
-            id = SecureRandom.hex
+            id = SecureRandom.uuid
             payload_data = JSON.parse(request.body)['data']
 
             SharkSpec.fake_response(201, data: {
-              type: 'notifications',
+              type: 'mails',
               id: id,
               attributes: payload_data
             })
@@ -31,7 +31,7 @@ module Shark
         end
 
         def log_info(message)
-           message
+          message
         end
       end
     end

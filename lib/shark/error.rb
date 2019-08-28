@@ -16,6 +16,10 @@ module Shark
     def url
       env[:url]
     end
+
+    def message
+      body.to_s
+    end
   end
 
   class ConnectionError < ApiError
@@ -24,18 +28,13 @@ module Shark
     end
   end
 
-  #
-  # Client errors
-  #
   class ClientError < ApiError; end
+
   class AccessDenied < ClientError; end
+
   class NotAuthorized < ClientError; end
 
-  class ResourceConflict < ClientError
-    def message
-      "Resource already exists"
-    end
-  end
+  class ResourceConflict < ClientError; end
 
   class ResourceNotFound < ClientError
     def message
@@ -53,14 +52,7 @@ module Shark
     end
   end
 
-  #
-  # Server errors
-  #
-  class ServerError < ApiError
-    def message
-      "Internal server error"
-    end
-  end
+  class ServerError < ApiError; end
 
   class UnexpectedStatus < ServerError
     def message

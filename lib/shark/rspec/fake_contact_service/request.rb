@@ -15,7 +15,7 @@ module Shark
           WebMock.stub_request(:post, %r|^#{host}/api/.*|).to_return do |request|
             log_info "[Shark][ContactService] Faking POST request with body: #{request.body}"
 
-            id = SecureRandom.hex
+            id = SecureRandom.uuid
             type = request.uri.path.split("/")[2]
             parsed_data = JSON.parse(request.body)["data"]
             parsed_data["id"] = id

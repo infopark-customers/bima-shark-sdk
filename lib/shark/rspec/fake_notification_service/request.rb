@@ -24,7 +24,7 @@ module Shark
           WebMock.stub_request(:post, %r|^#{host}/notifications|).to_return do |request|
             log_info "[Shark][NotificationService] Faking POST request with body: #{request.body}"
 
-            id = SecureRandom.hex
+            id = SecureRandom.uuid
             payload_data = JSON.parse(request.body)["data"]
 
             SharkSpec.fake_response(201, data: {

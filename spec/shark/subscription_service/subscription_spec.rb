@@ -50,7 +50,6 @@ RSpec.describe Shark::SubscriptionService::Subscription do
         described_class.create_multiple(subscriptions_attributes)
         expect(described_class.where(subscriber_id: 'sl123djslfjd132slj23fsdd', name: 'test-subscription').count).to eq(1)
       end
-
     end
 
     describe ".create" do

@@ -1,7 +1,11 @@
 ## Changelog
 
+### 0.13.2
+- add `SharkSpec.stub_mailing_service`
+- cleanup SharkSpec helpers with some meta programming
+
 ### 0.13.1
-- [fix] `attachments` attribute for `Mail` objects needs to be a hash 
+- [fix] `attachments` attribute for `Mail` objects needs to be a hash
 
 ### 0.13.0
 - make all `Mail` attributes known to `BaseMailer`

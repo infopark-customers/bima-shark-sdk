@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 module Shark
   class Base < JsonApiClient::Resource
     self.json_key_format = :underscored_key
 
     self.connection_class = Shark::Client::Connection
+
     self.connection_options = {
       headers: {
-        "Content-Type" => "application/vnd.api+json",
-        "Accept" => "application/vnd.api+json"
+        'Content-Type' => 'application/vnd.api+json',
+        'Accept' => 'application/vnd.api+json',
+        'X-Forwarded-Proto' => 'https'
       }
     }
 

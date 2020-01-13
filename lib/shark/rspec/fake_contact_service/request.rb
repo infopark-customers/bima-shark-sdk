@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "webmock/rspec"
 
 module Shark
@@ -136,7 +138,10 @@ module Shark
 
         def query_params_to_object(request_uri)
           uri = URI::parse(request_uri)
-          Rack::Utils.parse_nested_query(uri.query)
+          return {} if uri.query.blank?
+
+          query = uri.query.gsub(/%5B[0-9]%5D/, '%5B%5D')
+          Rack::Utils.parse_nested_query(query)
         end
       end
     end

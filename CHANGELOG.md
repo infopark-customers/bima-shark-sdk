@@ -1,19 +1,22 @@
 ## Changelog
 
-### 0.13.2
+#### 0.13.3
+- add `X-Forwarded-Proto: https` as default header
+
+#### 0.13.2
 - add `SharkSpec.stub_mailing_service`
 - cleanup SharkSpec helpers with some meta programming
 
-### 0.13.1
+#### 0.13.1
 - [fix] `attachments` attribute for `Mail` objects needs to be a hash
 
-### 0.13.0
+#### 0.13.0
 - make all `Mail` attributes known to `BaseMailer`
 
-### 0.12.0
+#### 0.12.0
 - add `MailingService.use_shark_mailer`
 
-### 0.11.0
+#### 0.11.0
 - extend with MailingService
 
 #### 0.10.3

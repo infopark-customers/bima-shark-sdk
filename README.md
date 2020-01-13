@@ -30,6 +30,18 @@ Include **bima-shark-sdk** in your Gemfile and put the gem in the vendor/cache d
   end
 ```
 
+If you want to send emails in your application also add:
+
+```ruby
+Shark::MailingService.use_shark_mailer do |mailer|
+  mailer.context_helpers = [
+    ActiveSupport::NumberHelper
+  ]
+  mailer.default_layout = 'system_2019'
+  mailer.default_template_root = File.expand_path('../../app/views', __dir__)
+end
+```
+
 ## Documentation
 
 Please look for the documentation in the [wiki](https://github.com/infopark-customers/bima-shark-sdk/wiki/Home).

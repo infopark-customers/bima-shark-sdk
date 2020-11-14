@@ -15,11 +15,27 @@ module Shark
           Shark.configuration.asset_service.site
         end
 
+        def extract_id_from_request_uri(uri)
+          uri.path.match(%r{/assets/([^/]+)[/?]?})[1]
+        end
+
+        def uri_patterns
+          base_uri = "#{host}/assets"
+          id = '[^/]+'
+          optional_query = '(\?.*)?'
+
+          {
+            resources: %r{\A#{base_uri}#{optional_query}\z},
+            resource: %r{\A#{base_uri}/#{id}#{optional_query}\z},
+            recreate_variations: %r{\A#{base_uri}/#{id}/recreate_variations#{optional_query}\z}
+          }
+        end
+
         def stub_requests
-          WebMock.stub_request(:get, %r|^#{host}/assets/.+|).to_return do |request|
+          WebMock.stub_request(:get, uri_patterns[:resource]).to_return do |request|
             log_info "[Shark][AssetService] Faking GET request"
 
-            id = request.uri.path.split("/")[2]
+            id = extract_id_from_request_uri(request.uri)
 
             object_data = ObjectCache.instance.find(id)
 
@@ -30,22 +46,22 @@ module Shark
             end
           end
 
-          WebMock.stub_request(:get, %r|^#{host}/assets|).to_return do |request|
+          WebMock.stub_request(:get, uri_patterns[:resources]).to_return do |request|
             log_info "[Shark][AssetService] Faking GET request"
             SharkSpec.fake_response(200, data: ObjectCache.instance.objects)
           end
 
-          WebMock.stub_request(:delete, %r|^#{host}/assets/.+|).to_return do |request|
+          WebMock.stub_request(:delete, uri_patterns[:resource]).to_return do |request|
             log_info "[Shark][AssetService] Faking DELETE request"
 
-            id = request.uri.path.split("/")[2]
+            id = extract_id_from_request_uri(request.uri)
 
             ObjectCache.instance.remove(id)
 
             SharkSpec.fake_response(204, nil)
           end
 
-          WebMock.stub_request(:post, %r|^#{host}/assets|).to_return do |request|
+          WebMock.stub_request(:post, uri_patterns[:resources]).to_return do |request|
             log_info "[Shark][AssetService] Faking POST request with body: #{request.body}"
 
             payload = get_payload(request.body)
@@ -54,10 +70,10 @@ module Shark
             SharkSpec.fake_response(200, data: object_data)
           end
 
-          WebMock.stub_request(:post, %r|^#{host}/assets/.+/recreate_variations|).to_return do |request|
+          WebMock.stub_request(:post, uri_patterns[:recreate_variations]).to_return do |request|
             log_info "[Shark][AssetService] Faking POST request"
 
-            id = request.uri.path.split("/")[2]
+            id = extract_id_from_request_uri(request.uri)
 
             if ObjectCache.instance.find(id)
               SharkSpec.fake_response(204, nil)

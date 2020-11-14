@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.13.4
+- [fix] `links` attribute in fake asset service response contains wrong URIs.
+
 #### 0.13.3
 - add `X-Forwarded-Proto: https` as default header
 

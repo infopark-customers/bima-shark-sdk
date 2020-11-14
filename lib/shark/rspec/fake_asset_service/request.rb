@@ -27,6 +27,7 @@ module Shark
           {
             resources: %r{\A#{base_uri}#{optional_query}\z},
             resource: %r{\A#{base_uri}/#{id}#{optional_query}\z},
+            download: %r{\A#{base_uri}/#{id}/download#{optional_query}\z},
             recreate_variations: %r{\A#{base_uri}/#{id}/recreate_variations#{optional_query}\z}
           }
         end
@@ -41,6 +42,20 @@ module Shark
 
             if object_data.present?
               SharkSpec.fake_response(200, data: object_data)
+            else
+              SharkSpec.fake_response(404, errors: [])
+            end
+          end
+
+          WebMock.stub_request(:get, uri_patterns[:download]).to_return do |request|
+            log_info "[Shark][AssetService] Faking GET request"
+
+            id = extract_id_from_request_uri(request.uri)
+
+            object_data = ObjectCache.instance.find("#{id}/download")
+
+            if object_data.present?
+              SharkSpec.fake_response(200, object_data)
             else
               SharkSpec.fake_response(404, errors: [])
             end

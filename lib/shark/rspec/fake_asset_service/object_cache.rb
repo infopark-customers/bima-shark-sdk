@@ -32,6 +32,10 @@ module Shark
           }
         end
 
+        def add_raw(id, raw_data)
+          @objects[id] = raw_data
+        end
+
         def clear
           @objects = {}
         end

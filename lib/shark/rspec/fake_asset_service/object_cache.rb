@@ -6,6 +6,7 @@ module Shark
 
         def initialize
           @objects = {}
+          @blobs = {}
         end
 
         def host
@@ -32,8 +33,8 @@ module Shark
           }
         end
 
-        def add_raw(id, raw_data)
-          @objects[id] = raw_data
+        def add_blob(id, blob)
+          @blobs[id] = blob
         end
 
         def clear
@@ -44,8 +45,16 @@ module Shark
           @objects[id]
         end
 
+        def find_blob(id)
+          @blobs[id]
+        end
+
         def remove(id)
           @objects.delete(id)
+        end
+
+        def remove_blob(id)
+          @blobs.delete(id)
         end
 
         def objects

@@ -54,12 +54,12 @@ module Shark
 
             id = extract_id_from_request_uri(request.uri)
 
-            object_data = ObjectCache.instance.find("#{id}/download")
+            blob = ObjectCache.instance.find_blob(id)
 
-            if object_data.present?
-              SharkSpec.fake_response(200, object_data)
+            if blob.present?
+              SharkSpec.fake_response(200, blob)
             else
-              SharkSpec.fake_response(404, errors: [])
+              SharkSpec.fake_response(404, nil)
             end
           end
 

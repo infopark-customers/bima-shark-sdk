@@ -15,25 +15,6 @@ module Shark
           Shark.configuration.asset_service.site
         end
 
-        def extract_id_from_request_uri(uri)
-          path = uri.path
-          base_path = path['/assets/public/'] ? '/assets/public' : '/assets'
-          path.match(%r{#{base_path}/([^/]+)[/?]?})[1]
-        end
-
-        def uri_patterns
-          base_uri = "#{host}/assets"
-          id = '[^/]+'
-          optional_query = '(\?.*)?'
-
-          {
-            resources: %r{\A#{base_uri}#{optional_query}\z},
-            resource: %r{\A#{base_uri}/#{id}#{optional_query}\z},
-            download: %r{\A#{base_uri}/public/#{id}#{optional_query}\z},
-            recreate_variations: %r{\A#{base_uri}/#{id}/recreate_variations#{optional_query}\z}
-          }
-        end
-
         def stub_requests
           WebMock.stub_request(:get, uri_patterns[:resource]).to_return do |request|
             log_info "[Shark][AssetService] Faking GET request"
@@ -52,7 +33,8 @@ module Shark
           WebMock.stub_request(:get, uri_patterns[:download]).to_return do |request|
             log_info "[Shark][AssetService] Faking GET request"
 
-            id = extract_id_from_request_uri(request.uri)
+            public_id = extract_id_from_request_uri(request.uri)
+            id = PublicId.decode_public_id(public_id)
 
             blob = ObjectCache.instance.find_blob(id)
 
@@ -105,6 +87,25 @@ module Shark
         end
 
         private
+
+        def extract_id_from_request_uri(uri)
+          path = uri.path
+          base_path = path['/assets/public/'] ? '/assets/public' : '/assets'
+          path.match(%r{#{base_path}/([^/]+)[/?]?})[1]
+        end
+
+        def uri_patterns
+          base_uri = "#{host}/assets"
+          id = '[^/]+'
+          optional_query = '(\?.*)?'
+
+          {
+            resources: %r{\A#{base_uri}#{optional_query}\z},
+            resource: %r{\A#{base_uri}/#{id}#{optional_query}\z},
+            download: %r{\A#{base_uri}/public/#{id}#{optional_query}\z},
+            recreate_variations: %r{\A#{base_uri}/#{id}/recreate_variations#{optional_query}\z}
+          }
+        end
 
         def get_payload(body)
           payload = JSON.parse(body)["data"]

@@ -1,3 +1,4 @@
+require_relative "fake_asset_service/public_id"
 require_relative "fake_asset_service/object_cache"
 require_relative "fake_asset_service/request"
 

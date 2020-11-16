@@ -20,12 +20,13 @@ module Shark
         def add(payload_data)
           id = payload_data.delete('id') || SecureRandom.uuid
           base_uri = "#{host}/assets"
+          public_id = PublicId.encode_id(id)
 
           @objects[id] = {
             'id' => id,
             'attributes' => payload_data,
             'links' => {
-              'download' => "#{base_uri}/public/#{id}",
+              'download' => "#{base_uri}/public/#{public_id}",
               'upload' => "#{base_uri}/upload",
               'show' => "#{base_uri}/#{id}",
               'self' => "#{base_uri}/#{id}"

@@ -16,7 +16,9 @@ module Shark
         end
 
         def extract_id_from_request_uri(uri)
-          uri.path.match(%r{/assets/([^/]+)[/?]?})[1]
+          path = uri.path
+          base_path = path['/assets/public/'] ? '/assets/public' : '/assets'
+          path.match(%r{#{base_path}/([^/]+)[/?]?})[1]
         end
 
         def uri_patterns
@@ -27,7 +29,7 @@ module Shark
           {
             resources: %r{\A#{base_uri}#{optional_query}\z},
             resource: %r{\A#{base_uri}/#{id}#{optional_query}\z},
-            download: %r{\A#{base_uri}/#{id}/download#{optional_query}\z},
+            download: %r{\A#{base_uri}/public/#{id}#{optional_query}\z},
             recreate_variations: %r{\A#{base_uri}/#{id}/recreate_variations#{optional_query}\z}
           }
         end

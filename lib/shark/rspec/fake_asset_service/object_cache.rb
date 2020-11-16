@@ -6,6 +6,7 @@ module Shark
 
         def initialize
           @objects = {}
+          @blobs = {}
         end
 
         def host
@@ -18,19 +19,23 @@ module Shark
 
         def add(payload_data)
           id = payload_data.delete('id') || SecureRandom.uuid
+          base_uri = "#{host}/assets"
+          public_id = PublicId.encode_id(id)
 
           @objects[id] = {
             'id' => id,
             'attributes' => payload_data,
             'links' => {
-              'download' => "#{host}/#{id}/download",
-              'upload' => "#{host}/#{id}/upload",
-              'show' => "#{host}/#{id}",
-              'self' => "#{host}/#{id}"
+              'download' => "#{base_uri}/public/#{public_id}",
+              'upload' => "#{base_uri}/upload",
+              'show' => "#{base_uri}/#{id}",
+              'self' => "#{base_uri}/#{id}"
             }
           }
+        end
 
-          @objects[id]
+        def add_blob(id, blob)
+          @blobs[id] = blob
         end
 
         def clear
@@ -41,8 +46,16 @@ module Shark
           @objects[id]
         end
 
+        def find_blob(id)
+          @blobs[id]
+        end
+
         def remove(id)
           @objects.delete(id)
+        end
+
+        def remove_blob(id)
+          @blobs.delete(id)
         end
 
         def objects

@@ -1,5 +1,10 @@
 ## Changelog
 
+#### 0.13.4
+- Add `download` link handling to the `FakeAssetService`.
+- [fix] Determining the resource id in `FakeAssetService` fails when the endpoint base path is not `/`.
+- [fix] `links` attribute in fake asset service response contains wrong URIs.
+
 #### 0.13.3
 - add `X-Forwarded-Proto: https` as default header
 

@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rack'
   spec.add_dependency 'faraday'
   spec.add_dependency 'net-http-persistent'
-  spec.add_dependency 'json_api_client', '~> 1.5', '< 1.10.0'
+  spec.add_dependency 'json_api_client', '>= 1.10.0'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake', '~> 12.0'

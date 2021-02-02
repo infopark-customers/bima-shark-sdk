@@ -107,7 +107,7 @@ module Shark
           WebMock.stub_request(:put, %r|^#{host}/.+/upload|).to_return do |request|
             log_info '[Shark][AssetService] Faking PUT upload request'
 
-            id = request.uri.path.split("/")[2]
+            id = extract_id_from_request_uri(request.uri)
             object_data = ObjectCache.instance.find(id)
 
             if object_data.present?

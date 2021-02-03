@@ -18,9 +18,8 @@ module Shark
             log_info "[Shark][ConsentService] Faking POST request with body: #{request.body}"
 
             payload_data = JSON.parse(request.body)['data']
-            id = payload_data['attributes']['legal_subject_id']
-
             object_data = ObjectCache.instance.add(payload_data)
+
             SharkSpec.fake_response(200, data: object_data)
           end
 

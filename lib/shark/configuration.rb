@@ -5,13 +5,13 @@ module Shark
     #
     # Helper class for service configuration
     #
-    ServiceConfiguration = Struct.new(:service_base) do
+    ServiceConfiguration = Struct.new(:base) do
       def headers
-        service_base.connection_options[:headers]
+        base.connection_options[:headers]
       end
 
       def headers=(value)
-        service_base.connection_options[:headers] = service_base.connection_options[:headers].merge(value)
+        base.connection_options[:headers] = base.connection_options[:headers].merge(value)
       end
 
       attr_reader :site

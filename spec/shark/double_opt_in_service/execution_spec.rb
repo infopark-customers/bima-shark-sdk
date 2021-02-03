@@ -15,14 +15,15 @@ RSpec.describe Shark::DoubleOptInService::Execution do
   let(:execution_expires_at) { verification_expires_at + 3600 }
 
   let!(:verification_token) do
-    execution = Shark::RSpec::FakeDoubleOptInService::ObjectCache.instance.add_execution({
-                                                                                           'payload' => payload,
-                                                                                           'request_type' => request_type,
-                                                                                           'max_verifications' => max_verifications,
-                                                                                           'verifications_count' => verifications_count,
-                                                                                           'verification_expires_at' => verification_expires_at,
-                                                                                           'execution_expires_at' => execution_expires_at
-                                                                                         })
+    cache = Shark::RSpec::FakeDoubleOptInService::ObjectCache.instance
+    execution = cache.add_execution({
+                                      'payload' => payload,
+                                      'request_type' => request_type,
+                                      'max_verifications' => max_verifications,
+                                      'verifications_count' => verifications_count,
+                                      'verification_expires_at' => verification_expires_at,
+                                      'execution_expires_at' => execution_expires_at
+                                    })
 
     execution['id']
   end
@@ -70,7 +71,9 @@ RSpec.describe Shark::DoubleOptInService::Execution do
 
       context 'when number of verification requests is exceeded' do
         let(:verifications_count) { 1 }
-        it { expect { subject }.to raise_error(Shark::DoubleOptInService::ExceededNumberOfVerificationRequestsError) }
+        let(:error) { Shark::DoubleOptInService::ExceededNumberOfVerificationRequestsError }
+
+        it { expect { subject }.to raise_error(error) }
       end
     end
 
@@ -79,7 +82,9 @@ RSpec.describe Shark::DoubleOptInService::Execution do
 
       context 'when execution has been verified before' do
         let(:verifications_count) { 1 }
-        it { expect { subject }.to raise_error(Shark::DoubleOptInService::VerificationExpiredError) }
+        let(:error) { Shark::DoubleOptInService::VerificationExpiredError }
+
+        it { expect { subject }.to raise_error(error) }
       end
     end
   end
@@ -96,7 +101,8 @@ RSpec.describe Shark::DoubleOptInService::Execution do
 
     context 'when token has not been verified' do
       let(:verifications_count) { 0 }
-      it { expect { subject }.to raise_error(Shark::DoubleOptInService::RequestedUnverifiedExecutionError) }
+      let(:expected) { Shark::DoubleOptInService::RequestedUnverifiedExecutionError }
+      it { expect { subject }.to raise_error(expected) }
     end
   end
 

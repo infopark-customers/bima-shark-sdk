@@ -26,7 +26,13 @@ RSpec.describe Shark::ContactService::Activity do
   describe '.find_all_by_contact_id' do
     subject { described_class.find_all_by_contact_id(contact_id) }
 
-    let!(:contact_attributes) { { first_name: 'John', last_name: 'Doe', email: 'john.doe@example.org' } }
+    let(:contact_attributes) do
+      {
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'john.doe@example.org'
+      }
+    end
     let!(:contact) { described_class.create(contact_attributes) }
 
     context 'with correct email address' do

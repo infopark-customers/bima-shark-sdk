@@ -5,11 +5,14 @@ module Shark
     class Group < Base
       has_many :contacts
 
-      def has_contact?(contact_id)
-        return false if relationships['contacts'].blank? || relationships['contacts']['data'].blank?
+      def contact?(contact_id)
+        contacts = relationships['contacts']
+        return false if contacts.blank? || contacts['data'].blank?
 
-        relationships['contacts']['data'].any? { |c| c['type'] == 'contacts' && c['id'].to_s == contact_id.to_s }
+        contacts['data'].any? { |c| c['type'] == 'contacts' && c['id'].to_s == contact_id.to_s }
       end
+
+      alias has_contact? contact?
     end
   end
 end

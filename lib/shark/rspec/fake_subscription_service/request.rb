@@ -26,7 +26,10 @@ module Shark
             SharkSpec.fake_response(201, data: object_data)
           end
 
-          WebMock.stub_request(:post, %r{^#{host}/subscriptions/bulk_creation}).to_return do |request|
+          WebMock.stub_request(
+            :post,
+            %r{^#{host}/subscriptions/bulk_creation}
+          ).to_return do |request|
             log_info "Faking POST request with body: #{request.body}"
 
             payload_data = JSON.parse(request.body)['data']['attributes']['subscriptions']
@@ -36,18 +39,20 @@ module Shark
             SharkSpec.fake_response(201, data: objects_data)
           end
 
-          WebMock.stub_request(:post, %r{^#{host}/subscriptions/bulk_deletion}).to_return do |request|
+          WebMock.stub_request(
+            :post,
+            %r{^#{host}/subscriptions/bulk_deletion}
+          ).to_return do |request|
             log_info "Faking POST request with body: #{request.body}"
 
             payload_data = JSON.parse(request.body)['data']['attributes']['subscriptions']
-
-            objects_data = ObjectCache.instance.remove_multiple(payload_data)
+            ObjectCache.instance.remove_multiple(payload_data)
 
             SharkSpec.fake_response(204, nil)
           end
 
           WebMock.stub_request(:delete, %r{^#{host}/subscriptions/.+}).to_return do |request|
-            log_info "[Shark][SubscriptionService] Faking DELETE request with body: #{request.body}"
+            log_info "Faking DELETE request with body: #{request.body}"
 
             id = request.uri.path.split('/')[2]
 
@@ -69,13 +74,14 @@ module Shark
                              end
 
                              ObjectCache.instance.objects.select do |subscription|
-                               params.map do |param, value|
+                               conditions = params.map do |param, value|
                                  subscription[:attributes][param] == value
-                               end.inject { |acc, condition_value| acc && condition_value }
+                               end
+                               conditions.all?
                              end
                            else
                              ObjectCache.instance.objects
-            end
+                           end
 
             SharkSpec.fake_response(200, data: objects_data)
           end

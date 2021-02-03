@@ -1,9 +1,9 @@
 AllCops:
   TargetRubyVersion: 2.3
   Exclude:
-    - '**/*.js'
     - 'config/routes.rb'
     - 'db/schema.rb'
+    - 'lib/bima-shark-sdk.rb'
 
 Layout/LineLength:
   Max: 100

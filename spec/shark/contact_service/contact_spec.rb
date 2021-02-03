@@ -3,7 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe Shark::ContactService::Contact do
-  let(:contact_attributes) { { first_name: 'John', last_name: 'Doe', email: 'john.doe@example.org' } }
+  let(:contact_attributes) do
+    {
+      first_name: 'John',
+      last_name: 'Doe',
+      email: 'john.doe@example.org'
+    }
+  end
 
   describe '.find' do
     subject { described_class.find(id) }

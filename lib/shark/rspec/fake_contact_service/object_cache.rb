@@ -5,6 +5,8 @@ module Shark
     module FakeContactService
       class ObjectCache
         include Singleton
+        include Helpers::CacheHelper
+
         attr_accessor :objects
 
         def initialize
@@ -17,7 +19,8 @@ module Shark
 
         def add(object)
           unless object['attributes'].keys.include?('avatar_url')
-            object['attributes']['avatar_url'] = "https://contactservice/path/to/avatar/#{object['id']}.png"
+            avatar_url = "https://contactservice/path/to/avatar/#{object['id']}.png"
+            object['attributes']['avatar_url'] = avatar_url
           end
 
           objects.push(object)
@@ -33,7 +36,8 @@ module Shark
             filtered_objects = objects.select do |object|
               return false unless object['type'] == type
 
-              (object['attributes']['contact_ids'] || []).map(&:to_s).include?(filter.values.first)
+              ids = (object['attributes']['contact_ids'] || []).map(&:to_s)
+              ids.include?(filter.values.first)
             end
           end
           filtered_objects

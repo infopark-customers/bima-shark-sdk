@@ -16,7 +16,7 @@ RSpec.describe Shark::ContactService::Group do
 
     context 'when group ID exists' do
       context 'and has no contacts' do
-        let!(:group) { group = described_class.create(title: 'Existing group') }
+        let!(:group) { described_class.create(title: 'Existing group') }
         let(:id) { group.id }
 
         it { is_expected.to be_a(Array) }
@@ -123,7 +123,7 @@ RSpec.describe Shark::ContactService::Group do
 
     context 'when group has no contacts' do
       context 'and no creator' do
-        let!(:group) { group = described_class.create(title: 'Existing group') }
+        let!(:group) { described_class.create(title: 'Existing group') }
         let(:contact_id) { contacts.first.id }
         it { is_expected.to eq(false) }
       end

@@ -19,7 +19,7 @@ module Shark
         max_verifications
       ].freeze
 
-      attr_accessor *ATTRIBUTES
+      attr_accessor(*ATTRIBUTES)
 
       def self.create(attributes)
         body = {

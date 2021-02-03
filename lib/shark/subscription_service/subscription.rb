@@ -16,17 +16,17 @@ module Shark
 
       def save
         if self['id'].present?
-          raise Shark::ActionNotSupportedError, 'Shark::SubscriptionService::Consent#save is not supported for persisted subscriptions'
+          raise Shark::ActionNotSupportedError,
+                'Shark::Subscription#save is not supported for persisted subscriptions'
         else
           super
         end
       end
 
       def update_attributes(_attributes = {})
-        raise Shark::ActionNotSupportedError, 'Shark::SubscriptionService::Subscription#update_attributes is not supported'
+        raise Shark::ActionNotSupportedError,
+              'Shark::Subscription#update_attributes is not supported'
       end
-
-      private
 
       def self.subscriptions_attributes(attributes)
         {

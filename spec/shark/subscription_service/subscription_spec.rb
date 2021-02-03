@@ -38,19 +38,31 @@ RSpec.describe Shark::SubscriptionService::Subscription do
     end
 
     describe '.where' do
-      it do
+      before do
         described_class.create_multiple(subscriptions_attributes)
-        expect(described_class.where(name: 'notifications').count).to eq(1)
       end
 
-      it do
-        described_class.create_multiple(subscriptions_attributes)
-        expect(described_class.where(subscriber_id: 'sl123djslfjd132slj23fsdd').count).to eq(2)
+      describe 'by name' do
+        subject { described_class.where(name: 'notifications') }
+
+        it { expect(subject.count).to eq(1) }
       end
 
-      it do
-        described_class.create_multiple(subscriptions_attributes)
-        expect(described_class.where(subscriber_id: 'sl123djslfjd132slj23fsdd', name: 'test-subscription').count).to eq(1)
+      describe 'by subscriber_id' do
+        subject { described_class.where(subscriber_id: 'sl123djslfjd132slj23fsdd') }
+
+        it { expect(subject.count).to eq(2) }
+      end
+
+      describe 'by name and subscriber_id' do
+        subject do
+          described_class.where(
+            subscriber_id: 'sl123djslfjd132slj23fsdd',
+            name: 'test-subscription'
+          )
+        end
+
+        it { expect(subject.count).to eq(1) }
       end
     end
 

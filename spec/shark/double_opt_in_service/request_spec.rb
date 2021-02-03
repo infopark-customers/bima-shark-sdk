@@ -7,7 +7,7 @@ RSpec.describe Shark::DoubleOptInService::Request do
     {
       request_type: 'registration',
       recipient: 'john.doe@example.org',
-      message: 'Thank you for your registration! Please verify your e-mail address to complete your registration.',
+      message: 'Thank you for your registration! Please verify your e-mail.',
       verification_url: 'https://client.example.org/verification?foo=bar#baz',
       verification_link_text: 'Click me to verify!',
       message_footer_html: "<blink>I'm not blinking</blink>",

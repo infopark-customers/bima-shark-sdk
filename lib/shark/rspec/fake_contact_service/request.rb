@@ -14,15 +14,16 @@ module Shark
         end
 
         def stub_requests
+          cache = FakeContactService::ObjectCache.instance
+
           WebMock.stub_request(:post, %r{^#{host}/api/.*}).to_return do |request|
             log_info "[Shark][ContactService] Faking POST request with body: #{request.body}"
 
             id = SecureRandom.uuid
-            type = request.uri.path.split('/')[2]
             parsed_data = JSON.parse(request.body)['data']
             parsed_data['id'] = id
 
-            FakeContactService::ObjectCache.instance.add(parsed_data)
+            cache.add(parsed_data)
             SharkSpec.fake_response(201, data: parsed_data)
           end
 
@@ -31,14 +32,13 @@ module Shark
 
             type = request.uri.path.split('/')[2]
             params = query_params_to_object(request.uri)
-            objects = []
 
             objects = if %w[contacts accounts].include?(type) && params['filter'].present?
-                        FakeContactService::ObjectCache.instance.search_objects(type, params)
+                        cache.search_objects(type, params)
                       elsif %w[activities].include?(type) && params['filter'].present?
-                        FakeContactService::ObjectCache.instance.objects_contain(type, params)
+                        cache.objects_contain(type, params)
                       else
-                        FakeContactService::ObjectCache.instance.objects.select do |object|
+                        cache.objects.select do |object|
                           object['type'] == type
                         end
                       end
@@ -53,27 +53,22 @@ module Shark
             id = request.uri.path.split('/')[3]
             query = request.uri.query_values
 
-            object = FakeContactService::ObjectCache.instance.objects.detect do |object|
-              object['id'].to_s == id && object['type'] == type
-            end
+            object = cache.find(type, id)
 
             if object.present?
               body = { data: object }
 
               if query && query['include']
                 relation_name = query['include']
-
-                included_objects = FakeContactService::ObjectCache.instance.objects.select do |related_obj|
-                  related_obj['type'] == relation_name &&
-                    object['relationships'] &&
-                    object['relationships'][relation_name] &&
-                    object['relationships'][relation_name]['data'].map { |c| c['id'].to_s }.include?(related_obj['id'].to_s)
-                end
+                included_objects = cache.included_resources(object, query)
 
                 if included_objects.empty?
                   object['relationships'] ||= { relation_name => { data: [] } }
                 end
-                body = { data: object, included: included_objects } #  if included_objects.present?
+                body = {
+                  data: object,
+                  included: included_objects
+                }
               end
 
               SharkSpec.fake_response(200, body)
@@ -89,9 +84,7 @@ module Shark
             id = request.uri.path.split('/')[3]
             parsed_data = JSON.parse(request.body)['data']
 
-            object = FakeContactService::ObjectCache.instance.objects.detect do |object|
-              object['id'].to_s == id && object['type'] == type
-            end
+            object = cache.find(type, id)
 
             if object.present?
               (parsed_data['attributes'] || {}).each do |key, value|
@@ -116,12 +109,10 @@ module Shark
             type = request.uri.path.split('/')[2]
             id = request.uri.path.split('/')[3]
 
-            object = FakeContactService::ObjectCache.instance.objects.detect do |object|
-              object['id'].to_s == id && object['type'] == type
-            end
+            object = cache.find(type, id)
 
             if object.present?
-              FakeContactService::ObjectCache.instance.objects.delete(object)
+              cache.objects.delete(object)
 
               SharkSpec.fake_response(204, nil)
             else

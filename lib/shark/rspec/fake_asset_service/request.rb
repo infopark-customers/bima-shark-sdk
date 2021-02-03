@@ -80,6 +80,42 @@ module Shark
               SharkSpec.fake_response(404, errors: [])
             end
           end
+
+          WebMock.stub_request(:post, %r|^#{host}/packages|).to_return do |request|
+            log_info "[Shark][AssetService] Faking POST request with body: #{request.body}"
+
+            payload = get_payload(request.body)
+
+            package_data = {
+              attributes: {
+                filename: payload['filename'],
+                directory: payload['directory']
+              }
+            }
+
+            object_data = ObjectCache.instance.add(package_data)
+
+            SharkSpec.fake_response(200, data: object_data)
+          end
+
+          WebMock.stub_request(:get, %r|^#{host}/.+/download|).to_return do |request|
+            log_info '[Shark][AssetService] Faking GET download request'
+
+            SharkSpec.fake_response(200, body: 'Lorem ipsum')
+          end
+
+          WebMock.stub_request(:put, %r|^#{host}/.+/upload|).to_return do |request|
+            log_info '[Shark][AssetService] Faking PUT upload request'
+
+            id = extract_id_from_request_uri(request.uri)
+            object_data = ObjectCache.instance.find(id)
+
+            if object_data.present?
+              object_data['attributes']['uploaded-at'] = 1
+            end
+
+            SharkSpec.fake_response(200, body: '<response>true</response>')
+          end
         end
 
         def log_info(message)

@@ -27,7 +27,7 @@ module Shark
             'attributes' => payload_data,
             'links' => {
               'download' => "#{base_uri}/public/#{public_id}",
-              'upload' => "#{base_uri}/upload",
+              'upload' => "#{base_uri}/#{id}/upload",
               'show' => "#{base_uri}/#{id}",
               'self' => "#{base_uri}/#{id}"
             }

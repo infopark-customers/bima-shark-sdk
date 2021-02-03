@@ -4,6 +4,8 @@ AllCops:
     - 'config/routes.rb'
     - 'db/schema.rb'
     - 'lib/bima-shark-sdk.rb'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
 
 Layout/LineLength:
   Max: 100

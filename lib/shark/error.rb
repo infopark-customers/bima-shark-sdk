@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   class Error < StandardError; end
 
@@ -44,7 +46,7 @@ module Shark
 
   class UnprocessableEntity < ClientError
     def errors
-      body["errors"] || {}
+      body['errors'] || {}
     end
 
     def message

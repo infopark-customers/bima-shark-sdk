@@ -1,5 +1,7 @@
-require_relative "fake_consent_service/object_cache"
-require_relative "fake_consent_service/request"
+# frozen_string_literal: true
+
+require_relative 'fake_consent_service/object_cache'
+require_relative 'fake_consent_service/request'
 
 module Shark
   module RSpec

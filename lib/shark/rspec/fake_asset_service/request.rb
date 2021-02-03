@@ -1,4 +1,6 @@
-require "webmock/rspec"
+# frozen_string_literal: true
+
+require 'webmock/rspec'
 
 module Shark
   module RSpec
@@ -17,7 +19,7 @@ module Shark
 
         def stub_requests
           WebMock.stub_request(:get, uri_patterns[:resource]).to_return do |request|
-            log_info "[Shark][AssetService] Faking GET request"
+            log_info '[Shark][AssetService] Faking GET request'
 
             id = extract_id_from_request_uri(request.uri)
 
@@ -31,7 +33,7 @@ module Shark
           end
 
           WebMock.stub_request(:get, uri_patterns[:download]).to_return do |request|
-            log_info "[Shark][AssetService] Faking GET request"
+            log_info '[Shark][AssetService] Faking GET request'
 
             public_id = extract_id_from_request_uri(request.uri)
             id = PublicId.decode_public_id(public_id)
@@ -45,13 +47,13 @@ module Shark
             end
           end
 
-          WebMock.stub_request(:get, uri_patterns[:resources]).to_return do |request|
-            log_info "[Shark][AssetService] Faking GET request"
+          WebMock.stub_request(:get, uri_patterns[:resources]).to_return do |_request|
+            log_info '[Shark][AssetService] Faking GET request'
             SharkSpec.fake_response(200, data: ObjectCache.instance.objects)
           end
 
           WebMock.stub_request(:delete, uri_patterns[:resource]).to_return do |request|
-            log_info "[Shark][AssetService] Faking DELETE request"
+            log_info '[Shark][AssetService] Faking DELETE request'
 
             id = extract_id_from_request_uri(request.uri)
 
@@ -70,7 +72,7 @@ module Shark
           end
 
           WebMock.stub_request(:post, uri_patterns[:recreate_variations]).to_return do |request|
-            log_info "[Shark][AssetService] Faking POST request"
+            log_info '[Shark][AssetService] Faking POST request'
 
             id = extract_id_from_request_uri(request.uri)
 
@@ -136,7 +138,7 @@ module Shark
           optional_query = '(\?.*)?'
 
           {
-            resources: %r{\A#{base_uri}#{optional_query}\z},
+            resources: /\A#{base_uri}#{optional_query}\z/,
             resource: %r{\A#{base_uri}/#{id}#{optional_query}\z},
             download: %r{\A#{base_uri}/public/#{id}#{optional_query}\z},
             recreate_variations: %r{\A#{base_uri}/#{id}/recreate_variations#{optional_query}\z}
@@ -144,9 +146,9 @@ module Shark
         end
 
         def get_payload(body)
-          payload = JSON.parse(body)["data"]
-          payload["attributes"]["id"] = payload["id"] if payload["id"]
-          payload["attributes"]
+          payload = JSON.parse(body)['data']
+          payload['attributes']['id'] = payload['id'] if payload['id']
+          payload['attributes']
         end
       end
     end

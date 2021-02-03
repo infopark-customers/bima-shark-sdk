@@ -1,4 +1,6 @@
-require "spec_helper"
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 RSpec.describe Shark::SubscriptionService::Subscription do
   let(:subscription_attributes) do
@@ -27,15 +29,15 @@ RSpec.describe Shark::SubscriptionService::Subscription do
     ]
   end
 
-  describe "allowed actions" do
-    describe ".all" do
+  describe 'allowed actions' do
+    describe '.all' do
       it do
         described_class.create_multiple(subscriptions_attributes)
         expect(described_class.all.count).to eq(2)
       end
     end
 
-    describe ".where" do
+    describe '.where' do
       it do
         described_class.create_multiple(subscriptions_attributes)
         expect(described_class.where(name: 'notifications').count).to eq(1)
@@ -52,27 +54,27 @@ RSpec.describe Shark::SubscriptionService::Subscription do
       end
     end
 
-    describe ".create" do
+    describe '.create' do
       subject { described_class.create(subscription_attributes) }
       it { expect(subject).to be_a(described_class) }
     end
 
-    describe ".create_multiple" do
+    describe '.create_multiple' do
       subject { described_class.create_multiple(subscriptions_attributes) }
       it { expect(subject).to all(be_an(described_class)) }
     end
 
-    describe ".destroy_multiple" do
+    describe '.destroy_multiple' do
       let!(:subscriptions) { described_class.create_multiple(subscriptions_attributes) }
 
       it do
         expect(described_class.all.count).to eq(2)
-        described_class.destroy_multiple(subscriptions.map{|sub| {id: sub.id}})
+        described_class.destroy_multiple(subscriptions.map { |sub| { id: sub.id } })
         expect(described_class.all.count).to eq(0)
       end
     end
 
-    describe "#destroy" do
+    describe '#destroy' do
       let!(:subscription) { described_class.create(subscription_attributes) }
 
       it do
@@ -83,17 +85,17 @@ RSpec.describe Shark::SubscriptionService::Subscription do
     end
   end
 
-  describe "forbidden actions" do
+  describe 'forbidden actions' do
     let!(:subscription) { described_class.create(subscription_attributes) }
 
-    describe "#update_attributes" do
+    describe '#update_attributes' do
       subject { subscription.update_attributes({}) }
-      it { expect{ subject }.to raise_error(Shark::ActionNotSupportedError) }
+      it { expect { subject }.to raise_error(Shark::ActionNotSupportedError) }
     end
 
-    describe "#save" do
+    describe '#save' do
       subject { subscription.save }
-      it { expect{ subject }.to raise_error(Shark::ActionNotSupportedError) }
+      it { expect { subject }.to raise_error(Shark::ActionNotSupportedError) }
     end
   end
 end

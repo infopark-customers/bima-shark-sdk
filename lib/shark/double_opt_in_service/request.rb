@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Shark
   module DoubleOptInService
     class Request < Base
-      ATTRIBUTES = %w(
+      ATTRIBUTES = %w[
         payload
         request_type
         recipient
@@ -15,25 +17,25 @@ module Shark
         timeout
         leeway_to_terminate
         max_verifications
-      )
+      ].freeze
 
       attr_accessor *ATTRIBUTES
 
       def self.create(attributes)
         body = {
           data: {
-            type: "requests",
+            type: 'requests',
             attributes: attributes
           }
         }
 
-        response = connection.request(:post, "/requests/", body: body)
-        new(response.body["data"])
+        response = connection.request(:post, '/requests/', body: body)
+        new(response.body['data'])
       end
 
       def initialize(data)
         ATTRIBUTES.each do |key|
-          public_send("#{key}=", data["attributes"][key])
+          public_send("#{key}=", data['attributes'][key])
         end
       end
     end

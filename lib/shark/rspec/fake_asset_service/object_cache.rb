@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module RSpec
     module FakeAssetService

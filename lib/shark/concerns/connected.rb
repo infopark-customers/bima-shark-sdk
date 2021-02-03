@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module Connected
     extend ActiveSupport::Concern
@@ -9,9 +11,9 @@ module Shark
 
       self.connection_options = {
         headers: {
-          "Content-Type" => "application/vnd.api+json",
-          "Accept" => "application/vnd.api+json",
-          "X-Forwarded-Proto" => "https"
+          'Content-Type' => 'application/vnd.api+json',
+          'Accept' => 'application/vnd.api+json',
+          'X-Forwarded-Proto' => 'https'
         }
       }
     end
@@ -26,16 +28,15 @@ module Shark
         @connection
       end
 
-
       protected
 
       # @api private
       def _build_connection(rebuild = false)
-        return @connection  unless @connection.nil? || rebuild
+        return @connection unless @connection.nil? || rebuild
 
         options = connection_options.merge(site: site)
         @connection = Shark::Client::Connection.new(options).tap do |conn|
-          yield(conn)  if block_given?
+          yield(conn) if block_given?
         end
       end
     end

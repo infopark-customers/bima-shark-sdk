@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module RSpec
     module FakeConsentService
@@ -14,23 +16,23 @@ module Shark
         end
 
         def add(payload_data)
-          id = payload_data["attributes"]["legal_subject_id"]
-          existing_object = objects.detect { |o| o["id"] == id }
+          id = payload_data['attributes']['legal_subject_id']
+          existing_object = objects.detect { |o| o['id'] == id }
 
-          items = (existing_object.present? && existing_object["attributes"]["items"]) || {}
+          items = (existing_object.present? && existing_object['attributes']['items']) || {}
 
-          (payload_data["attributes"]["items"] || {}).each do |name, attrs|
-            items[name] = attrs.merge({ "updated_at" => Time.now })
+          (payload_data['attributes']['items'] || {}).each do |name, attrs|
+            items[name] = attrs.merge({ 'updated_at' => Time.now })
           end
 
-          objects.delete_if { |o| o["id"] == id }
+          objects.delete_if { |o| o['id'] == id }
 
           object = {
-            "id" => id,
-            "attributes" => {
-              "items" => items
+            'id' => id,
+            'attributes' => {
+              'items' => items
             },
-            "type" => "consents"
+            'type' => 'consents'
           }
 
           objects.push(object)

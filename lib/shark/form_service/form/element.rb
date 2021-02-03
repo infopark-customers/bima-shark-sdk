@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module FormService
     module Form
@@ -5,38 +7,40 @@ module Shark
         attr_reader :parent, :children
 
         def initialize(element, parent = nil)
-          @element = element.except("elements") || {}
+          @element = element.except('elements') || {}
           @parent = parent
-          @children = parse_children(element["elements"] || [])
+          @children = parse_children(element['elements'] || [])
         end
 
         def id
-          @element["id"]
+          @element['id']
         end
 
         def label
-          ["label", "legend"].each do |attr|
+          %w[label legend].each do |attr|
             next unless attribute_defined?(attr)
-            return attribute_definition(attr)["value"]
+
+            return attribute_definition(attr)['value']
           end
-          ""
+          ''
         end
 
         def type
-          @element["type"]
+          @element['type']
         end
 
         def text
-          return ""  unless attribute_defined?("text")
-          attribute_definition("text")["value"]
+          return '' unless attribute_defined?('text')
+
+          attribute_definition('text')['value']
         end
 
         def attribute_definitions
-          @element["attribute_definitions"] || []
+          @element['attribute_definitions'] || []
         end
 
         def attribute_definition(name)
-          attribute_definitions.detect { |a| a["name"] == name }
+          attribute_definitions.detect { |a| a['name'] == name }
         end
 
         def attribute_defined?(name)
@@ -44,33 +48,32 @@ module Shark
         end
 
         def ancestors
-          return parent.ancestors << self  if parent.present?
+          return parent.ancestors << self if parent.present?
+
           [self]
         end
 
-
         protected
-        def element
-          @element
-        end
+
+        attr_reader :element
 
         def parse_children(elements)
           elements.map do |e|
-            case e["type"]
-            when "form_container"
+            case e['type']
+            when 'form_container'
               Container.new(e, self)
-            when "form_multiple_choice"
+            when 'form_multiple_choice'
               MultipleChoice.new(e, self)
-            when "form_rating_scale"
+            when 'form_rating_scale'
               RatingScale.new(e, self)
-            when "form_rating_star"
+            when 'form_rating_star'
               RatingStar.new(e, self)
-            when "form_text_field"
+            when 'form_text_field'
               TextField.new(e, self)
-            when "form_textarea"
+            when 'form_textarea'
               TextArea.new(e, self)
             else
-              raise ArgumentError, "Unknown form element type: #{e["type"]}"
+              raise ArgumentError, "Unknown form element type: #{e['type']}"
             end
           end
         end

@@ -31,15 +31,15 @@ module Shark
       # @return [Faraday::Response]
       # @api private
       def run(request_action, path, params: {}, headers: {}, body: nil)
-        raise ArgumentError, "Configuration :site cannot be nil" if site.blank?
-        raise ArgumentError, "Parameter :path cannot be nil" if path.blank?
+        raise ArgumentError, 'Configuration :site cannot be nil' if site.blank?
+        raise ArgumentError, 'Parameter :path cannot be nil' if path.blank?
 
         url = File.join(site, path)
         request_headers = connection_options_headers.merge(headers || {})
         request_params = connection_options_params.merge(params || {})
 
         if Shark.service_token.present?
-          request_headers["Authorization"] = "Bearer #{Shark.service_token}"
+          request_headers['Authorization'] = "Bearer #{Shark.service_token}"
         end
 
         @connection.send(request_action) do |request|
@@ -51,7 +51,7 @@ module Shark
       end
 
       # @see request
-      alias_method :request, :run
+      alias request run
 
       private
 

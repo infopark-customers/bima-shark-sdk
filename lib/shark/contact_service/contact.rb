@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module ContactService
     class Contact < Base
@@ -17,11 +19,11 @@ module Shark
       end
 
       def account
-        return nil  if account_id.blank?
+        return nil if account_id.blank?
 
         begin
           Shark::ContactService::Account.find(account_id).first
-        rescue
+        rescue StandardError
           nil
         end
       end

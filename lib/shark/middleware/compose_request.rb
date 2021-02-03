@@ -1,15 +1,15 @@
+# frozen_string_literal: true
+
 module Shark
   module Middleware
     class ComposeRequest < Faraday::Middleware
-      HTTP_METHODS_WITH_BODY = [:post, :patch, :put]
-      CONTENT_TYPE = "Content-Type".freeze
-      JSON_MIME_TYPE = "application/json".freeze
-      JSON_MIME_TYPE_REGEX = /^application\/(vnd\..+\+)?json$/
+      HTTP_METHODS_WITH_BODY = %i[post patch put].freeze
+      CONTENT_TYPE = 'Content-Type'
+      JSON_MIME_TYPE = 'application/json'
+      JSON_MIME_TYPE_REGEX = %r{^application/(vnd\..+\+)?json$}.freeze
 
       def call(env)
-        if request_with_body?(env)
-          compose_request_body(env)
-        end
+        compose_request_body(env) if request_with_body?(env)
 
         @app.call(env)
       end
@@ -33,7 +33,7 @@ module Shark
 
       def request_type(env)
         type = env[:request_headers][CONTENT_TYPE].to_s
-        type = type.split(';', 2).first  if type.index(';')
+        type = type.split(';', 2).first if type.index(';')
         type
       end
     end

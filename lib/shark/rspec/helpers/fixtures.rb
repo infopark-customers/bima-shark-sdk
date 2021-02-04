@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 module Shark
   module RSpec
     module Helpers
       module Fixtures
         def form_structure_json
-          load_json_fixture("form_structure.json")
+          load_json_fixture('form_structure.json')
         end
 
         def form_inputs_json
-          load_json_fixture("form_inputs.json")
+          load_json_fixture('form_inputs.json')
         end
 
         def load_json_fixture(filename)
@@ -22,4 +24,3 @@ module Shark
     end
   end
 end
-

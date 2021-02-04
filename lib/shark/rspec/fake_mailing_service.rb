@@ -1,4 +1,6 @@
-require_relative "fake_mailing_service/request"
+# frozen_string_literal: true
+
+require_relative 'fake_mailing_service/request'
 
 module Shark
   module RSpec

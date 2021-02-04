@@ -1,25 +1,22 @@
+# frozen_string_literal: true
+
 module Shark
   class Configuration
-
     #
     # Helper class for service configuration
     #
-    ServiceConfiguration = Struct.new(:service_base) do
+    ServiceConfiguration = Struct.new(:base) do
       def headers
-        service_base.connection_options[:headers]
+        base.connection_options[:headers]
       end
 
       def headers=(value)
-        service_base.connection_options[:headers] = service_base.connection_options[:headers].merge(value)
+        base.connection_options[:headers] = base.connection_options[:headers].merge(value)
       end
 
-      def site
-        @site
-      end
+      attr_reader :site
 
-      def site=(url)
-        @site = url
-      end
+      attr_writer :site
     end
 
     #
@@ -53,7 +50,7 @@ module Shark
       elsif token.respond_to?(:jwt)
         self.service_token = token.jwt
       else
-        raise ArgumentError, "Parameter :token must be kind of String."
+        raise ArgumentError, 'Parameter :token must be kind of String.'
       end
 
       yield
@@ -63,15 +60,14 @@ module Shark
 
     # @api public
     def service_token
-      Thread.current["shark-service-token"]
+      Thread.current['shark-service-token']
     end
-
 
     private
 
     # @api private
     def service_token=(value)
-      Thread.current["shark-service-token"] = value
+      Thread.current['shark-service-token'] = value
     end
   end
 end

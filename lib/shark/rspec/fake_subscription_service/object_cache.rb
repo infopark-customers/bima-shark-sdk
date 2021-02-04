@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module RSpec
     module FakeSubscriptionService
@@ -16,7 +18,7 @@ module Shark
         def add(payload_data)
           id = payload_data.delete('id')
 
-          if id && !objects.find {|subscription| subscription['id'] == id }
+          if id && !objects.find { |subscription| subscription['id'] == id }
             object = {
               id: id,
               attributes: payload_data
@@ -34,16 +36,16 @@ module Shark
 
         def add_multiple(payload_data)
           added = []
-          payload_data.each {|subscription| added << add(subscription) }
+          payload_data.each { |subscription| added << add(subscription) }
           added.compact
         end
 
         def remove(id)
-          objects.delete_if{|subscription| subscription[:id] == id }
+          objects.delete_if { |subscription| subscription[:id] == id }
         end
 
         def remove_multiple(payload_data)
-          payload_data.each {|subscription| remove(subscription['id']) }
+          payload_data.each { |subscription| remove(subscription['id']) }
           objects
         end
       end

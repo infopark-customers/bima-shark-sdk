@@ -8,11 +8,21 @@ class SharkSpec
   extend Shark::RSpec::Helpers
 
   class << self
-    def method_missing(method, *args, &block)
-      if method.match(/^stub_/)
-        fake_service(method).setup
-      elsif method.match(/^unstub_/)
-        fake_service(method).reset
+    def method_missing(name, *args, &block)
+      if name.match(/^stub_/)
+        fake_service(name).setup
+      elsif name.match(/^unstub_/)
+        fake_service(name).reset
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(name, _include_private)
+      if name.match(/^stub_/)
+        true
+      elsif name.match(/^unstub_/)
+        true
       else
         super
       end

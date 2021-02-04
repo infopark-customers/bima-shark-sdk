@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 module Shark
   module NotificationService
     class Notification < Base
       custom_endpoint :bulk_creation, on: :collection, request_method: :post
       custom_endpoint :read_all, on: :collection, request_method: :patch
-
 
       def self.create_multiple(attributes)
         data = {
@@ -13,7 +14,7 @@ module Shark
           }
         }
 
-        self.bulk_creation(data)
+        bulk_creation(data)
       end
     end
   end

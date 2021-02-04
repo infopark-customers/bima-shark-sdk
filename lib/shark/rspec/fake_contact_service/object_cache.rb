@@ -5,6 +5,8 @@ module Shark
     module FakeContactService
       class ObjectCache
         include Singleton
+        include Helpers::CacheHelper
+
         attr_accessor :objects
 
         def initialize
@@ -16,8 +18,9 @@ module Shark
         end
 
         def add(object)
-          unless object["attributes"].keys.include?("avatar_url")
-            object["attributes"]["avatar_url"] = "https://contactservice/path/to/avatar/#{object["id"]}.png"
+          unless object['attributes'].keys.include?('avatar_url')
+            avatar_url = "https://contactservice/path/to/avatar/#{object['id']}.png"
+            object['attributes']['avatar_url'] = avatar_url
           end
 
           objects.push(object)
@@ -27,13 +30,14 @@ module Shark
 
         def objects_contain(type, params)
           filtered_objects = []
-          filter = params["filter"]
+          filter = params['filter']
 
-          if filter["contact_id"]
+          if filter['contact_id']
             filtered_objects = objects.select do |object|
-              return false  unless object["type"] == type
+              return false unless object['type'] == type
 
-              (object["attributes"]["contact_ids"] || []).map(&:to_s).include?(filter.values.first)
+              ids = (object['attributes']['contact_ids'] || []).map(&:to_s)
+              ids.include?(filter.values.first)
             end
           end
           filtered_objects
@@ -41,34 +45,34 @@ module Shark
 
         def search_objects(type, params)
           filtered_objects = []
-          filters = params["filter"] && params["filter"]["filter"]
+          filters = params['filter'] && params['filter']['filter']
           condition, filter = filters.first
 
           if condition.present? && filter.present?
             filtered_objects = objects.select do |object|
-              return false  unless object["type"] == type
+              return false unless object['type'] == type
 
               attribute_key, value = filter.first
-              attribute = object["attributes"][attribute_key]
+              attribute = object['attributes'][attribute_key]
 
               case condition
-              when "contains_word_prefixes"
+              when 'contains_word_prefixes'
                 attribute.to_s.start_with?(value)
-              when "contains_words"
+              when 'contains_words'
                 words = case value
                         when Array
                           value
                         when Hash
                           value.keys
-                        # else
-                        #   value.split(",").map(&:strip)
+                          # else
+                          #   value.split(",").map(&:strip)
                         end
                 words.include?(attribute.to_s)
-              when "equals"
+              when 'equals'
                 attribute.to_s == value
-              when "is_blank"
+              when 'is_blank'
                 attribute.blank?
-              when "is_true"
+              when 'is_true'
                 attribute == true
               else
                 false

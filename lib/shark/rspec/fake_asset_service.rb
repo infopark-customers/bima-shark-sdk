@@ -1,6 +1,8 @@
-require_relative "fake_asset_service/public_id"
-require_relative "fake_asset_service/object_cache"
-require_relative "fake_asset_service/request"
+# frozen_string_literal: true
+
+require_relative 'fake_asset_service/public_id'
+require_relative 'fake_asset_service/object_cache'
+require_relative 'fake_asset_service/request'
 
 module Shark
   module RSpec

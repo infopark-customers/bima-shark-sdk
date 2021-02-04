@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-require "bundler/setup"
-require "shark"
+require 'bundler/setup'
+require 'shark'
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
@@ -12,12 +13,12 @@ require "shark"
 
 # TODO
 Shark.configure do |config|
-  config.contact_service.site = "https://contactservice-development.bundesimmo.de/api/"
-  config.survey_service.site = "https://milacrm-development.bundesimmo.de/api/v1/"
-  config.form_service.site = "https://formservice-development.bundesimmo.de/api/v1/"
-  config.notification_service.site = "https://api-development.bundesimmo.de/notification-service/"
-  config.subscription_service.site = "https://api-development.bundesimmo.de/subscription-service/"
+  config.contact_service.site = 'https://contactservice-development.bundesimmo.de/api/'
+  config.survey_service.site = 'https://milacrm-development.bundesimmo.de/api/v1/'
+  config.form_service.site = 'https://formservice-development.bundesimmo.de/api/v1/'
+  config.notification_service.site = 'https://api-development.bundesimmo.de/notification-service/'
+  config.subscription_service.site = 'https://api-development.bundesimmo.de/subscription-service/'
 end
 
-require "irb"
+require 'irb'
 IRB.start(__FILE__)

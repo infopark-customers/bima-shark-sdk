@@ -20,7 +20,7 @@ module Shark
           # get
           define_method name do
             value = super()
-            DateTime.parse(value)  if value
+            DateTime.parse(value) if value
           end
 
           # set

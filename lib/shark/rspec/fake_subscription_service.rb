@@ -1,5 +1,7 @@
-require_relative "fake_subscription_service/object_cache"
-require_relative "fake_subscription_service/request"
+# frozen_string_literal: true
+
+require_relative 'fake_subscription_service/object_cache'
+require_relative 'fake_subscription_service/request'
 
 module Shark
   module RSpec

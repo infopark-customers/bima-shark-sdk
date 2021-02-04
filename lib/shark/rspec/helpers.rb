@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require_relative 'helpers/cache_helper'
+
 require_relative 'fake_asset_service'
 require_relative 'fake_contact_service'
 require_relative 'fake_notification_service'

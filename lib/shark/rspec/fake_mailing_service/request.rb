@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'webmock/rspec'
 
 module Shark
@@ -12,17 +14,17 @@ module Shark
         end
 
         def stub_requests
-          WebMock.stub_request(:post, %r|^#{host}/mails|).to_return do |request|
+          WebMock.stub_request(:post, %r{^#{host}/mails}).to_return do |request|
             log_info "[Shark][MailingService] Faking POST request with body: #{request.body}"
 
             id = SecureRandom.uuid
             payload_data = JSON.parse(request.body)['data']
 
             SharkSpec.fake_response(201, data: {
-              type: 'mails',
-              id: id,
-              attributes: payload_data
-            })
+                                      type: 'mails',
+                                      id: id,
+                                      attributes: payload_data
+                                    })
           end
         end
 

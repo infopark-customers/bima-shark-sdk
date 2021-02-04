@@ -1,21 +1,23 @@
-require "spec_helper"
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 RSpec.describe Shark::ConsentService::Consent do
   let(:consent_attributes) do
     {
-      legal_subject_id: "first-contact-id",
+      legal_subject_id: 'first-contact-id',
       items: {
         email: {
           active: true,
-          editor_id: "second-contact-id",
-          editor_full_name: "John Doe"
+          editor_id: 'second-contact-id',
+          editor_full_name: 'John Doe'
         }
       }
     }
   end
 
-  describe "allowed actions" do
-    describe ".find" do
+  describe 'allowed actions' do
+    describe '.find' do
       subject { described_class.find(id) }
 
       let!(:consent) { described_class.create(consent_attributes) }
@@ -26,7 +28,7 @@ RSpec.describe Shark::ConsentService::Consent do
       it { expect(subject.first.id).to eq(consent.id) }
     end
 
-    describe ".create" do
+    describe '.create' do
       subject { described_class.create(consent_attributes) }
       it { expect(subject).to be_a(described_class) }
     end
@@ -38,27 +40,27 @@ RSpec.describe Shark::ConsentService::Consent do
     end
   end
 
-  describe "forbidden actions" do
+  describe 'forbidden actions' do
     let!(:consent) { described_class.create(consent_attributes) }
 
-    describe "#destroy" do
+    describe '#destroy' do
       subject { consent.destroy }
-      it { expect{ subject }.to raise_error(Shark::ActionNotSupportedError) }
+      it { expect { subject }.to raise_error(Shark::ActionNotSupportedError) }
     end
 
-    describe "#update_attributes" do
+    describe '#update_attributes' do
       subject { consent.update_attributes({}) }
-      it { expect{ subject }.to raise_error(Shark::ActionNotSupportedError) }
+      it { expect { subject }.to raise_error(Shark::ActionNotSupportedError) }
     end
 
-    describe "#save" do
+    describe '#save' do
       subject { consent.save }
-      it { expect{ subject }.to raise_error(Shark::ActionNotSupportedError) }
+      it { expect { subject }.to raise_error(Shark::ActionNotSupportedError) }
     end
 
-    describe ".all" do
+    describe '.all' do
       subject { described_class.all }
-      it { expect{ subject }.to raise_error(Shark::ActionNotSupportedError) }
+      it { expect { subject }.to raise_error(Shark::ActionNotSupportedError) }
     end
   end
 end

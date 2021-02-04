@@ -1,5 +1,7 @@
-require_relative "fake_contact_service/object_cache"
-require_relative "fake_contact_service/request"
+# frozen_string_literal: true
+
+require_relative 'fake_contact_service/object_cache'
+require_relative 'fake_contact_service/request'
 
 module Shark
   module RSpec

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bundler/setup'
 require 'pry'
 require 'shark'
@@ -10,16 +12,16 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  Shark.configure do |config|
-    config.asset_service.site = 'https://asset-service.example.com'
-    config.contact_service.site = 'https://contact-service.example.com'
-    config.form_service.site = 'https://form-service.example.com'
-    config.survey_service.site = 'https://milacrm.example.com'
-    config.notification_service.site = 'https://notification-service.example.com'
-    config.consent_service.site = 'https://consent-service.example.com'
-    config.subscription_service.site = 'https://subscription-service.example.com'
-    config.double_opt_in_service.site = 'https://double-opt-in-service.example.com'
-    config.mailing_service.site = 'https://mailing-service.example.com'
+  Shark.configure do |shark|
+    shark.asset_service.site = 'https://asset-service.example.com'
+    shark.contact_service.site = 'https://contact-service.example.com'
+    shark.form_service.site = 'https://form-service.example.com'
+    shark.survey_service.site = 'https://milacrm.example.com'
+    shark.notification_service.site = 'https://notification-service.example.com'
+    shark.consent_service.site = 'https://consent-service.example.com'
+    shark.subscription_service.site = 'https://subscription-service.example.com'
+    shark.double_opt_in_service.site = 'https://double-opt-in-service.example.com'
+    shark.mailing_service.site = 'https://mailing-service.example.com'
   end
 
   config.before do

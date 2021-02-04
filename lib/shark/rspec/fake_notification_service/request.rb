@@ -1,4 +1,6 @@
-require "webmock/rspec"
+# frozen_string_literal: true
+
+require 'webmock/rspec'
 
 module Shark
   module RSpec
@@ -12,28 +14,30 @@ module Shark
         end
 
         def stub_requests
-          WebMock.stub_request(:post, %r|^#{host}/notifications/bulk_creation|).to_return do |request|
-            log_info "[Shark][NotificationService] Faking POST bulk creation request with body: #{request.body}"
+          WebMock.stub_request(
+            :post,
+            %r{^#{host}/notifications/bulk_creation}
+          ).to_return do |request|
+            log_info "Faking POST bulk creation request with body: #{request.body}"
 
             SharkSpec.fake_response(201, data: {
-              type: "notifications",
-              id: "12345678-1234-1234-1234-1234567890ab"
-            })
+                                      type: 'notifications',
+                                      id: '12345678-1234-1234-1234-1234567890ab'
+                                    })
           end
 
-          WebMock.stub_request(:post, %r|^#{host}/notifications|).to_return do |request|
-            log_info "[Shark][NotificationService] Faking POST request with body: #{request.body}"
+          WebMock.stub_request(:post, %r{^#{host}/notifications}).to_return do |request|
+            log_info "Faking POST request with body: #{request.body}"
 
             id = SecureRandom.uuid
-            payload_data = JSON.parse(request.body)["data"]
+            payload_data = JSON.parse(request.body)['data']
 
             SharkSpec.fake_response(201, data: {
-              type: "notifications",
-              id: id,
-              attributes: payload_data
-            })
+                                      type: 'notifications',
+                                      id: id,
+                                      attributes: payload_data
+                                    })
           end
-
         end
 
         def host
@@ -41,7 +45,7 @@ module Shark
         end
 
         def log_info(message)
-          Shark.logger.info message
+          Shark.logger.info "[Shark][NotificationService] #{message}"
         end
       end
     end

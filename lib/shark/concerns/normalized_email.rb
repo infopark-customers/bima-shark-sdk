@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module NormalizedEmail
     extend ActiveSupport::Concern
@@ -9,4 +11,3 @@ module Shark
     end
   end
 end
-

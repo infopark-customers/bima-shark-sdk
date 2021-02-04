@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module FormService
     module V2
@@ -5,10 +7,9 @@ module Shark
         belongs_to :form
 
         def self.table_name
-          "inputs"
+          'inputs'
         end
       end
     end
   end
 end
-

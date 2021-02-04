@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Shark
   module RSpec
     module Helpers
@@ -5,7 +7,7 @@ module Shark
         def form_version(attributes = {})
           defaults = {
             id: 1,
-            state: "active",
+            state: 'active',
             structure: SharkSpec.form_structure_json
           }
 
@@ -13,9 +15,9 @@ module Shark
         end
 
         def form_inputs(attributes = {})
-          data = SharkSpec.form_inputs_json["data"]
+          data = SharkSpec.form_inputs_json['data']
           data.map do |input|
-            input["attributes"].merge!(attributes)
+            input['attributes'].merge!(attributes)
             Shark::FormService::V2::FormInput.new(input)
           end
         end

@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 1.0.1
+- whitelist `Mail#from` as attribute
+
 #### 1.0.0
 - drop support for `json_api_client < 1.10`
 - [break] drop Ruby `2.1` support

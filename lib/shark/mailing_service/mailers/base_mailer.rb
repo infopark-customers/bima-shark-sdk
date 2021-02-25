@@ -67,9 +67,9 @@ module Shark
         end
 
         def mail(attributes)
+          from = attributes[:from]
           locals = attributes[:locals] || {}
-
-          @mail = Shark::MailingService::Mail.new(
+          mail_attributes = {
             layout: layout,
             recipient: attributes[:to],
             subject: attribute_with_default(attributes, :subject),
@@ -79,7 +79,10 @@ module Shark
             text_body: body(:text, locals),
             unsubscribe_url: attributes[:unsubscribe_url],
             attachments: attributes[:attachments] || {}
-          )
+          }
+          mail_attributes[:from] = from if from.present?
+
+          @mail = Shark::MailingService::Mail.new(mail_attributes)
         end
 
         def renderer

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Shark::AssetService::Asset do
+RSpec.describe Shark::Asset do
   let(:asset_attributes) do
     {
       'filename' => 'test.png',

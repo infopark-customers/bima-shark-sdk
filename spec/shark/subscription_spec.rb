@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Shark::SubscriptionService::Subscription do
+RSpec.describe Shark::Subscription do
   let(:subscription_attributes) do
     {
       name: 'marketing-newsletter',

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module Shark
-  module DoubleOptInService
+  module DoubleOptIn
     class Execution < Base
+      extend DoubleOptIn::Resource
+
       attr_accessor :payload, :request_type
 
       def self.verify(verification_token)

@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module Shark
-  module DoubleOptInService
+  module DoubleOptIn
     class Request < Base
+      extend DoubleOptIn::Resource
+
       ATTRIBUTES = %w[
         payload
         request_type

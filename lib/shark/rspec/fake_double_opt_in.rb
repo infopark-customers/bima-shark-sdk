@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'fake_double_opt_in_service/object_cache'
-require_relative 'fake_double_opt_in_service/request'
+require_relative 'fake_double_opt_in/object_cache'
+require_relative 'fake_double_opt_in/request'
 
 module Shark
   module RSpec
-    module FakeDoubleOptInService
+    module FakeDoubleOptIn
       def self.setup
         ObjectCache.clear
         Request.setup

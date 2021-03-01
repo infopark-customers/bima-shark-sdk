@@ -4,7 +4,7 @@ require 'webmock/rspec'
 
 module Shark
   module RSpec
-    module FakeDoubleOptInService
+    module FakeDoubleOptIn
       class Request
         include Singleton
 
@@ -121,7 +121,7 @@ module Shark
         end
 
         def host
-          Shark.configuration.double_opt_in_service.site
+          Shark.configuration.double_opt_in.site
         end
 
         def log_info(message)

@@ -2,7 +2,7 @@
 
 module Shark
   module RSpec
-    module FakeDoubleOptInService
+    module FakeDoubleOptIn
       class ObjectCache
         include Singleton
         attr_accessor :objects

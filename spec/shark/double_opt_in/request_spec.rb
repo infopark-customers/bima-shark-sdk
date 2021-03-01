@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Shark::DoubleOptInService::Request do
+RSpec.describe Shark::DoubleOptIn::Request do
   let(:request_attributes) do
     {
       request_type: 'registration',

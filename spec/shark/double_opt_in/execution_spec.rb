@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Shark::DoubleOptInService::Execution do
+RSpec.describe Shark::DoubleOptIn::Execution do
   let(:payload) { 'Foo Bar Baz' }
   let(:request_type) { 'registration' }
   let(:max_verifications) { 0 } # unlimited verification requests allowed
@@ -15,7 +15,7 @@ RSpec.describe Shark::DoubleOptInService::Execution do
   let(:execution_expires_at) { verification_expires_at + 3600 }
 
   let!(:verification_token) do
-    cache = Shark::RSpec::FakeDoubleOptInService::ObjectCache.instance
+    cache = Shark::RSpec::FakeDoubleOptIn::ObjectCache.instance
     execution = cache.add_execution({
                                       'payload' => payload,
                                       'request_type' => request_type,
@@ -71,7 +71,7 @@ RSpec.describe Shark::DoubleOptInService::Execution do
 
       context 'when number of verification requests is exceeded' do
         let(:verifications_count) { 1 }
-        let(:error) { Shark::DoubleOptInService::ExceededNumberOfVerificationRequestsError }
+        let(:error) { Shark::DoubleOptIn::ExceededNumberOfVerificationRequestsError }
 
         it { expect { subject }.to raise_error(error) }
       end
@@ -82,7 +82,7 @@ RSpec.describe Shark::DoubleOptInService::Execution do
 
       context 'when execution has been verified before' do
         let(:verifications_count) { 1 }
-        let(:error) { Shark::DoubleOptInService::VerificationExpiredError }
+        let(:error) { Shark::DoubleOptIn::VerificationExpiredError }
 
         it { expect { subject }.to raise_error(error) }
       end
@@ -101,7 +101,7 @@ RSpec.describe Shark::DoubleOptInService::Execution do
 
     context 'when token has not been verified' do
       let(:verifications_count) { 0 }
-      let(:expected) { Shark::DoubleOptInService::RequestedUnverifiedExecutionError }
+      let(:expected) { Shark::DoubleOptIn::RequestedUnverifiedExecutionError }
       it { expect { subject }.to raise_error(expected) }
     end
   end

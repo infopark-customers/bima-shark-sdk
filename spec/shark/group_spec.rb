@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-RSpec.describe Shark::ContactService::Group do
-  let!(:contacts) { [Shark::ContactService::Contact.create] }
+RSpec.describe Shark::Group do
+  let!(:contacts) { [Shark::Contact.create] }
 
   describe '.create' do
     subject { described_class.create(attributes) }

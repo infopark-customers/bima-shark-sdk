@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Shark::ContactService::Activity do
+RSpec.describe Shark::Activity do
   let!(:activity_attributes) { { title: 'Added event', type_id: 'diary' } }
 
   describe '.find' do
@@ -48,7 +48,7 @@ RSpec.describe Shark::ContactService::Activity do
 
       it { expect(subject).to be_a(Array) }
       it { expect(subject.length).to eq(2) }
-      it { expect(subject.first).to be_a(Shark::ContactService::Activity) }
+      it { expect(subject.first).to be_a(Shark::Activity) }
       it { expect(subject.first.id).to eq(activities.second.id) }
     end
 

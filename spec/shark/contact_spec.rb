@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Shark::ContactService::Contact do
+RSpec.describe Shark::Contact do
   let(:contact_attributes) do
     {
       first_name: 'John',
@@ -37,12 +37,12 @@ RSpec.describe Shark::ContactService::Contact do
 
       let!(:contacts) do
         [
-          Shark::ContactService::Contact.create(contact_attributes),
-          Shark::ContactService::Contact.create(first_name: 'Foo', last_name: 'Bar', email: email)
+          Shark::Contact.create(contact_attributes),
+          Shark::Contact.create(first_name: 'Foo', last_name: 'Bar', email: email)
         ]
       end
 
-      it { expect(subject).to be_a(Shark::ContactService::Contact) }
+      it { expect(subject).to be_a(Shark::Contact) }
       it { expect(subject.id).to eq(contacts.second.id) }
     end
 
@@ -56,9 +56,9 @@ RSpec.describe Shark::ContactService::Contact do
     subject { contact.account }
 
     context 'when contact has account' do
-      let!(:account) { Shark::ContactService::Account.create(name: 'Account') }
+      let!(:account) { Shark::Account.create(name: 'Account') }
       let!(:contact) { described_class.create(contact_attributes.merge(account_id: account.id)) }
-      it { is_expected.to be_a(Shark::ContactService::Account) }
+      it { is_expected.to be_a(Shark::Account) }
     end
 
     context 'when contact has no account' do

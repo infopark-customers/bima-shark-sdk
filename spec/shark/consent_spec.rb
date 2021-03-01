@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Shark::ConsentService::Consent do
+RSpec.describe Shark::Consent do
   let(:consent_attributes) do
     {
       legal_subject_id: 'first-contact-id',

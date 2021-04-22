@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 2.0.1
+- added `Mail#reply_to` attribute
+
 #### 2.0.0
 - added `Shark::Membership.exists?` to quickly check, if a contact is member of a group
 - [break] remove `SurveyService` module

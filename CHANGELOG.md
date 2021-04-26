@@ -1,5 +1,15 @@
 ## Changelog
 
+#### 2.0.0
+- added `Shark::Membership.exists?` to quickly check, if a contact is member of a group
+- [break] remove `SurveyService` module
+- [break] rename `DoubleOptInService` => `DoubleOptIn`
+- [break] remove `SubscriptionService` module
+- [break] remove `NotificationService` module
+- [break] remove `ContactService` module
+- [break] remove `ConsentService` module
+- [break] remove `AssetService` module
+
 #### 1.0.1
 - whitelist `Mail#from` as attribute
 

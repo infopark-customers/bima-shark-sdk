@@ -16,8 +16,9 @@ module Shark
         def stub_requests
           cache = FakeContactService::ObjectCache.instance
 
-          WebMock.stub_request(:post, %r{^#{host}/api/.*}).to_return do |request|
+          WebMock.stub_request(:post, %r{^#{host}/.*}).to_return do |request|
             log_info "[Shark][ContactService] Faking POST request with body: #{request.body}"
+            log_info request.uri.to_s
 
             id = SecureRandom.uuid
             parsed_data = JSON.parse(request.body)['data']
@@ -27,8 +28,9 @@ module Shark
             SharkSpec.fake_response(201, data: parsed_data)
           end
 
-          WebMock.stub_request(:get, %r{^#{host}/api/.*$}).to_return do |request|
+          WebMock.stub_request(:get, %r{^#{host}/.*$}).to_return do |request|
             log_info '[Shark][ContactService] Faking GET request'
+            log_info request.uri.to_s
 
             type = request.uri.path.split('/')[2]
             params = query_params_to_object(request.uri)
@@ -46,8 +48,9 @@ module Shark
             SharkSpec.fake_response(200, data: objects)
           end
 
-          WebMock.stub_request(:get, %r{^#{host}/api/.*/.+}).to_return do |request|
+          WebMock.stub_request(:get, %r{^#{host}/.+/.+}).to_return do |request|
             log_info '[Shark][ContactService] Faking GET request with ID'
+            log_info request.uri.to_s
 
             type = request.uri.path.split('/')[2]
             id = request.uri.path.split('/')[3]
@@ -77,8 +80,32 @@ module Shark
             end
           end
 
-          WebMock.stub_request(:patch, %r{^#{host}/api/.*/.+}).to_return do |request|
+          WebMock.stub_request(:get, %r{^#{host}/groups/.+/memberships}).to_return do |request|
+            log_info '[Shark][ContactService] Faking GET memberships request'
+            log_info request.uri.to_s
+
+            type = request.uri.path.split('/')[2]
+            group_id = request.uri.path.split('/')[3]
+            contact_id = query_params_to_object(request.uri)['filter']['contact_id']
+
+            group = cache.find(type, group_id)
+
+            if group.present?
+              contacts = group.dig('relationships', 'contacts', 'data')
+
+              if contacts.present?
+                if contacts.detect { |c| c['type'] == 'contacts' && c['id'] == contact_id }
+                  next SharkSpec.fake_response(200, {})
+                end
+              end
+            end
+
+            SharkSpec.fake_response(404, errors: [])
+          end
+
+          WebMock.stub_request(:patch, %r{^#{host}/.*/.+}).to_return do |request|
             log_info "[Shark][ContactService] Faking PATCH request with body: #{request.body}"
+            log_info request.uri.to_s
 
             type = request.uri.path.split('/')[2]
             id = request.uri.path.split('/')[3]
@@ -103,8 +130,9 @@ module Shark
             end
           end
 
-          WebMock.stub_request(:delete, %r{^#{host}/api/.*/.+}).to_return do |request|
+          WebMock.stub_request(:delete, %r{^#{host}/.*/.+}).to_return do |request|
             log_info '[Shark][ContactService] Faking DELETE request'
+            log_info request.uri.to_s
 
             type = request.uri.path.split('/')[2]
             id = request.uri.path.split('/')[3]

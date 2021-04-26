@@ -42,6 +42,12 @@ Shark::MailingService.use_shark_mailer do |mailer|
 end
 ```
 
+## Testing
+
+```
+bundle exec rake spec
+```
+
 ## Documentation
 
 Please look for the documentation in the [wiki](https://github.com/infopark-customers/bima-shark-sdk/wiki/Home).

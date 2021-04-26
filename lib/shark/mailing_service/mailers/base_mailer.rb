@@ -71,6 +71,7 @@ module Shark
           locals = attributes[:locals] || {}
           mail_attributes = {
             layout: layout,
+            reply_to: attributes[:reply_to],
             recipient: attributes[:to],
             subject: attribute_with_default(attributes, :subject),
             header: attribute_with_default(attributes, :header),

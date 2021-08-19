@@ -28,7 +28,7 @@ module Shark
     # @param permissions_filter [Array] the filter of resources and privileges.
     # @api public
     def self.find_by_permissions(permissions_filter)
-      self.includes('permission').where(permissions: permissions_filter)
+      includes('permission').where(permissions: permissions_filter)
     end
 
     def account

@@ -1,5 +1,8 @@
 ## Changelog
 
+#### Unreleased
+- added `Shark::Contact.find_by_permissions` method
+
 #### 2.0.1
 - added `Mail#reply_to` attribute
 

@@ -1,6 +1,6 @@
 ## Changelog
 
-#### Unreleased
+#### 2.1.0
 - added `Shark::Contact.find_by_permissions` method
 
 #### 2.0.1

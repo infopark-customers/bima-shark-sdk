@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 0.15.0
+- Contact Service: find contacts by and include permissions
+
 #### 0.14.0
 - Asset Service Client supports package API
 

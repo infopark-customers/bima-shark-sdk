@@ -11,8 +11,11 @@ RSpec.describe Shark::MailingService::Mail do
       header: 'mail header',
       html_body: '<table>mail body</table>',
       text_body: 'mail body',
-      unsubscribe_url: 'https://you-can-unsubscribe-here',
-      attachments: {}
+      attachments: {},
+      from: 'sender@example.com',
+      header_image: 'some-image',
+      reply_to: 'no-reply@example.com',
+      unsubscribe_url: 'https://you-can-unsubscribe-here'
     }
   end
 

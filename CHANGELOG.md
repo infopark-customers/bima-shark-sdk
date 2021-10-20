@@ -1,5 +1,9 @@
 ## Changelog
 
+#### 2.2.0
+- added `Shark::ContactLog` resource
+- added `Shark::MailingService::Mail#header_image` as parameter
+
 #### 2.1.0
 - added `Shark::Contact.find_by_permissions` method
 

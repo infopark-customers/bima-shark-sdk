@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 2.3.0
+- `Shark::MailingService` template can `#render` partials
+
 #### 2.2.0
 - added `Shark::ContactLog` resource
 - added `Shark::MailingService::Mail#header_image` as parameter

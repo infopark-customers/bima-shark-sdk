@@ -6,14 +6,21 @@ module Shark
       class Context
         extend Forwardable
 
+        attr_writer :format
+
         def_delegator :I18n, :t
 
-        def initialize(locals = {})
+        def initialize(renderer, locals = {})
           @locals = locals.symbolize_keys
+          @renderer = renderer
         end
 
         def binding
           super
+        end
+
+        def render(template, locals = {})
+          @renderer.render(template, @format, locals)
         end
 
         protected

@@ -12,16 +12,15 @@ module Shark
           @template_folder = template_folder
         end
 
-        def render(layout, format, locals = {})
-          template = load_template(layout, format)
-          context = build_context(locals)
-          engine = ::ERB.new(template)
-          engine.result(context.binding)
+        def render(template, format, locals = {})
+          template = load_template(template, format)
+          context = build_context(format, locals)
+          ::ERB.new(template).result(context.binding)
         end
 
         protected
 
-        def build_context(locals)
+        def build_context(format, locals)
           context_class = Class.new(Context) do
             if MailingService.config.context_helpers.present?
               MailingService.config.context_helpers.each do |helper|
@@ -29,14 +28,16 @@ module Shark
               end
             end
           end
-          context_class.new(locals)
+
+          context = context_class.new(self, locals)
+          context.format = format
+
+          context
         end
 
         def load_template(template, format, language = 'de')
-          path = ::File.join(
-            template_folder,
-            "#{template}.#{language}.#{format}.erb"
-          )
+          filename = "#{template}.#{language}.#{format}.erb"
+          path = ::File.join(template_folder, filename)
           ::File.read(path)
         end
       end

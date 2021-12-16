@@ -84,6 +84,7 @@ require 'shark/permission'
 require 'shark/subscription'
 require 'shark/survey'
 require 'shark/survey_participant'
+require 'shark/contact_log'
 
 require 'shark/form_service'
 require 'shark/mailing_service'

@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 2.3.1
+- [fix] expose `Shark::ContactLog`
+
 #### 2.3.0
 - `Shark::MailingService` template can `#render` partials
 

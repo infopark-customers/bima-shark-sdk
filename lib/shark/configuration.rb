@@ -13,12 +13,6 @@ module Shark
     end
   end
 
-  module ConsentService
-    module Resource
-      mattr_accessor :site
-    end
-  end
-
   module DoubleOptIn
     class ExceededNumberOfVerificationRequestsError < Error; end
     class RequestedUnverifiedExecutionError < Error; end
@@ -78,7 +72,6 @@ module Shark
     def initialize
       @asset_service = AssetService::Resource
       @contact_service = ContactService::Resource
-      @consent_service = ConsentService::Resource
       @double_opt_in = DoubleOptIn::Resource
       @form_service = Service.new
       @mailing_service = Service.new

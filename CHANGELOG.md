@@ -1,6 +1,8 @@
 ## Changelog
 
 #### Unreleased
+
+#### 2.4.0
 - added `Shark::Contact#consents` and `Shark::Contact#create_contract`
 
 #### 2.3.1

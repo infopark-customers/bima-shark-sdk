@@ -15,7 +15,6 @@ RSpec.configure do |config|
   Shark.configure do |shark|
     shark.asset_service.site = 'https://asset.service.com'
     shark.contact_service.site = 'https://contact.service.com/api'
-    shark.consent_service.site = 'https://consent.service.com'
     shark.double_opt_in.site = 'https://double.opt.in.com'
     shark.form_service.site = 'https://form-service.example.com'
     shark.survey_service.site = 'https://milacrm.example.com/api/v1/projects'
@@ -27,7 +26,6 @@ RSpec.configure do |config|
   config.before do
     SharkSpec.stub_asset_service
     SharkSpec.stub_contact_service
-    SharkSpec.stub_consent_service
     SharkSpec.stub_double_opt_in
     SharkSpec.stub_subscription_service
     SharkSpec.stub_mailing_service

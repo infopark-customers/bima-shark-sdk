@@ -36,5 +36,13 @@ module Shark
 
       Shark::Account.find(account_id).first
     end
+
+    def consents
+      Shark::Consent.where(contact_id: id)
+    end
+
+    def create_contract(params)
+      Shark::Contract.create(params.merge(contact_id: id))
+    end
   end
 end

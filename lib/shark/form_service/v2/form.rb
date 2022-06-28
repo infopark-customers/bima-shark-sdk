@@ -2,6 +2,7 @@ module Shark
   module FormService
     module V2
       class Form < V2::Base
+        has_many :versions
 
         # @example
         #   form = Shark::FormService::V2::Form.find(id)

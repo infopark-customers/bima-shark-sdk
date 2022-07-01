@@ -32,7 +32,7 @@ module Shark
             log_info '[Shark][ContactService] Faking GET request'
             log_info request.uri.to_s
 
-            type = request.uri.path.split('/')[2]
+            type = request.uri.path.split('/')[-1]
             params = query_params_to_object(request.uri)
 
             objects = if %w[contacts accounts].include?(type) && params['filter'].present?
@@ -52,8 +52,8 @@ module Shark
             log_info '[Shark][ContactService] Faking GET request with ID'
             log_info request.uri.to_s
 
-            type = request.uri.path.split('/')[2]
-            id = request.uri.path.split('/')[3]
+            type = request.uri.path.split('/')[-2]
+            id = request.uri.path.split('/')[-1]
             query = request.uri.query_values
 
             object = cache.find(type, id)
@@ -84,11 +84,10 @@ module Shark
             log_info '[Shark][ContactService] Faking GET memberships request'
             log_info request.uri.to_s
 
-            type = request.uri.path.split('/')[2]
-            group_id = request.uri.path.split('/')[3]
+            group_id = request.uri.path.split('/')[-2]
             contact_id = query_params_to_object(request.uri)['filter']['contact_id']
 
-            group = cache.find(type, group_id)
+            group = cache.find('groups', group_id)
 
             if group.present?
               contacts = group.dig('relationships', 'contacts', 'data')
@@ -107,8 +106,8 @@ module Shark
             log_info "[Shark][ContactService] Faking PATCH request with body: #{request.body}"
             log_info request.uri.to_s
 
-            type = request.uri.path.split('/')[2]
-            id = request.uri.path.split('/')[3]
+            type = request.uri.path.split('/')[-2]
+            id = request.uri.path.split('/')[-1]
             parsed_data = JSON.parse(request.body)['data']
 
             object = cache.find(type, id)
@@ -134,8 +133,8 @@ module Shark
             log_info '[Shark][ContactService] Faking DELETE request'
             log_info request.uri.to_s
 
-            type = request.uri.path.split('/')[2]
-            id = request.uri.path.split('/')[3]
+            type = request.uri.path.split('/')[-2]
+            id = request.uri.path.split('/')[-1]
 
             object = cache.find(type, id)
 

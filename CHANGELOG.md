@@ -1,6 +1,7 @@
 ## Changelog
 
-#### Unreleased
+#### 2.4.1
+- [fix] Form Service: Added missing `versions` association to `Form`
 
 #### 2.4.0
 - added `Shark::Contact#consents` and `Shark::Contact#create_contract`

@@ -12,8 +12,8 @@ module Shark
             handle_status(status, env)
           end
         end
-      rescue Faraday::ConnectionFailed, Faraday::TimeoutError
-        raise ConnectionError, environment
+      rescue Faraday::ConnectionFailed, Faraday::TimeoutError => e
+        raise ConnectionError, e
       end
 
       private

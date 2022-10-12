@@ -24,11 +24,7 @@ module Shark
     end
   end
 
-  class ConnectionError < ApiError
-    def initialize(env)
-      @env = env
-    end
-  end
+  class ConnectionError < Error; end
 
   class ClientError < ApiError; end
 

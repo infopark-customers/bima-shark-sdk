@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 2.4.2
+- [fix] don't swallow connection errors
+
 #### 2.4.1
 - [fix] Form Service: Added missing `versions` association to `Form`
 

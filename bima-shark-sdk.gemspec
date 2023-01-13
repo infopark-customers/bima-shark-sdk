@@ -7,8 +7,8 @@ require 'shark/version'
 Gem::Specification.new do |spec|
   spec.name          = 'bima-shark-sdk'
   spec.version       = Shark::VERSION
-  spec.authors       = ['Huy Dinh', 'Johannes Schmeißer', 'Joergen Dahlke']
-  spec.email         = ['bima-team@infopark.de']
+  spec.authors       = ['bima-team@justrelate.com']
+  spec.email         = ['bima-team@justrelate.com']
 
   spec.summary       = ''
   spec.description   = ''

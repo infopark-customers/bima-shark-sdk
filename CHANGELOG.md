@@ -1,5 +1,9 @@
 ## Changelog
 
+#### 2.4.3
+- allow `Shark::MailingService::Mailer#mail` to use separate layouts
+- rename `Shark::MailingService::Mailers::BaseMailer` to `Shark::MailingService::Mailer`
+
 #### 2.4.2
 - [fix] don't swallow connection errors
 

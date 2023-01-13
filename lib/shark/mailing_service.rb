@@ -10,7 +10,7 @@ module Shark
         require 'shark/mailing_service/configuration'
         require 'shark/mailing_service/renderers/context'
         require 'shark/mailing_service/renderers/erb_renderer'
-        require 'shark/mailing_service/mailers/base_mailer'
+        require 'shark/mailing_service/mailer'
 
         yield(config)
       end

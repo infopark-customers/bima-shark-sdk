@@ -1,5 +1,9 @@
 ## Changelog
 
+#### 2.4.4
+* lowest supported Ruby version is 2.7
+* add `recipient` to `Shark::DoubleOptIn::Execution`
+
 #### 2.4.3
 - allow `Shark::MailingService::Mailer#mail` to use separate layouts
 - rename `Shark::MailingService::Mailers::BaseMailer` to `Shark::MailingService::Mailer`

@@ -1,8 +1,8 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.3.8
-  - 2.5.7
+  - 2.7.6
+  - 3.0.2
 before_install:
   - gem install bundler -v '~> 1.17'
 script:

@@ -5,6 +5,7 @@ require 'spec_helper'
 RSpec.describe Shark::DoubleOptIn::Execution do
   let(:payload) { 'Foo Bar Baz' }
   let(:request_type) { 'registration' }
+  let(:recipient) { 'foo@bar.com' }
   let(:max_verifications) { 0 } # unlimited verification requests allowed
 
   # execution has never been verified, or, in other words,
@@ -19,6 +20,7 @@ RSpec.describe Shark::DoubleOptIn::Execution do
     execution = cache.add_execution({
                                       'payload' => payload,
                                       'request_type' => request_type,
+                                      'recipient' => recipient,
                                       'max_verifications' => max_verifications,
                                       'verifications_count' => verifications_count,
                                       'verification_expires_at' => verification_expires_at,

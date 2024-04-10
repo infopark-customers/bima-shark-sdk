@@ -5,7 +5,7 @@ module Shark
     class Execution < Base
       extend DoubleOptIn::Resource
 
-      attr_accessor :payload, :request_type
+      attr_accessor :payload, :request_type, :recipient
 
       def self.verify(verification_token)
         response = connection.run(:post, "/executions/#{verification_token}/verify")
@@ -37,7 +37,7 @@ module Shark
       end
 
       def initialize(data)
-        %w[payload request_type].each do |key|
+        %w[payload request_type recipient].each do |key|
           public_send("#{key}=", data['attributes'][key])
         end
       end

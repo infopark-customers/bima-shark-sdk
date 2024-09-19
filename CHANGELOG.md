@@ -1,8 +1,12 @@
 ## Changelog
 
+#### 3.0.0
+- new minimum requirements are `Ruby 3.0` and `faraday 2.0`
+- remove `Shark::Subscription`
+
 #### 2.4.4
-* lowest supported Ruby version is 2.7
-* add `recipient` to `Shark::DoubleOptIn::Execution`
+- lowest supported Ruby version is 2.7
+- add `recipient` to `Shark::DoubleOptIn::Execution`
 
 #### 2.4.3
 - allow `Shark::MailingService::Mailer#mail` to use separate layouts

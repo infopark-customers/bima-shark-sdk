@@ -12,11 +12,11 @@ module Shark
           params: options[:params] || {}
         }
 
-        @connection = Faraday.new do |faraday|
-          faraday.use Shark::Middleware::ComposeRequest
-          faraday.use Shark::Middleware::Status
-          faraday.use JsonApiClient::Middleware::ParseJson
-          faraday.adapter :net_http_persistent
+        @connection = Faraday.new do |conn|
+          conn.use Shark::Middleware::ComposeRequest
+          conn.use Shark::Middleware::Status
+          conn.response :json, content_type: /\bjson$/
+          conn.adapter Faraday.default_adapter
         end
       end
 

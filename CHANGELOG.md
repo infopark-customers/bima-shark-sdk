@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 3.1.0
+- Extend `with_service_token` with `with_auth_token` which allows to send custom `Authorization` header, not only `Bearer`
+
 #### 3.0.0
 - new minimum requirements are `Ruby 3.0` and `faraday 2.0`
 - remove `Shark::Subscription`

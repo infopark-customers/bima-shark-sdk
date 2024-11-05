@@ -1,5 +1,9 @@
 ## Changelog
 
+#### 2.5.0
+- Extend `with_service_token` with `with_auth_token` which allows to send custom `Authorization` header, not only `Bearer`
+- remove `Shark::Subscription`
+
 #### 2.4.4
 * lowest supported Ruby version is 2.7
 * add `recipient` to `Shark::DoubleOptIn::Execution`

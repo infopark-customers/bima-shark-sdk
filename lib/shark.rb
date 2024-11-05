@@ -32,28 +32,41 @@ module Shark
   # @param token [String] The service token for the authorization header
   # @param block [Block] The block where service token authorization will be set for
   # @api public
-  def self.with_service_token(token)
+  def self.with_service_token(token, &block)
     if token.is_a?(String)
-      self.service_token = token
+      auth_token = "Bearer #{token}"
     elsif token.respond_to?(:jwt)
-      self.service_token = token.jwt
+      auth_token = "Bearer #{token.jwt}"
     else
       raise ArgumentError, 'Parameter :token must be kind of String.'
     end
 
+    with_auth_token(auth_token, &block)
+  end
+
+  # Within the given block, add the authorization header token to all api requests.
+  #
+  # @param token [String] The token for the authorization header
+  # @param block [Block] The block where authorization token will be set for
+  # @api public
+  def self.with_auth_token(token)
+    raise ArgumentError, 'Parameter :token must be kind of String.' unless token.is_a?(String)
+
+    self.auth_token = token
+
     yield
   ensure
-    self.service_token = nil
+    self.auth_token = nil
   end
 
   # @api public
-  def self.service_token
-    Thread.current['shark-service-token']
+  def self.auth_token
+    Thread.current['shark-auth-token']
   end
 
   # @api private
-  def self.service_token=(value)
-    Thread.current['shark-service-token'] = value
+  def self.auth_token=(value)
+    Thread.current['shark-auth-token'] = value
   end
 
   #
@@ -82,7 +95,6 @@ require 'shark/membership'
 require 'shark/notification'
 require 'shark/package'
 require 'shark/permission'
-require 'shark/subscription'
 require 'shark/survey'
 require 'shark/survey_participant'
 require 'shark/contact_log'

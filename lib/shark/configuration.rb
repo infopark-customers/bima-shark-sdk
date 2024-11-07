@@ -53,6 +53,7 @@ module Shark
     # Shark Configuration
     #
     attr_accessor :cache, :logger
+    attr_accessor :access_id, :secret_key
     attr_reader :contact_service
     attr_reader :consent_service
     attr_reader :double_opt_in

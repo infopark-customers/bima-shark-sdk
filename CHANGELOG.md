@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 3.1.1
+- Extend Shark::Configuration with `access_id` and `secret_key`
+
 #### 3.1.0
 - Extend `with_service_token` with `with_auth_token` which allows to send custom `Authorization` header, not only `Bearer`
 

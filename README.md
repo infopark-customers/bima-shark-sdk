@@ -42,6 +42,21 @@ Shark::MailingService.use_shark_mailer do |mailer|
 end
 ```
 
+To sign your requests with custom tokens, for instance with JWT:
+```ruby
+  def deliver
+    access_id = 'access_id'
+    secret_key = 'secret_key'
+
+    signature = JWT.encode({ exp: Time.now.to_i + (1 * 60) }, secret_key, 'HS256')
+
+    Shark.with_auth_token("JWT #{access_id}:#{signature}") do
+      super
+    end
+  end
+
+```
+
 ## Testing
 
 ```

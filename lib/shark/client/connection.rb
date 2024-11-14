@@ -38,9 +38,7 @@ module Shark
         request_headers = connection_options_headers.merge(headers || {})
         request_params = connection_options_params.merge(params || {})
 
-        if Shark.service_token.present?
-          request_headers['Authorization'] = "Bearer #{Shark.service_token}"
-        end
+        request_headers['Authorization'] = Shark.auth_token if Shark.auth_token.present?
 
         @connection.send(request_action) do |request|
           request.url(url)

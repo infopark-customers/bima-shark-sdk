@@ -29,12 +29,6 @@ module Shark
     end
   end
 
-  module SubscriptionService
-    module Resource
-      mattr_accessor :site
-    end
-  end
-
   module SurveyService
     module Resource
       mattr_accessor :site
@@ -65,7 +59,6 @@ module Shark
     attr_reader :form_service
     attr_reader :survey_service
     attr_reader :notification_service
-    attr_reader :subscription_service
     attr_reader :asset_service
     attr_reader :mailing_service
 
@@ -76,7 +69,6 @@ module Shark
       @form_service = Service.new
       @mailing_service = Service.new
       @notification_service = NotificationService::Resource
-      @subscription_service = SubscriptionService::Resource
       @survey_service = SurveyService::Resource
     end
   end

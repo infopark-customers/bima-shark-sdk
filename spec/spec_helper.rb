@@ -19,7 +19,6 @@ RSpec.configure do |config|
     shark.form_service.site = 'https://form-service.example.com'
     shark.survey_service.site = 'https://milacrm.example.com/api/v1/projects'
     shark.notification_service.site = 'https://notification.service.com'
-    shark.subscription_service.site = 'https://subscription.service.com'
     shark.mailing_service.site = 'https://mailing-service.example.com'
   end
 
@@ -27,7 +26,6 @@ RSpec.configure do |config|
     SharkSpec.stub_asset_service
     SharkSpec.stub_contact_service
     SharkSpec.stub_double_opt_in
-    SharkSpec.stub_subscription_service
     SharkSpec.stub_mailing_service
     SharkSpec.stub_survey_service
   end

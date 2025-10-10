@@ -32,7 +32,7 @@ module Shark
   # @param token [String] The service token for the authorization header
   # @param block [Block] The block where service token authorization will be set for
   # @api public
-  def self.with_service_token(token)
+  def self.with_service_token(token, &block)
     if token.is_a?(String)
       auth_token = "Bearer #{token}"
     elsif token.respond_to?(:jwt)
@@ -41,7 +41,7 @@ module Shark
       raise ArgumentError, 'Parameter :token must be kind of String.'
     end
 
-    with_auth_token(auth_token)
+    with_auth_token(auth_token, &block)
   end
 
   # Within the given block, add the authorization header token to all api requests.
@@ -49,7 +49,7 @@ module Shark
   # @param token [String] The token for the authorization header
   # @param block [Block] The block where authorization token will be set for
   # @api public
-  def self.with_auth_token(token)
+  def self.with_auth_token(token, &_block)
     raise ArgumentError, 'Parameter :token must be kind of String.' unless token.is_a?(String)
 
     self.auth_token = token

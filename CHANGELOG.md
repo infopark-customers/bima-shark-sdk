@@ -1,5 +1,8 @@
 ## Changelog
 
+####
+- Update for Ruby 3.x
+
 #### 3.1.1
 - Extend Shark::Configuration with `access_id` and `secret_key`
 
